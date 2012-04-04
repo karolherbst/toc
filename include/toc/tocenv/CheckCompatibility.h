@@ -18,15 +18,25 @@
 *
 */
 
-#include <string>
+#ifndef TOCENV_CHECK
+#define TOCENV_CHECK 1
 
-namespace TOC
-{
-    std::string LOG_STRINGS[4] = {
-        "ERROR",
-        "WARN",
-        "INFO",
-        "DEBUG"
-    };
-}
+#define GCC_VERSION (__GNUC__ * 10000 \
+                   + __GNUC_MINOR__ * 100 \
+                   + __GNUC_PATCHLEVEL__)
 
+#ifdef __GXX_EXPERIMENTAL_CXX0X__
+
+  // check for scoped enums
+  #if GCC_VERSION >= 40400
+    #define CAN_CXX0X_SCOPED_ENUMS 1
+  #endif
+
+  //check for forward enums
+  #if GCC_VERSION >= 40600
+    #define CAN_CXX0X_FORWARD_ENUMS 1
+  #endif
+
+#endif
+
+#endif //TOCENV_CHECK

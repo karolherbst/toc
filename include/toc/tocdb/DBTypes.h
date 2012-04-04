@@ -18,15 +18,15 @@
 *
 */
 
-#include <string>
+#ifndef LIB_TOCDB_DB_DBTYPES
+#define LIB_TOCDB_DB_DBTYPES 1
 
 namespace TOC
 {
-    std::string LOG_STRINGS[4] = {
-        "ERROR",
-        "WARN",
-        "INFO",
-        "DEBUG"
+    enum struct ORDER {
+        ASC,
+        DESC
     };
 }
 
+#endif //LIB_TOCDB_DB_DBTYPES

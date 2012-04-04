@@ -18,15 +18,20 @@
 *
 */
 
-#include <string>
+#ifndef LIB_TOCCORE_ATTRIBUTE_INFORMATION
+#define LIB_TOCCORE_ATTRIBUTE_INFORMATION 1
+
+#include <toc/tocstring/TocString.h>
 
 namespace TOC
 {
-    std::string LOG_STRINGS[4] = {
-        "ERROR",
-        "WARN",
-        "INFO",
-        "DEBUG"
-    };
+    namespace DB
+    {
+        struct Information {
+            static const String name;
+            static const String type;
+        };
+    }
 }
 
+#endif //LIB_TOCCORE_ATTRIBUTE_INFORMATION

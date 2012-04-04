@@ -18,15 +18,28 @@
 *
 */
 
-#include <string>
+#include <toc/toccore/CoreInput.h>
+
+#include <iostream>
 
 namespace TOC
 {
-    std::string LOG_STRINGS[4] = {
-        "ERROR",
-        "WARN",
-        "INFO",
-        "DEBUG"
-    };
+    namespace core
+    {
+        CoreInput::
+        ~CoreInput()
+        {
+            
+        }
+        
+        bool
+        StdInput::
+        getline(char* __s,
+                int32_t __n)
+        {
+            return std::cin.getline(__s,__n);
+        }
+        
+        StdInput stdInput;
+    }
 }
-

@@ -9,7 +9,7 @@ BOOST_AUTO_TEST_CASE( LOGGERTest )
     DefaultLogger logger(true, true, true, true);
     for(long i = 0; i < 8; i++)
     {
-        logger.log<ERROR>("hello");
+        logger.log<LOGGINGTYPE::ERROR>("hello");
     }
     std::cerr << "finished" << std::endl;
 }

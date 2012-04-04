@@ -18,15 +18,47 @@
 *
 */
 
-#include <string>
+#ifndef LIB_TOCCORE_SOCKETCORE
+#define LIB_TOCCORE_SOCKETCORE 1
+
+#include <set>
+
+#include <boost/extension/impl/decl.hpp>
+#ifndef DLL_TOC_CORE
+#ifdef MAKE_TOC_CORE
+#define DLL_TOC_CORE BOOST_EXTENSION_EXPORT_DECL
+#else
+#define DLL_TOC_CORE BOOST_EXTENSION_IMPORT_DECL
+#endif
+#endif
+
+namespace boost
+{
+    class thread;
+}
 
 namespace TOC
 {
-    std::string LOG_STRINGS[4] = {
-        "ERROR",
-        "WARN",
-        "INFO",
-        "DEBUG"
-    };
+    namespace core
+    {
+        class DLL_TOC_CORE SocketCore
+        {
+        public:
+            SocketCore();
+            virtual ~SocketCore();
+            
+            virtual void stop();    
+            void join();
+            
+            static void stopAll();
+            
+        protected:
+            boost::thread* thread;
+            
+        private:
+            static std::set<SocketCore*> instances;
+        };
+    }
 }
 
+#endif //LIB_TOCCORE_SOCKETCORE

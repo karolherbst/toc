@@ -18,15 +18,26 @@
 *
 */
 
-#include <string>
+#ifndef LIB_TOCCORE_INTERFACE_CONFIGURATION
+#define LIB_TOCCORE_INTERFACE_CONFIGURATION 1
+
+#include <toc/toccore/Interface.h>
+#include <toc/tocstring/TocString.h>
+
+// interface macros
 
 namespace TOC
 {
-    std::string LOG_STRINGS[4] = {
-        "ERROR",
-        "WARN",
-        "INFO",
-        "DEBUG"
-    };
+    namespace core
+    {
+        interface ICoreConfiguration
+        {
+            ABSTRACT(void load(const String &filename) );
+            ABSTRACT(void save(const String &filename) );
+            GENERIC(void cliConfiguration() );
+            GENERIC(~ICoreConfiguration() );
+        };
+    }
 }
 
+#endif //LIB_TOCCORE_INTERFACE_CONFIGURATION

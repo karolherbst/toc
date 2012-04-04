@@ -18,15 +18,30 @@
 *
 */
 
-#include <string>
+#ifndef LIB_TOCDB_DB_DBROW
+#define LIB_TOCDB_DB_DBROW 1
+
+#include <stdint.h>
+#include <toc/tocstring/TocString.h>
 
 namespace TOC
 {
-    std::string LOG_STRINGS[4] = {
-        "ERROR",
-        "WARN",
-        "INFO",
-        "DEBUG"
-    };
+    namespace DB
+    {
+        class AbstractQueryBuilder;
+        class DBValue;
+        
+        class DBRow
+        {
+        public:
+            DBRow(uint64_t id,
+                  AbstractQueryBuilder&);
+            DBValue operator[](const String& att);
+            
+        private:
+            AbstractQueryBuilder& qb;
+        };
+    }
 }
 
+#endif //LIB_TOCDB_DB_DBROW

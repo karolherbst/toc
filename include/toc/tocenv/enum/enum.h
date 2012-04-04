@@ -18,15 +18,10 @@
 *
 */
 
-#include <string>
+#ifndef TOCENV_ENUM
+#define TOCENV_ENUM
 
-namespace TOC
-{
-    std::string LOG_STRINGS[4] = {
-        "ERROR",
-        "WARN",
-        "INFO",
-        "DEBUG"
-    };
-}
+#include <TocEnv/enum/forward_enums.h>
+#include <TocEnv/enum/scoped_enums.h>
 
+#endif //TOCENV_ENUM

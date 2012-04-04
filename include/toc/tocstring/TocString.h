@@ -24,6 +24,8 @@
 // we use the standard string implementation
 #include <string>
 
+typedef std::string String;
+
 // lexical cast should be used overall
 #include <boost/lexical_cast.hpp>
 using boost::lexical_cast;

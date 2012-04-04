@@ -18,15 +18,21 @@
 *
 */
 
-#include <string>
+#include <toc/toccore/ControllerCore.h>
+
+#include <sstream>
 
 namespace TOC
 {
-    std::string LOG_STRINGS[4] = {
-        "ERROR",
-        "WARN",
-        "INFO",
-        "DEBUG"
-    };
+    namespace core
+    {
+        String
+        ControllerCore::
+        commandNotFoundMessage(const String& command, CoreException& e)
+        {
+            std::ostringstream oss;
+            oss << '"' << command << "\" " << e.what();
+            return oss.str();
+        }
+    }
 }
-

@@ -18,15 +18,40 @@
 *
 */
 
-#include <string>
+#include <toc/tocdb/DBDriver.h>
 
 namespace TOC
 {
-    std::string LOG_STRINGS[4] = {
-        "ERROR",
-        "WARN",
-        "INFO",
-        "DEBUG"
-    };
+    namespace DB
+    {
+        DBDriver::~DBDriver()
+        {
+            
+        }
+        
+        String& DBDriver::databaseName()
+        {
+            return _databaseName;
+        }
+        
+        String& DBDriver::userName()
+        {
+            return _userName;
+        }
+        
+        String& DBDriver::userPassword()
+        {
+            return _userPassword;
+        }
+        
+        String& DBDriver::serverURL()
+        {
+            return _serverURL;
+        }
+        
+        uint32_t& DBDriver::serverPort()
+        {
+            return _serverPort;
+        }
+    }
 }
-

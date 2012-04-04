@@ -18,15 +18,52 @@
 *
 */
 
-#include <string>
+#include <toc/toccore/SocketCore.h>
+
+#include <boost/foreach.hpp>
+#include <boost/thread.hpp>
 
 namespace TOC
 {
-    std::string LOG_STRINGS[4] = {
-        "ERROR",
-        "WARN",
-        "INFO",
-        "DEBUG"
-    };
+    namespace core
+    {
+        SocketCore::
+        SocketCore()
+        :   thread(NULL)
+        {
+            instances.insert(this);
+        }
+        
+        SocketCore::
+        ~SocketCore()
+        {
+            instances.erase(this);
+        }
+        
+        std::set<SocketCore*>
+        SocketCore::
+        instances;
+        
+        void
+        SocketCore::
+        stop()
+        {
+            thread->interrupt();
+        }
+        
+        void
+        SocketCore::
+        join()
+        {
+            thread->join();
+        }
+        
+        void
+        SocketCore::
+        stopAll()
+        {
+            BOOST_FOREACH(SocketCore* socket, instances)
+            socket->stop();
+        }
+    }
 }
-

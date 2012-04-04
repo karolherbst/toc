@@ -18,15 +18,15 @@
 *
 */
 
-#include <string>
+#ifndef TOCENV_SCOPED_ENUMS
+#define TOCENV_SCOPED_ENUMS 1
 
-namespace TOC
-{
-    std::string LOG_STRINGS[4] = {
-        "ERROR",
-        "WARN",
-        "INFO",
-        "DEBUG"
-    };
-}
+#ifdef CAN_CXX0X_SCOPED_ENUMS
+    #define SCOPED_ENUM(name, type) enum struct name : type
+    #define SCOPED_ENUM_VALUE(parent, child) parent::child
+#else
+    #define SCOPED_ENUM(name, t) enum name
+    #define SCOPED_ENUM_VALUE(p, child) child
+#endif //CAN_CXX0X_SCOPED_ENUMS
 
+#endif //TOCENV_SCOPED_ENUM

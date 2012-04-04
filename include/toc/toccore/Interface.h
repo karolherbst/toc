@@ -18,15 +18,11 @@
 *
 */
 
-#include <string>
+#ifndef LIB_TOCCORE_INTERFACE
+#define LIB_TOCCORE_INTERFACE 1
 
-namespace TOC
-{
-    std::string LOG_STRINGS[4] = {
-        "ERROR",
-        "WARN",
-        "INFO",
-        "DEBUG"
-    };
-}
+#define interface struct
+#define ABSTRACT(methoddef) virtual methoddef = 0 
+#define GENERIC(methoddef) virtual methoddef {}
 
+#endif //LIB_TOCCORE_INTERFACE

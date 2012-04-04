@@ -1,0 +1,38 @@
+#  Copyright (c) by Karol Herbst <projects@karolherbst.de>
+#
+#
+#   This program is free software; you can redistribute it and/or modify
+#   it under the terms of the GNU General Public License as published by
+#   the Free Software Foundation; either version 2 of the License, or
+#   (at your option) any later version.
+#
+#   This program is distributed in the hope that it will be useful,
+#   but WITHOUT ANY WARRANTY; without even the implied warranty of
+#   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#   GNU General Public License for more details.
+#
+#   You should have received a copy of the GNU General Public License
+#   along with this program; if not, write to the Free Software
+#   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+#
+
+# - Try to find @TOC_PROJECT_NAME@
+# Once done this will define
+#
+#  @TOC_PROJECT_NAME@_FOUND - system has @TOC_PROJECT_NAME@
+#  @TOC_PROJECT_NAME@_INCLUDE_DIR - the @TOC_PROJECT_NAME@ include directory
+#  @TOC_PROJECT_NAME@_LIBRARIES - @TOC_PROJECT_NAME@ library
+
+# Find @TOC_PROJECT_NAME@.h and the corresponding library (lib@TOC_PROJECT_NAME@.so)
+FIND_PATH(@TOC_PROJECT_NAME@_INCLUDE_DIR @TOC_PROJECT_NAME@/@TOC_PROJECT_NAME@.h )
+FIND_LIBRARY(@TOC_PROJECT_NAME@_LIBRARIES NAMES @TOC_PROJECT_NAME@ )
+
+# Set library version
+SET(@TOC_PROJECT_NAME@_VERSION @PROJECT_VERSION@)
+SET(@TOC_PROJECT_NAME@_VERSION_MAJOR @PROJECT_VERSION_MAJOR@)
+SET(@TOC_PROJECT_NAME@_VERSION_MINOR @PROJECT_VERSION_MINOR@)
+SET(@TOC_PROJECT_NAME@_VERSION_PATCH @PROJECT_VERSION_PATCH@)
+
+# Give output, should this be wished (this handles also QUIET and REQUIRED)
+INCLUDE(FindPackageHandleStandardArgs)
+FIND_PACKAGE_HANDLE_STANDARD_ARGS(@TOC_PROJECT_NAME@ DEFAULT_MSG @TOC_PROJECT_NAME@_LIBRARIES @TOC_PROJECT_NAME@_INCLUDE_DIR)

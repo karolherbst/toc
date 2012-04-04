@@ -26,6 +26,8 @@
 #include <toc/toclogger/Processor/SingleThreadedProcessor.h>
 #include <toc/toclogger/Task/WriteToConsole.h>
 
+CREATE_LOGGER_NAME_CLASS_DEF(DEFAULTNAME);
+
 namespace TOC
 {
     typedef TOC::TocLogger<WriteToConsole, SingleThreadedProcessor, SimpleAppender, DEFAULTNAME> DefaultLogger;

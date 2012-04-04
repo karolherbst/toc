@@ -18,15 +18,38 @@
 *
 */
 
-#include <string>
+#ifndef LIB_TOCCORE_COREINPUT
+#define LIB_TOCCORE_COREINPUT 1
+
+#include <stdint.h>
 
 namespace TOC
 {
-    std::string LOG_STRINGS[4] = {
-        "ERROR",
-        "WARN",
-        "INFO",
-        "DEBUG"
-    };
+    namespace core
+    {
+        class CoreInput
+        {
+        private:
+            
+        protected:
+            
+        public:
+            virtual ~CoreInput();
+            virtual bool getline(char*, int32_t) = 0;
+        };
+        
+        class StdInput : public CoreInput
+        {
+        private:
+            
+        protected:
+            
+        public:
+            bool getline(char*, int32_t);
+        };
+        
+        extern StdInput stdInput;
+    }
 }
 
+#endif //LIB_TOCCORE_COREINPUT

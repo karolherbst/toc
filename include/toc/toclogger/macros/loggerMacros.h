@@ -26,4 +26,6 @@
  * @param   typename    name of the class, use sth like defaltLog
  * @param   str         printed name
  */
-#define CREATE_LOGGER_NAME_CLASS(name, str) extern const char name[] = str
+#define CREATE_LOGGER_NAME_CLASS_DEF(name) extern const char name[]
+#define CREATE_LOGGER_NAME_CLASS_IMPL(name, str) extern "C" const char name[] = str
+#define CREATE_LOGGER(name, nameClass) TOC::TocLogger<WriteToConsole, SingleThreadedProcessor, SimpleAppender, nameClass> name

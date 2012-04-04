@@ -18,15 +18,12 @@
 *
 */
 
-#include <string>
+#define SETTER(type, int, ext) \
+    inline void ext (type __v){int = __v;}
 
-namespace TOC
-{
-    std::string LOG_STRINGS[4] = {
-        "ERROR",
-        "WARN",
-        "INFO",
-        "DEBUG"
-    };
-}
+#define GETTER(type, int, ext) \
+    inline type ext (){return int;}
 
+#define GETTERSETTER(type, int, ext) \
+    GETTER(type, int, ext) \
+    SETTER(type, int, ext)

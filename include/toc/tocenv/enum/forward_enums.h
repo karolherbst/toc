@@ -18,15 +18,7 @@
 *
 */
 
-#include <string>
+#ifndef TOCENV_FORWORD_ENUMS
+#define TOCENV_FORWARD_ENUMS 1
 
-namespace TOC
-{
-    std::string LOG_STRINGS[4] = {
-        "ERROR",
-        "WARN",
-        "INFO",
-        "DEBUG"
-    };
-}
-
+#endif //TOCENV_FORWARD_ENUMS

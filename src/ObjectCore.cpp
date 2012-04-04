@@ -18,15 +18,22 @@
 *
 */
 
-#include <string>
+#include <toc/toccore/ObjectCore.h>
 
 namespace TOC
 {
-    std::string LOG_STRINGS[4] = {
-        "ERROR",
-        "WARN",
-        "INFO",
-        "DEBUG"
-    };
+    namespace core
+    {
+        ObjectCore::ObjectCore(uint64_t anId)
+        :   _id(anId)
+        {
+            
+        }
+        
+        /// accessors
+        uint64_t ObjectCore::id() const
+        {
+            return _id;
+        }
+    }
 }
-

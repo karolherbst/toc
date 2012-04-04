@@ -18,15 +18,38 @@
 *
 */
 
-#include <string>
+#include <toc/toccore/SessionCore.h>
+#include <toc/tocstring/TocString.h>
+#include <map>
 
 namespace TOC
 {
-    std::string LOG_STRINGS[4] = {
-        "ERROR",
-        "WARN",
-        "INFO",
-        "DEBUG"
-    };
+    namespace core
+    {
+        class CoreInput;
+        
+        class TocCommandManager
+		{
+            
+        private:
+            std::map<String, Session_Core*> channels;
+            Session_Core* actualChannel;
+            CoreInput& input;
+            CoreOutput& output;
+            
+        protected:
+            void requestCommandToSession(Session_Core*, String command);
+            void requestCommand(String command);
+            
+        public:
+            TocCommandManager();
+            
+            bool setActualChannel(String);
+            void openCommandInput();
+            void registerChannel(Session_Core*, String);
+            
+        };
+        
+        extern TocCommandManager commandManager;
+    }
 }
-

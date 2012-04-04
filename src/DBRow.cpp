@@ -18,15 +18,30 @@
 *
 */
 
-#include <string>
+#include <toc/tocdb/DBRow.h>
+
+#include <toc/tocdb/AbstractQueryBuilder.h>
+#include <toc/tocdb/DBValue.h>
+#include <toc/tocstring/TocString.h>
 
 namespace TOC
 {
-    std::string LOG_STRINGS[4] = {
-        "ERROR",
-        "WARN",
-        "INFO",
-        "DEBUG"
-    };
+    namespace DB
+    {
+        DBRow::
+        DBRow(uint64_t _id,
+              AbstractQueryBuilder& _qb)
+        :   qb(_qb)
+        {
+            qb.id(_id);
+        }
+        
+        DBValue
+        DBRow::
+        operator[](const String& att)
+        {
+            qb.attribute(att);
+            return DBValue(qb);
+        }
+    }
 }
-

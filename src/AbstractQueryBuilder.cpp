@@ -18,15 +18,34 @@
 *
 */
 
-#include <string>
+#include <toc/tocdb/AbstractQueryBuilder.h>
 
 namespace TOC
 {
-    std::string LOG_STRINGS[4] = {
-        "ERROR",
-        "WARN",
-        "INFO",
-        "DEBUG"
-    };
+    namespace DB
+    {
+        AbstractQueryBuilder::
+        ~AbstractQueryBuilder()
+        {
+            
+        }
+        
+        void
+        AbstractQueryBuilder::
+        addWherePair(const String& key,
+                     const String& value)
+        {
+            keys.push(key);
+            values.push(value);
+        }
+        
+        void
+        AbstractQueryBuilder::
+        addOrderPair(const String& key,
+                     TOC::ORDER order)
+        {
+            orders.push(OrderPair(key,
+                                  order));
+        }
+    }
 }
-

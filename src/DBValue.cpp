@@ -18,33 +18,44 @@
 *
 */
 
-#ifndef LIB_TOCLOGGER_SIMPLEAPPENDER
-#define LIB_TOCLOGGER_SIMPLEAPPENDER 1
+#include <toc/tocdb/DBValue.h>
 
-#include <string>
-#include <sstream>
+#include <toc/tocdb/AbstractQueryBuilder.h>
+#include <toc/tocdb/DB.h>
 
 namespace TOC
 {
-    template <const char* Name>
-    class SimpleAppender
+    namespace DB
     {
-    public:
-        template <typename StringType, typename StringType2>
-        std::string
-        createOutputString(StringType str, StringType2 level);
-    };
-
-    template <const char* Name>
-    template <typename StringType, typename StringType2>
-    std::string
-    SimpleAppender<Name>::
-    createOutputString(StringType str, StringType2 level)
-    {
-        std::stringstream ss;
-        ss << '<' << level << "> (" << Name << "): " << str;
-        return ss.str();;
+        DBValue::
+        DBValue(AbstractQueryBuilder& _qb)
+        :   qb(_qb)
+        {
+            
+        }
+        
+        String
+        DBValue::
+        convert() const
+        {
+            String result;
+            DB::Instance().executeSingleValueQuery(qb.buildSingleValueSelectQuery(), result);
+            return result;
+        }
+        
+        DBValue&
+        DBValue::
+        operator=(const String& value)
+        {
+            DB::Instance().executeQuery(qb.buildSingleValueInsertQuery(value));
+            return *this;
+        }
+        
+        std::ostream&
+        operator<<(std::ostream& ostr,
+                   const DBValue& m)
+        {
+            return ostr << m.convert();
+        }
     }
 }
-
-#endif //LIB_TOCLOGGER_SIMPLEAPPENDER

@@ -18,15 +18,32 @@
 *
 */
 
-#include <string>
+#ifndef LIB_TOCCORE_OBJECTCORE
+#define LIB_TOCCORE_OBJECTCORE 1
+
+#include <toc/tocstring/TocString.h>
+
+#include <boost/extension/impl/decl.hpp>
+#ifndef DLL_TOC_CORE
+#ifdef MAKE_TOC_CORE
+#define DLL_TOC_CORE BOOST_EXTENSION_EXPORT_DECL
+#else
+#define DLL_TOC_CORE BOOST_EXTENSION_IMPORT_DECL
+#endif
+#endif
 
 namespace TOC
 {
-    std::string LOG_STRINGS[4] = {
-        "ERROR",
-        "WARN",
-        "INFO",
-        "DEBUG"
-    };
+    namespace core
+    {
+        struct DLL_TOC_CORE ObjectCore
+        {
+            ObjectCore(uint64_t anId);
+            uint64_t         id() const;
+        private:
+            uint64_t        _id;
+        };
+    }
 }
 
+#endif //LIB_TOCCORE_OBJECTCORE

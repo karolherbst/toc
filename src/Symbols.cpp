@@ -18,15 +18,8 @@
 *
 */
 
-#include <string>
+#include<toc/toclogger/macros/loggerMacros.h>
 
-namespace TOC
-{
-    std::string LOG_STRINGS[4] = {
-        "ERROR",
-        "WARN",
-        "INFO",
-        "DEBUG"
-    };
-}
-
+CREATE_LOGGER_NAME_CLASS_IMPL(DEFAULTNAME, "Default");
+CREATE_LOGGER_NAME_CLASS_IMPL(DBLog, "DB");
+CREATE_LOGGER_NAME_CLASS_IMPL(SessionLog, "Session");

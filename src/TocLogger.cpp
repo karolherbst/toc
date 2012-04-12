@@ -22,11 +22,11 @@
 
 namespace TOC
 {
-    String LOG_STRINGS[4] = {
-        CSTRING("ERROR"),
-        CSTRING("WARN"),
-        CSTRING("INFO"),
-        CSTRING("DEBUG")
-    };
+	String LOG_STRINGS[4] = {
+		CSTRING("ERROR"),
+		CSTRING("WARN"),
+		CSTRING("INFO"),
+		CSTRING("DEBUG")
+	};
 }
 

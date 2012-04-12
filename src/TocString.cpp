@@ -24,8 +24,8 @@ String
 getStringUntilChar(const String& str,
                    const Char _char)
 {
-    return str.substr(0,
-                      str.find(_char));
+	return str.substr(0,
+	                  str.find(_char));
 }
 
 String
@@ -33,6 +33,6 @@ getStringAfterChar(const String& str,
                    const Char _char,
                    String::size_type beginAtPosition)
 {
-    return str.substr(str.find(_char,
-                               beginAtPosition) + 1);
+	return str.substr(str.find(_char,
+	                           beginAtPosition) + 1);
 }

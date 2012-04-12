@@ -25,73 +25,95 @@
 
 namespace TOC
 {
-    namespace core
-    {
-        TocCommandManager commandManager;
-        
-        TocCommandManager::TocCommandManager()
-        :   input(stdInput),
-            output(stdOutput){
-            
-        }
-        
-        void TocCommandManager::requestCommandToSession(Session_Core* session, String command){
-            session->write(command);
-        }
-        
-        void TocCommandManager::requestCommand(String command){
-            // delete all spaces at the front and back
-            trim(command);
-            
-            // we wanna connect to a channel
-            if (command.operator[](0) == '/') {
-                String channelName = command.substr(0, command.find(' '));
-                erase_first(command, channelName);
-                trim(command);
-                
-                if (setActualChannel(channelName.substr(1)) ) {
-                    
-                    if (command.size() <= 0) {
-                        output << CSTRING("New Channel selected: ") << channelName.substr(1) << endline;
-                    } else {
-                        requestCommandToSession(actualChannel, command);
-                    }
-                    
-                } else {
-                    output << CSTRING("such a channel doesnt exist") << endline;
-                }
-                
-            } else {
-                
-                if (actualChannel) {
-                    requestCommandToSession(actualChannel, command);
-                } else {
-                    output << CSTRING("no channel selected") << endline;
-                }
-                
-            }
-            
-        }
-        
-        void TocCommandManager::openCommandInput(){
-            Char line[512];
-            
-            while (input.getline(line, 512)) {
-                requestCommand(line);
-            }
-        }
-        
-        void TocCommandManager::registerChannel(Session_Core* session, String str){
-            channels.insert(std::pair<String, Session_Core*>(str, session) );
-        }
-        
-        bool TocCommandManager::setActualChannel(String channel){
-            
-            if(channels[channel]){
-                actualChannel = channels[channel];
-                return true;
-            }
-            return false;
-        }
-    }
+	namespace core
+	{
+		TocCommandManager commandManager;
+		
+		TocCommandManager::
+		TocCommandManager()
+		:   input(stdInput),
+		    output(stdOutput)
+		{}
+		
+		void
+		TocCommandManager::
+		requestCommandToSession(Session_Core* session,
+		                        String command)
+		{
+			session->write(command);
+		}
+		
+		void
+		TocCommandManager::
+		requestCommand(String command)
+		{
+			// delete all spaces at the front and back
+			trim(command);
+			
+			// we wanna connect to a channel
+			if (command.operator[](0) == '/')
+			{
+				String channelName = command.substr(0,
+				                                    command.find(' '));
+				erase_first(command,
+				            channelName);
+				trim(command);
+				
+				if (setActualChannel(channelName.substr(1)) )
+				{
+					if (command.size() <= 0)
+					{
+						output << CSTRING("New Channel selected: ") << channelName.substr(1) << endline;
+					} else {
+						requestCommandToSession(actualChannel,
+						                        command);
+					}
+				} else {
+					output << CSTRING("such a channel doesnt exist") << endline;
+				}
+			} else {
+				if (actualChannel)
+				{
+					requestCommandToSession(actualChannel,
+					                        command);
+				} else {
+					output << CSTRING("no channel selected") << endline;
+				}
+			}
+		}
+		
+		void
+		TocCommandManager::
+		openCommandInput()
+		{
+			Char line[512];
+			
+			while (input.getline(line, 512))
+			{
+				requestCommand(line);
+			}
+		}
+		
+		void
+		TocCommandManager::
+		registerChannel(Session_Core* session,
+		                String str)
+		{
+			channels.insert(std::pair<String,
+			                          Session_Core*>(str,
+			                                         session) );
+		}
+		
+		bool
+		TocCommandManager::
+		setActualChannel(String channel)
+		{
+			if(channels[channel])
+			{
+				actualChannel = channels[channel];
+				return true;
+			}
+			return false;
+		}
+	}
 }

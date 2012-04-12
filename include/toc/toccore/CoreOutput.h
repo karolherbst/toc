@@ -42,7 +42,7 @@ namespace TOC
             virtual ~CoreOutput(){};
             
             virtual CoreOutput& operator<<(const String& str) = 0;
-            virtual CoreOutput& operator<<(const char* str) = 0;
+            virtual CoreOutput& operator<<(const Char* str) = 0;
             virtual CoreOutput& endline() = 0;
             
             virtual CoreOutput& flush() = 0;
@@ -61,7 +61,7 @@ namespace TOC
         {
         public:
             CoreOutput& operator<<(const String& str);
-            CoreOutput& operator<<(const char* str);
+            CoreOutput& operator<<(const Char* str);
             CoreOutput& endline();
             
             CoreOutput& flush();

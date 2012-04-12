@@ -21,9 +21,8 @@
 #ifndef LIB_TOCLOGGER_LOGGER
 #define LIB_TOCLOGGER_LOGGER 1
 
-#include <string>
-
 #include <toc/toclogger/macros/loggerMacros.h>
+#include <toc/tocstring/TocString.h>
 
 namespace TOC
 {
@@ -41,9 +40,9 @@ namespace TOC
         DEBUG = 3
     };
 
-    extern std::string LOG_STRINGS[4];
+    extern String LOG_STRINGS[4];
 
-    #define TEMPLATE_CLASS_DEF template <class Task, template <class> class Processor, template<const char*> class Appender, const char* LoggerInfo>
+    #define TEMPLATE_CLASS_DEF template <class Task, template <class> class Processor, template<const Char*> class Appender, const Char* LoggerInfo>
     #define TEMPLATE_CLASS_ARG <Task, Processor, Appender, LoggerInfo>
 
     /**

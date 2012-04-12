@@ -30,9 +30,9 @@ namespace TOC
         ControllerCore::
         commandNotFoundMessage(const String& command, CoreException& e)
         {
-            std::ostringstream oss;
-            oss << '"' << command << "\" " << e.what();
-            return oss.str();
+            StringStream ss;
+            ss << CCHAR('"') << command << CSTRING("\" ") << e.what();
+            return ss.str();
         }
     }
 }

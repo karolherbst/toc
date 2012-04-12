@@ -21,27 +21,26 @@
 #ifndef LIB_TOCLOGGER_SIMPLEAPPENDER
 #define LIB_TOCLOGGER_SIMPLEAPPENDER 1
 
-#include <string>
-#include <sstream>
+#include <toc/tocstring/TocString.h>
 
 namespace TOC
 {
-    template <const char* Name>
+    template <const Char* Name>
     class SimpleAppender
     {
     public:
         template <typename StringType, typename StringType2>
-        std::string
+        String
         createOutputString(StringType str, StringType2 level);
     };
 
-    template <const char* Name>
+    template <const Char* Name>
     template <typename StringType, typename StringType2>
-    std::string
+    String
     SimpleAppender<Name>::
     createOutputString(StringType str, StringType2 level)
     {
-        std::stringstream ss;
+        StringStream ss;
         ss << '<' << level << "> (" << Name << "): " << str;
         return ss.str();;
     }

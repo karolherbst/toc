@@ -44,7 +44,7 @@ namespace TOC
         boost::thread log_thread;
         mutable boost::mutex log_mutex;
         boost::condition_variable log_cond;
-        std::queue<std::string> msgs;
+        std::queue<String> msgs;
 
         void thread_execute();
     };
@@ -93,7 +93,7 @@ namespace TOC
                 log_cond.wait(lock);
             }
 
-            std::string value = msgs.front();
+            String value = msgs.front();
             msgs.pop();
             lock.unlock();
             Task::run(value);

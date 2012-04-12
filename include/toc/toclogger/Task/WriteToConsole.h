@@ -21,7 +21,7 @@
 #ifndef LIB_TOCLOGGER_WRITETOCONSOLE
 #define LIB_TOCLOGGER_WRITETOCONSOLE 1
 
-#include <iostream>
+#include <toc/tocstring/TocString.h>
 
 namespace TOC
 {
@@ -37,7 +37,7 @@ namespace TOC
     WriteToConsole::
     run(StringType str)
     {
-        std::cout << str << std::endl;
+        COUT << str << std::endl;
     }
 }
 

@@ -67,7 +67,7 @@ namespace TOC
              *
              * @param   data    raw data as binary array
              */
-            ChatMessage(const char * data);
+            ChatMessage(const Char * data);
             
             /**
              * sending constructor
@@ -79,7 +79,7 @@ namespace TOC
              *
              * @param   message the message to send as string object
              */
-            ChatMessage(const std::string & message);
+            ChatMessage(const String & message);
             
             /**
              * C-style sending constructor
@@ -93,7 +93,7 @@ namespace TOC
              *                      string or other raw data
              * @param   bodyLength  the length of body
              */
-            ChatMessage(const char * body,
+            ChatMessage(const Char * body,
                         uint16_t bodyLength);
             
             /**
@@ -106,7 +106,7 @@ namespace TOC
              * @author    Karol Herbst
              * @since    0.1.1
              */
-            ChatMessage(const char * body,
+            ChatMessage(const Char * body,
                         uint16_t bodyLength,
                         time_t time);
             /**
@@ -179,7 +179,7 @@ namespace TOC
              * @since   0.1
              * @return  the internal raw data
              */
-            const char *    data();
+            const Char *    data();
             
             /**
              * the length of the header part
@@ -206,7 +206,7 @@ namespace TOC
              * @param   headerOrRawData this can be a header part or the whole
              *                          raw data.
              */
-            static uint16_t bodyLengthFromHeader(const char* headerOrRawData);
+            static uint16_t bodyLengthFromHeader(const Char* headerOrRawData);
             
             /**
              * @author  Karol Herbst
@@ -228,7 +228,7 @@ namespace TOC
              * @return  a string class copy of the body
              * @see     ChatMessage::bodyBinary()
              */
-            std::string     body() const;
+            String     body() const;
             
             /**
              * through these method you can access the raw body data
@@ -240,7 +240,7 @@ namespace TOC
              * @since   0.1
              * @return  thw C-string of the body
              */
-            const char*     bodyBinary() const;
+            const Char*     bodyBinary() const;
             
             /**
              * @author  Karol Herbst
@@ -250,17 +250,17 @@ namespace TOC
             int64_t         timestamp() const;
             
         private:
-            char*           _body_() const;
+            Char*           _body_() const;
             
-            void            setData(const char*);
+            void            setData(const Char*);
             
-            void            setData(const std::string& body);
-            void            setData(const char* body,
+            void            setData(const String& body);
+            void            setData(const Char* body,
                                     uint16_t bodyLength);
-            void            setData(const char* body,
+            void            setData(const Char* body,
                                     uint16_t bodyLength,
                                     time_t timestamp);
-            char*           __databuffer__;
+            Char*           __databuffer__;
         };
     }
 }

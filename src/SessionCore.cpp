@@ -100,7 +100,7 @@ namespace TOC
             return socket_;
         }
         
-        void Session_Core::writeToAll(const char* msg, uint16_t length)
+        void Session_Core::writeToAll(const Char* msg, uint16_t length)
         {
             writeToAllExceptThis(msg, length, 0);
         }
@@ -115,7 +115,7 @@ namespace TOC
             writeToAllExceptThis(msg, 0);
         }
         
-        void Session_Core::writeToAllExceptThis(const char* msg, uint16_t length, Session_Core* _this)
+        void Session_Core::writeToAllExceptThis(const Char* msg, uint16_t length, Session_Core* _this)
         {
             for (std::set<Session_Core*>::iterator it = getSetOfOtherSessions().begin(); it != getSetOfOtherSessions().end(); it++)
             {
@@ -142,7 +142,7 @@ namespace TOC
             }
         }
         
-        void Session_Core::write(const char* msg, uint16_t length)
+        void Session_Core::write(const Char* msg, uint16_t length)
         {
             ChatMessage cm(msg, length);
             do_write(cm);
@@ -179,7 +179,7 @@ namespace TOC
             
             if (!writeInProgress)
             {
-                std::stringstream ss;
+                StringStream ss;
                 ss << ">> " << msg.body();
                 logger.log<LOGGINGTYPE::DEBUG>(ss.str() );
                 boost::asio::async_write(socket_,
@@ -232,7 +232,7 @@ namespace TOC
             }
         }
         
-        void Session_Core::commandLoop(char* buffer,
+        void Session_Core::commandLoop(Char* buffer,
                                        const boost::system::error_code& error,
                                        size_t /*bytes_transferred*/)
         {

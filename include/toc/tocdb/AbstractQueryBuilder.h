@@ -42,7 +42,7 @@ namespace TOC
     namespace DB
     {
         COREEXCEPTION_SUBCLASS(QueryIsBrokenException,
-                               "the current query is broken!");
+                               CSTRING("the current query is broken!"));
         
         /**
 		 * @class AbstractQueryBuilder

@@ -20,18 +20,18 @@
 
 #include <toc/tocstring/TocString.h>
 
-std::string
-getStringUntilChar(const std::string& str,
-                   const char _char)
+String
+getStringUntilChar(const String& str,
+                   const Char _char)
 {
     return str.substr(0,
                       str.find(_char));
 }
 
-std::string
-getStringAfterChar(const std::string& str,
-                   const char _char,
-                   std::string::size_type beginAtPosition)
+String
+getStringAfterChar(const String& str,
+                   const Char _char,
+                   String::size_type beginAtPosition)
 {
     return str.substr(str.find(_char,
                                beginAtPosition) + 1);

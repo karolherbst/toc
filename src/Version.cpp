@@ -19,7 +19,6 @@
 */
 
 #include <toc/toccore/Version.h>
-#include <toc/tocstring/TocString.h>
 
 namespace TOC
 {
@@ -72,8 +71,8 @@ namespace TOC
             bui(arr[3]);
         }
         
-        std::ostream &
-        operator<<(std::ostream &ostr,
+        OStream &
+        operator<<(OStream &ostr,
                    TOC::core::IVersion &v)
         {
             return (ostr << lexical_cast<String>(v.rel()) << '.'

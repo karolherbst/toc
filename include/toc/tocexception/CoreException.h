@@ -21,8 +21,8 @@
 #ifndef LIB_TOCCORE_COREEXCEPTION
 #define LIB_TOCCORE_COREEXCEPTION 1
 
+#include <toc/tocstring/TocString.h>
 #include <exception>
-#include <string>
 
 #include <boost/extension/impl/decl.hpp>
 #ifndef DLL_TOC_EXCEPTION
@@ -62,7 +62,7 @@ namespace TOC
              * @since   0.1
              * @param   message the message for the new created exception
              */
-            CoreException(std::string message) throw();
+            CoreException(String message) throw();
             
             /**
              * default destructor
@@ -82,7 +82,7 @@ namespace TOC
             const char* what() const throw();
             
         private:
-            const std::string message;
+            const String message;
         };
     }
 }
@@ -111,7 +111,7 @@ struct childclass : public parentclass                                  \
 {                                                                       \
     childclass()                                                        \
     :   parentclass(str){}                                              \
-    childclass(std::string message)                                     \
+    childclass(String message)                                          \
     :   parentclass(message){}                                          \
 }
 

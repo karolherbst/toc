@@ -52,13 +52,13 @@ namespace TOC
                 if (setActualChannel(channelName.substr(1)) ) {
                     
                     if (command.size() <= 0) {
-                        output << "New Channel selected: " << channelName.substr(1) << endline;
+                        output << CSTRING("New Channel selected: ") << channelName.substr(1) << endline;
                     } else {
                         requestCommandToSession(actualChannel, command);
                     }
                     
                 } else {
-                    output << "such a channel doesn't exist" << endline;
+                    output << CSTRING("such a channel doesnt exist") << endline;
                 }
                 
             } else {
@@ -66,7 +66,7 @@ namespace TOC
                 if (actualChannel) {
                     requestCommandToSession(actualChannel, command);
                 } else {
-                    output << "no channel selected" << endline;
+                    output << CSTRING("no channel selected") << endline;
                 }
                 
             }
@@ -74,7 +74,7 @@ namespace TOC
         }
         
         void TocCommandManager::openCommandInput(){
-            char line[512];
+            Char line[512];
             
             while (input.getline(line, 512)) {
                 requestCommand(line);

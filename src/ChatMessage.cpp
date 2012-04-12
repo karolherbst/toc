@@ -34,17 +34,17 @@ namespace TOC
                     cm.bodyLength());
         }
         
-        ChatMessage::ChatMessage(const char* data)
+        ChatMessage::ChatMessage(const Char* data)
         {
             setData(data);
         }
         
-        ChatMessage::ChatMessage(const std::string& message)
+        ChatMessage::ChatMessage(const String& message)
         {
             setData(message);
         }
         
-        ChatMessage::ChatMessage(const char* body,
+        ChatMessage::ChatMessage(const Char* body,
                                  uint16_t bodyLength)
         {
             setData(body, bodyLength);
@@ -58,18 +58,18 @@ namespace TOC
         /*
          * we don't need this anymore, because the data doesn't change after object creation
          */
-        const char* ChatMessage::data()
+        const Char* ChatMessage::data()
         {
             return __databuffer__;
         }
         
-        void ChatMessage::setData(const char* data)
+        void ChatMessage::setData(const Char* data)
         {
             setData(&data[headerLength + timestampLength],
                     bodyLengthFromHeader(data));
         }
         
-        void ChatMessage::setData(const char* body,
+        void ChatMessage::setData(const Char* body,
                                   uint16_t bodyLength)
         {
             setData(body,
@@ -77,17 +77,17 @@ namespace TOC
                     0);
         }
         
-        void ChatMessage::setData(const std::string& body)
+        void ChatMessage::setData(const String& body)
         {
             setData(body.c_str(),
                     body.size());
         }
         
-        void ChatMessage::setData(const char* body,
+        void ChatMessage::setData(const Char* body,
                                   uint16_t bodyLength,
                                   time_t timestamp)
         {
-            __databuffer__ = new char[headerLength + timestampLength + bodyLength + 1];
+            __databuffer__ = new Char[headerLength + timestampLength + bodyLength + 1];
             
             // bodyLength
             __databuffer__[HEADER_DATA::BODY_LENGTH_POS] = bodyLength >> 8;
@@ -115,14 +115,14 @@ namespace TOC
             return bodyLengthFromHeader(__databuffer__);
         }
         
-        const char* ChatMessage::bodyBinary() const
+        const Char* ChatMessage::bodyBinary() const
         {
             return _body_();
         }
         
-        std::string ChatMessage::body() const
+        String ChatMessage::body() const
         {
-            return std::string(_body_(), bodyLength());
+            return String(_body_(), bodyLength());
         }
         
         int64_t ChatMessage::timestamp() const
@@ -130,13 +130,13 @@ namespace TOC
             return 0;
         }
         
-        uint16_t ChatMessage::bodyLengthFromHeader(const char* _header)
+        uint16_t ChatMessage::bodyLengthFromHeader(const Char* _header)
         {
             return _header[HEADER_DATA::BODY_LENGTH_POS] << 8
                 | (_header[HEADER_DATA::BODY_LENGTH_POS + 1] & 0xff);
         }
         
-        char* ChatMessage::_body_() const
+        Char* ChatMessage::_body_() const
         {
             return &__databuffer__[headerLength + timestampLength];
         }

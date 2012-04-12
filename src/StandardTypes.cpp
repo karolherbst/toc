@@ -20,24 +20,24 @@
 
 #include <toc/tocdb/StandardTypes.h>
 
-const String NULLSTRING = "NULL";
+const String NULLSTRING = CSTRING("NULL");
 namespace TOC
 {
-    const String DBString    = "String";
-    const String DBInt       = "int";
-    const String DBFloat     = "float";
-    const String DBText      = "text";
+    const String DBString    = CSTRING("String");
+    const String DBInt       = CSTRING("int");
+    const String DBFloat     = CSTRING("float");
+    const String DBText      = CSTRING("text");
     
-    createAttTypeSymbols(NameAtt, "name", DBString, "Name", 32);
-    createAttTypeSymbols(MailAtt, "email", DBString, "EMail", 64);
-    createAttTypeSymbols(PasswordAtt, "pw", DBString, "Password", 32);
-    createAttTypeSymbols(SessionTypeAtt, "sessiontype", DBInt, 1, 2);
-    createAttTypeSymbols(ArgCountAtt, "argcount", DBInt, 0, 2);
-    createAttTypeSymbols(ArgAtt, "arg", DBString, "", 4);
-    createAttTypeSymbols(ActionAtt, "action", DBInt, 1, 2);
-    createAttTypeSymbols(MajVersionAtt, "maj", DBInt, 0, 3);
-    createAttTypeSymbols(MinVersionAtt, "min", DBInt, 0, 3);
-    createAttTypeSymbols(RelVersionAtt, "rel", DBInt, 0, 3);
-    createAttTypeSymbols(BuildVersionAtt, "build", DBInt, 0, 6);
-    createAttTypeSymbols(TextAtt, "text", DBText, "", 0);
+    createAttTypeSymbols(NameAtt, CSTRING("name"), DBString, "Name", 32);
+    createAttTypeSymbols(MailAtt, CSTRING("email"), DBString, "EMail", 64);
+    createAttTypeSymbols(PasswordAtt, CSTRING("pw"), DBString, "Password", 32);
+    createAttTypeSymbols(SessionTypeAtt, CSTRING("sessiontype"), DBInt, 1, 2);
+    createAttTypeSymbols(ArgCountAtt, CSTRING("argcount"), DBInt, 0, 2);
+    createAttTypeSymbols(ArgAtt, CSTRING("arg"), DBString, "", 4);
+    createAttTypeSymbols(ActionAtt, CSTRING("action"), DBInt, 1, 2);
+    createAttTypeSymbols(MajVersionAtt, CSTRING("maj"), DBInt, 0, 3);
+    createAttTypeSymbols(MinVersionAtt, CSTRING("min"), DBInt, 0, 3);
+    createAttTypeSymbols(RelVersionAtt, CSTRING("rel"), DBInt, 0, 3);
+    createAttTypeSymbols(BuildVersionAtt, CSTRING("build"), DBInt, 0, 6);
+    createAttTypeSymbols(TextAtt, CSTRING("text"), DBText, "", 0);
 }

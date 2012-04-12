@@ -28,31 +28,31 @@ namespace TOC
     namespace DB
     {
         COREEXCEPTION_SUBCLASS(DBException,
-                               "critical DB failure");
+                               CSTRING("critical DB failure"));
         SUBCLASS_OF_COREXCEPTION_SUBCLASS(DBException,
                                           CantLoadDriverLib,
-                                          "failed to load driver lib!");
+                                          CSTRING("failed to load driver lib!"));
         SUBCLASS_OF_COREXCEPTION_SUBCLASS(DBException,
                                           DriverLibNotValid,
-                                          "the driver lib isn't valid!");
+                                          CSTRING("the driver lib isn't valid!"));
         SUBCLASS_OF_COREXCEPTION_SUBCLASS(DBException,
                                           CantConnectToDBException,
-                                          "can't connect to db!");
+                                          CSTRING("can't connect to db!"));
         SUBCLASS_OF_COREXCEPTION_SUBCLASS(DBException,
                                           AuthenticationFailedException,
-                                          "authentication failed!");
+                                          CSTRING("authentication failed!"));
         SUBCLASS_OF_COREXCEPTION_SUBCLASS(DBException,
                                           QueryException,
-                                          "Query failed!");
+                                          CSTRING("Query failed!"));
         SUBCLASS_OF_COREXCEPTION_SUBCLASS(DBException,
                                           EmptyResultException,
-                                          "The Result is empty!");
+                                          CSTRING("The Result is empty!"));
         SUBCLASS_OF_COREXCEPTION_SUBCLASS(DBException,
                                           QueryFailedException,
-                                          "The query failed!");
+                                          CSTRING("The query failed!"));
         SUBCLASS_OF_COREXCEPTION_SUBCLASS(DBException,
                                           TableDoesntExistException,
-                                          "The query failed!");
+                                          CSTRING("The query failed!"));
     }
 }
 

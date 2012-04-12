@@ -71,7 +71,7 @@ namespace TOC
         DBTable::
         connectWith(const String& t)
         {
-            DBTable ret( qb->entityclass() + '_' + t );
+            DBTable ret( qb->entityclass() + CCHAR('_') + t );
             DB::Instance().executeQuery(ret.qb->buildRelationEntityClassQuery(qb->entityclass(),
                                                                               t));
             return ret;

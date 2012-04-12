@@ -34,10 +34,10 @@ namespace TOC
         
         bool
         StdInput::
-        getline(char* __s,
+        getline(Char* __s,
                 int32_t __n)
         {
-            return std::cin.getline(__s,__n);
+            return CIN.getline(__s,__n);
         }
         
         StdInput stdInput;

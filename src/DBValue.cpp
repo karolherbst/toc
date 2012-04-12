@@ -51,8 +51,8 @@ namespace TOC
             return *this;
         }
         
-        std::ostream&
-        operator<<(std::ostream& ostr,
+        OStream&
+        operator<<(OStream& ostr,
                    const DBValue& m)
         {
             return ostr << m.convert();

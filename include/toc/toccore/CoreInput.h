@@ -21,7 +21,7 @@
 #ifndef LIB_TOCCORE_COREINPUT
 #define LIB_TOCCORE_COREINPUT 1
 
-#include <stdint.h>
+#include <toc/tocstring/TocString.h>
 
 namespace TOC
 {
@@ -29,23 +29,15 @@ namespace TOC
     {
         class CoreInput
         {
-        private:
-            
-        protected:
-            
         public:
             virtual ~CoreInput();
-            virtual bool getline(char*, int32_t) = 0;
+            virtual bool getline(Char*, int32_t) = 0;
         };
         
         class StdInput : public CoreInput
         {
-        private:
-            
-        protected:
-            
         public:
-            bool getline(char*, int32_t);
+            bool getline(Char*, int32_t);
         };
         
         extern StdInput stdInput;

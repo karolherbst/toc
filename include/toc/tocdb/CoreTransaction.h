@@ -46,16 +46,16 @@ namespace TOC
     namespace DB
     {
         COREEXCEPTION_SUBCLASS(TransactionException,
-                               "critical failure occured within transaction");
+                               CSTRING("critical failure occured within transaction"));
         SUBCLASS_OF_COREXCEPTION_SUBCLASS(TransactionException,
                                           TransactionAlreadyExistsException,
-                                          "a Transaction already exists in this context!");
+                                          CSTRING("a Transaction already exists in this context!"));
         SUBCLASS_OF_COREXCEPTION_SUBCLASS(TransactionException,
                                           BrokenTransactionContextException,
-                                          "this transaction context is broken!");
+                                          CSTRING("this transaction context is broken!"));
         SUBCLASS_OF_COREXCEPTION_SUBCLASS(TransactionException,
                                           NoTransactionException,
-                                          "there wasn't a valid transaction context!");
+                                          CSTRING("there wasn't a valid transaction context!"));
         struct AbstractDataPatch;
         
         class DLL_TOC_DB CoreTransaction

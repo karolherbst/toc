@@ -19,13 +19,12 @@
 */
 
 #include <toc/tocexception/CoreException.h>
-#include <cstring>
 
 namespace TOC
 {
     namespace core
     {
-        static const std::string DEFAULT_ERRPR_STRING = "A critical Failure occured!\0";
+        static const String DEFAULT_ERRPR_STRING = CSTRING("A critical Failure occured!");
 
         CoreException::CoreException() throw()
         :   message(DEFAULT_ERRPR_STRING)
@@ -33,7 +32,7 @@ namespace TOC
 
         }
 
-        CoreException::CoreException(std::string _message) throw()
+        CoreException::CoreException(String _message) throw()
         :   message(_message)
         {
 
@@ -46,7 +45,7 @@ namespace TOC
 
         const char* CoreException::what() const throw()
         {
-            return message.c_str();
+            return (const char*)message.c_str();
         }
     }
 }

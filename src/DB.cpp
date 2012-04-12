@@ -34,10 +34,10 @@ namespace TOC
     using core::CoreException;
     namespace DB
     {
-        const static String DB_CONNECT_FAILED                   = "Connection to Database failed! Reason: %r%";
-        const static String DB_CONNECT_SUCCESS                  = "Connected to Database!";
-        const static String DB_FATAL_ERROR                      = "Database failure, we are stopping here";
-        const static String QUERY_EXECUTE_FAILED                = "Failed to execute query: %query%";
+        const static String DB_CONNECT_FAILED                   = CSTRING("Connection to Database failed! Reason: %r%");
+        const static String DB_CONNECT_SUCCESS                  = CSTRING("Connected to Database!");
+        const static String DB_FATAL_ERROR                      = CSTRING("Database failure, we are stopping here");
+        const static String QUERY_EXECUTE_FAILED                = CSTRING("Failed to execute query: %query%");
         
         DBImpl::
         DBImpl()
@@ -129,7 +129,7 @@ namespace TOC
                 logger.log<LOGGINGTYPE::ERROR>(e.what());
                 throw AuthenticationFailedException();
             }
-            logger.log<LOGGINGTYPE::INFO>(DB_CONNECT_SUCCESS + " tid:");
+            logger.log<LOGGINGTYPE::INFO>(DB_CONNECT_SUCCESS + CSTRING(" tid:"));
         }
         
         void

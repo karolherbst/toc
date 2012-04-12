@@ -25,6 +25,7 @@
 #include <boost/operators.hpp>
 #include <toc/toccore/Interface.h>
 #include <toc/toccore/Macros.h>
+#include <toc/tocstring/TocString.h>
 
 #include <boost/extension/impl/decl.hpp>
 #ifndef DLL_TOC_CORE
@@ -57,8 +58,8 @@ namespace TOC
             void operator=(const uint16_t[4]);
         };
         
-        std::ostream &
-        operator<<(std::ostream &ostr,
+        OStream &
+        operator<<(OStream &ostr,
                    TOC::core::IVersion &v);
         
         class DLL_TOC_CORE Version : public IVersion

@@ -21,7 +21,6 @@
 #ifndef LIB_TOCDB_DB_DBVALUE
 #define LIB_TOCDB_DB_DBVALUE 1
 
-#include <ostream>
 #include <toc/tocstring/TocString.h>
 
 #include <boost/extension/impl/decl.hpp>
@@ -50,8 +49,8 @@ namespace TOC
             
             DBValue& operator=(const String& value);
             
-            friend std::ostream&
-            operator<<(std::ostream& ostr,
+            friend OStream&
+            operator<<(OStream& ostr,
                        const DBValue& m);
         private:
             String convert() const;

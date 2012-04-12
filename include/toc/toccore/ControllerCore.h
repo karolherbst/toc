@@ -41,7 +41,7 @@ namespace TOC
     namespace core
     {
         COREEXCEPTION_SUBCLASS(ControllerException,
-                               "controller exception!");
+                               CSTRING("controller exception!"));
         /*
          *
          */
@@ -55,7 +55,7 @@ namespace TOC
         protected:
             template <class StepType, class SessionType>
             void dispatchCommandStep(StepType*, SessionType*){};
-            String commandNotFoundMessage(const std::string&, CoreException&);
+            String commandNotFoundMessage(const String&, CoreException&);
         };
     }
 }

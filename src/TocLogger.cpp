@@ -18,15 +18,15 @@
 *
 */
 
-#include <string>
+#include <toc/tocstring/TocString.h>
 
 namespace TOC
 {
-    std::string LOG_STRINGS[4] = {
-        "ERROR",
-        "WARN",
-        "INFO",
-        "DEBUG"
+    String LOG_STRINGS[4] = {
+        CSTRING("ERROR"),
+        CSTRING("WARN"),
+        CSTRING("INFO"),
+        CSTRING("DEBUG")
     };
 }
 

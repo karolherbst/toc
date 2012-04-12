@@ -48,25 +48,25 @@ namespace TOC
         
         CoreOutput& StdOutput::operator<<(const String& str)
         {
-            std::cout << str;
+            COUT << str;
             return *this;
         }
         
-        CoreOutput& StdOutput::operator<<(const char* str)
+        CoreOutput& StdOutput::operator<<(const Char* str)
         {
-            std::cout << str;
+            COUT << str;
             return *this;
         }
         
         CoreOutput& StdOutput::endline()
         {
-            std::cout << std::endl;
+            COUT << std::endl;
             return *this;
         }
         
         CoreOutput& StdOutput::flush()
         {
-            std::cout.flush();
+            COUT.flush();
             return *this;
         }
         

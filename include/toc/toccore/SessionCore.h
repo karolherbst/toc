@@ -60,19 +60,19 @@ namespace TOC
             
             virtual std::set<Session_Core*>& getSetOfOtherSessions() = 0;
             
-            void commandLoop(char* buffer,
+            void commandLoop(Char* buffer,
                              const boost::system::error_code&,
                              size_t bytes_transferred);
             
             template <typename Method, typename Object>
-            void asyncReadHeaderWrapper(char* buffer,
+            void asyncReadHeaderWrapper(Char* buffer,
                                         Object*,
                                         Method,
                                         const boost::system::error_code&,
                                         size_t bytes_transferred);
             
             template <typename Method, typename Object>
-            void asyncReadBodyWrapper(char* buffer,
+            void asyncReadBodyWrapper(Char* buffer,
                                       Object*,
                                       Method,
                                       const boost::system::error_code&,
@@ -123,14 +123,14 @@ namespace TOC
             
             boost::asio::ip::tcp::socket& socket();
             
-            void writeToAll(const char* msg, uint16_t length);
+            void writeToAll(const Char* msg, uint16_t length);
             void writeToAll(const String&);
             void writeToAll(const ChatMessage&);
-            void writeToAllExceptThis(const char* msg, uint16_t length, Session_Core* _this);
+            void writeToAllExceptThis(const Char* msg, uint16_t length, Session_Core* _this);
             void writeToAllExceptThis(const String&, Session_Core* _this);
             void writeToAllExceptThis(const ChatMessage&, Session_Core* _this);
             
-            void write(const char* msg, uint16_t length);
+            void write(const Char* msg, uint16_t length);
             void write(const String&);
             void write(const ChatMessage&);
             
@@ -146,7 +146,7 @@ namespace TOC
         template <typename Method, typename Object>
         void
         Session_Core::
-        asyncReadHeaderWrapper(char* buffer,
+        asyncReadHeaderWrapper(Char* buffer,
                                Object*,
                                Method method,
                                const boost::system::error_code&,
@@ -169,7 +169,7 @@ namespace TOC
         template <typename Method, typename Object>
         void
         Session_Core::
-        asyncReadBodyWrapper(char* buffer,
+        asyncReadBodyWrapper(Char* buffer,
                              Object* object,
                              Method method,
                              const boost::system::error_code& error,
@@ -188,7 +188,7 @@ namespace TOC
         asyncRead(Method method){
             // optimize allocation of buffer
             // should we use 2 buffers?
-            char* buffer = new char[max_length];
+            Char* buffer = new Char[max_length];
             socket_.async_receive(boost::asio::buffer(buffer,
                                                       ChatMessage::headerLength),
                                   boost::bind(&Session_Core::asyncReadHeaderWrapper<Method, Clazz>,

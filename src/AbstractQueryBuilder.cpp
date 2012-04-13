@@ -22,30 +22,28 @@
 
 namespace TOC
 {
-    namespace DB
-    {
-        AbstractQueryBuilder::
-        ~AbstractQueryBuilder()
-        {
-            
-        }
-        
-        void
-        AbstractQueryBuilder::
-        addWherePair(const String& key,
-                     const String& value)
-        {
-            keys.push(key);
-            values.push(value);
-        }
-        
-        void
-        AbstractQueryBuilder::
-        addOrderPair(const String& key,
-                     TOC::ORDER order)
-        {
-            orders.push(OrderPair(key,
-                                  order));
-        }
-    }
+	namespace DB
+	{
+		AbstractQueryBuilder::
+		~AbstractQueryBuilder()
+		{}
+		
+		void
+		AbstractQueryBuilder::
+		addWherePair(const String& key,
+		             const String& value)
+		{
+			keys.push(key);
+			values.push(value);
+		}
+		
+		void
+		AbstractQueryBuilder::
+		addOrderPair(const String& key,
+		             TOC::ORDER order)
+		{
+			orders.push(OrderPair(key,
+			                      order));
+		}
+	}
 }

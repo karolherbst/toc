@@ -25,37 +25,36 @@
 
 namespace TOC
 {
-    namespace DB
-    {
-        DBValue::
-        DBValue(AbstractQueryBuilder& _qb)
-        :   qb(_qb)
-        {
-            
-        }
-        
-        String
-        DBValue::
-        convert() const
-        {
-            String result;
-            DB::Instance().executeSingleValueQuery(qb.buildSingleValueSelectQuery(), result);
-            return result;
-        }
-        
-        DBValue&
-        DBValue::
-        operator=(const String& value)
-        {
-            DB::Instance().executeQuery(qb.buildSingleValueInsertQuery(value));
-            return *this;
-        }
-        
-        OStream&
-        operator<<(OStream& ostr,
-                   const DBValue& m)
-        {
-            return ostr << m.convert();
-        }
-    }
+	namespace DB
+	{
+		DBValue::
+		DBValue(AbstractQueryBuilder& _qb)
+		:	qb(_qb)
+		{}
+		
+		String
+		DBValue::
+		convert() const
+		{
+			String result;
+			DB::Instance().executeSingleValueQuery(qb.buildSingleValueSelectQuery(),
+			                                       result);
+			return result;
+		}
+		
+		DBValue&
+		DBValue::
+		operator=(const String& value)
+		{
+			DB::Instance().executeQuery(qb.buildSingleValueInsertQuery(value));
+			return *this;
+		}
+		
+		OStream&
+		operator<<(OStream& ostr,
+		           const DBValue& m)
+		{
+			return ostr << m.convert();
+		}
+	}
 }

@@ -50,14 +50,14 @@ namespace TOC
 			}
 			return false;
 		}
-
+		
 		bool
 		IVersion::
 		operator==(const IVersion& __v) const
 		{
 			IVersion& right = const_cast<IVersion&>(__v);
 			IVersion& left = const_cast<IVersion&>(*this);
-
+			
 			return right.rel() == left.rel() && right.maj() == left.rel() && right.min() == left.min() && right.bui() == left.bui(); 
 		}
 		
@@ -70,7 +70,7 @@ namespace TOC
 			min(arr[2]);
 			bui(arr[3]);
 		}
-
+		
 		OStream &
 		operator<<(OStream &ostr,
 		           TOC::core::IVersion &v)

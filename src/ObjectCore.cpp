@@ -22,18 +22,18 @@
 
 namespace TOC
 {
-    namespace core
-    {
-        ObjectCore::ObjectCore(uint64_t anId)
-        :   _id(anId)
-        {
-            
-        }
-        
-        /// accessors
-        uint64_t ObjectCore::id() const
-        {
-            return _id;
-        }
-    }
+	namespace core
+	{
+		ObjectCore::
+		ObjectCore(uint64_t anId)
+		:	_id(anId)
+		{}
+		
+		uint64_t
+		ObjectCore::
+		id() const
+		{
+			return _id;
+		}
+	}
 }

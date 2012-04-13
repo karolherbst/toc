@@ -24,22 +24,20 @@
 
 namespace TOC
 {
-    namespace core
-    {
-        CoreInput::
-        ~CoreInput()
-        {
-            
-        }
-        
-        bool
-        StdInput::
-        getline(Char* __s,
-                int32_t __n)
-        {
-            return CIN.getline(__s,__n);
-        }
-        
-        StdInput stdInput;
-    }
+	namespace core
+	{
+		CoreInput::
+		~CoreInput()
+		{}
+		
+		bool
+		StdInput::
+		getline(Char* __s,
+		        int32_t __n)
+		{
+			return CIN.getline(__s,__n);
+		}
+		
+		StdInput stdInput;
+	}
 }

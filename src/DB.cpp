@@ -18,6 +18,11 @@
 *
 */
 
+/*
+ * TODO
+ * executeBoolQuery
+ */
+
 #include <toc/tocdb/DB.h>
 
 #include <boost/extension/shared_library.hpp>
@@ -31,214 +36,212 @@
 
 namespace TOC
 {
-    using core::CoreException;
-    namespace DB
-    {
-        const static String DB_CONNECT_FAILED                   = CSTRING("Connection to Database failed! Reason: %r%");
-        const static String DB_CONNECT_SUCCESS                  = CSTRING("Connected to Database!");
-        const static String DB_FATAL_ERROR                      = CSTRING("Database failure, we are stopping here");
-        const static String QUERY_EXECUTE_FAILED                = CSTRING("Failed to execute query: %query%");
-        
-        DBImpl::
-        DBImpl()
-        :   driver(NULL)
-        {
-            
-        }
-        
-        DBImpl::
-        ~DBImpl()
-        {
-            close();
-            delete driver.get();
-        }
-        
-        void
-        DBImpl::
-        initDriver()
-        {
-            driver.reset(DBResource::newDriver());
-            driver->databaseName() = db;
-            driver->userName() = user;
-            driver->userPassword() = pw;
-            driver->serverURL() = url;
-            driver->serverPort() = port;
-            Open();
-        }
-        
-        void
-        DBImpl::
-        setConnectionInfo(String& server,
-                          uint32_t port,
-                          String& user,
-                          String& pw,
-                          String& db)
-        {
-            setServerURL(server);
-            setServerPort(port);
-            setUserName(user);
-            setUserPassword(pw);
-            setDatabaseName(db);
-        }
-        
-        void
-        DBImpl::
-        setDatabaseName(String& _db)
-        {
-            db = _db;
-        }
-        
-        void
-        DBImpl::
-        setUserName(String& name)
-        {
-            user = name;
-        }
-        
-        void
-        DBImpl::
-        setUserPassword(String& _pw)
-        {
-            pw = _pw;
-        }
-        
-        void
-        DBImpl::
-        setServerURL(String& _url)
-        {
-            url = _url;
-        }
-        
-        void
-        DBImpl::
-        setServerPort(uint32_t _port)
-        {
-            port = _port;
-        }
-        
-        void
-        DBImpl::
-        Open()
+	using core::CoreException;
+	namespace DB
+	{
+		const static String DB_CONNECT_FAILED		= CSTRING("Connection to Database failed! Reason: %r%");
+		const static String DB_CONNECT_SUCCESS		= CSTRING("Connected to Database!");
+		const static String DB_FATAL_ERROR		= CSTRING("Database failure, we are stopping here");
+		const static String QUERY_EXECUTE_FAILED	= CSTRING("Failed to execute query: %query%");
+		
+		DBImpl::
+		DBImpl()
+		:   driver(NULL)
+		{}
+		
+		DBImpl::
+		~DBImpl()
 		{
-            try
-            {
-                driver->auth();
-            }
-            catch (CoreException& e)
-            {
-                logger.log<LOGGINGTYPE::ERROR>(e.what());
-                throw AuthenticationFailedException();
-            }
-            logger.log<LOGGINGTYPE::INFO>(DB_CONNECT_SUCCESS + CSTRING(" tid:"));
-        }
-        
-        void
-        DBImpl::
-        close()
-        {
-            // todo: close in each thread
-            if (driver.get() == NULL)
-                initDriver();
-            driver->close();
-            logger.log<LOGGINGTYPE::INFO>("Database shut down");
-        }
-        
-        DBTable
-        DBImpl::
-        operator[](const String& str)
-        {
-            if (driver.get() == NULL)
-                initDriver();
-            return DBTable(str);
-        }
-        
-        void
-        DBImpl::
-        createTransaction()
-        {
-            if (driver.get() == NULL)
-                initDriver();
-            driver->startTransaction();
-        }
-        
-        void
-        DBImpl::
-        commit()
-        {
-            if (driver.get() == NULL)
-                initDriver();
-            driver->commit();
-        }
-        
-        void
-        DBImpl::
-        rollback()
-        {
-            if (driver.get() == NULL)
-                initDriver();
-            driver->rollback();
-        }
-        
-        void
-        DBImpl::
-        executeQuery(const String& q)
-        {
-            if (driver.get() == NULL)
-                initDriver();
-            logger.log<LOGGINGTYPE::DEBUG>(q);
-            driver->exec(q);
-        }
-        
-        void
-        DBImpl::
-        executeBoolQuery(const String& q,
-                         bool&)
-        {
-            logger.log<LOGGINGTYPE::DEBUG>(q);
-        }
-        
-        void
-        DBImpl::
-        executeSingleValueQuery(const String& q,
-                                String& result)
-        {
-            if (driver.get() == NULL)
-                initDriver();
-            logger.log<LOGGINGTYPE::DEBUG>(q);
-            DBSingleValueResult dbresult = driver->executeSingleValueQuery(q,
-                                                                           result);
-        }
-        
-        void
-        DBImpl::
-        executeSingleRowQuery(const String& q,
-                              std::map<String, String>&)
-        {
-            if (driver.get() == NULL)
-                initDriver();
-            logger.log<LOGGINGTYPE::DEBUG>(q);
-        }
-        
-        void
-        DBImpl::
-        executeSingleColQuery(const String& q,
-                              std::vector<String>& result)
-        {
-            if (driver.get() == NULL)
-                initDriver();
-            logger.log<LOGGINGTYPE::DEBUG>(q);
-            DBSingleColResult dbresult = driver->executeSingleColQuery(q,
-                                                                       result);
-        }
-        
-        void
-        DBImpl::
-        executeMultiRowQuery(const String& q,
-                             std::vector< std::map<String, String> >&)
-        {
-            if (driver.get() == NULL)
-                initDriver();
-            logger.log<LOGGINGTYPE::DEBUG>(q);
-        }
-    }
+			close();
+			delete driver.get();
+		}
+		
+		void
+		DBImpl::
+		initDriver()
+		{
+			driver.reset(DBResource::newDriver());
+			driver->databaseName() = db;
+			driver->userName() = user;
+			driver->userPassword() = pw;
+			driver->serverURL() = url;
+			driver->serverPort() = port;
+			Open();
+		}
+		
+		void
+		DBImpl::
+		setConnectionInfo(String& server,
+		                  uint32_t port,
+		                  String& user,
+		                  String& pw,
+		                  String& db)
+		{
+			setServerURL(server);
+			setServerPort(port);
+			setUserName(user);
+			setUserPassword(pw);
+			setDatabaseName(db);
+		}
+		
+		void
+		DBImpl::
+		setDatabaseName(String& _db)
+		{
+			db = _db;
+		}
+		
+		void
+		DBImpl::
+		setUserName(String& name)
+		{
+			user = name;
+		}
+		
+		void
+		DBImpl::
+		setUserPassword(String& _pw)
+		{
+			pw = _pw;
+		}
+		
+		void
+		DBImpl::
+		setServerURL(String& _url)
+		{
+			url = _url;
+		}
+		
+		void
+		DBImpl::
+		setServerPort(uint32_t _port)
+		{
+			port = _port;
+		}
+		
+		void
+		DBImpl::
+		Open()
+		{
+			try
+			{
+				driver->auth();
+			}
+			catch (CoreException& e)
+			{
+				logger.log<LOGGINGTYPE::ERROR>(e.what());
+				throw AuthenticationFailedException();
+			}
+			logger.log<LOGGINGTYPE::INFO>(DB_CONNECT_SUCCESS + CSTRING(" tid:"));
+		}
+		
+		void
+		DBImpl::
+		close()
+		{
+			// todo: close in each thread
+			if (driver.get() == NULL)
+				initDriver();
+			driver->close();
+			logger.log<LOGGINGTYPE::INFO>("Database shut down");
+		}
+		
+		DBTable
+		DBImpl::
+		operator[](const String& str)
+		{
+			if (driver.get() == NULL)
+				initDriver();
+			return DBTable(str);
+		}
+		
+		void
+		DBImpl::
+		createTransaction()
+		{
+			if (driver.get() == NULL)
+				initDriver();
+			driver->startTransaction();
+		}
+		
+		void
+		DBImpl::
+		commit()
+		{
+			if (driver.get() == NULL)
+				initDriver();
+			driver->commit();
+		}
+		
+		void
+		DBImpl::
+		rollback()
+		{
+			if (driver.get() == NULL)
+				initDriver();
+			driver->rollback();
+		}
+		
+		void
+		DBImpl::
+		executeQuery(const String& q)
+		{
+			if (driver.get() == NULL)
+				initDriver();
+			logger.log<LOGGINGTYPE::DEBUG>(q);
+			driver->exec(q);
+		}
+		
+		void
+		DBImpl::
+		executeBoolQuery(const String& q,
+		                 bool&)
+		{
+			logger.log<LOGGINGTYPE::DEBUG>(q);
+		}
+		
+		void
+		DBImpl::
+		executeSingleValueQuery(const String& q,
+		                        String& result)
+		{
+			if (driver.get() == NULL)
+				initDriver();
+			logger.log<LOGGINGTYPE::DEBUG>(q);
+			DBSingleValueResult dbresult = driver->executeSingleValueQuery(q,
+			                                                               result);
+		}
+		
+		void
+		DBImpl::
+		executeSingleRowQuery(const String& q,
+		                      std::map<String, String>&)
+		{
+			if (driver.get() == NULL)
+				initDriver();
+			logger.log<LOGGINGTYPE::DEBUG>(q);
+		}
+		
+		void
+		DBImpl::
+		executeSingleColQuery(const String& q,
+		                      std::vector<String>& result)
+		{
+			if (driver.get() == NULL)
+				initDriver();
+			logger.log<LOGGINGTYPE::DEBUG>(q);
+			DBSingleColResult dbresult = driver->executeSingleColQuery(q,
+			                                                           result);
+		}
+		
+		void
+		DBImpl::
+		executeMultiRowQuery(const String& q,
+		                     std::vector< std::map<String, String> >&)
+		{
+			if (driver.get() == NULL)
+				initDriver();
+			logger.log<LOGGINGTYPE::DEBUG>(q);
+		}
+	}
 }

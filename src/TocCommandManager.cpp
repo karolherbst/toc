@@ -88,10 +88,9 @@ namespace TOC
 		{
 			Char line[512];
 			
-			while (input.getline(line, 512))
-			{
+			while (input.getline(line,
+			                     512))
 				requestCommand(line);
-			}
 		}
 		
 		void
@@ -100,8 +99,8 @@ namespace TOC
 		                String str)
 		{
 			channels.insert(std::pair<String,
-			                          Session_Core*>(str,
-			                                         session) );
+			                Session_Core*>(str,
+			                               session) );
 		}
 		
 		bool

@@ -18,6 +18,13 @@
 *
 */
 
+/*
+ * TODO
+ * 
+ * cstring should be static members
+ * 
+ */
+
 #include <toc/tocdb/DBResource.h>
 
 #include <boost/extension/shared_library.hpp>
@@ -27,49 +34,53 @@
 
 namespace TOC
 {
-    namespace DB
-    {
-        void
-        DBResource::
-        setDL(boost::extensions::shared_library* _dl)
-        {
-            if (dl != NULL)
-                throw std::exception();
-            dl = _dl;
-            
-            if (!dl->open())
-                throw CantLoadDriverLib();
-            abstractQueryBuilderFunc = dl->get<AbstractQueryBuilder*>("newQueryBuilder");
-            dbdriverBuilderFunc = dl->get<DBDriver*>("newDriver");
-            
-            if(!abstractQueryBuilderFunc || !dbdriverBuilderFunc)
-                throw DriverLibNotValid();
-        }
-        
-        DBDriver*
-        DBResource::
-        newDriver()
-        {
-            return dbdriverBuilderFunc();
-        }
-        
-        AbstractQueryBuilder*
-        DBResource::
-        newQueryBuilder()
-        {
-            return abstractQueryBuilderFunc();
-        }
-        
-        boost::extensions::shared_library*
-        DBResource::
-        dl = NULL;
-        
-        boost::function<DBDriver* (void)>
-        DBResource::
-        dbdriverBuilderFunc = NULL;
-        
-        boost::function<AbstractQueryBuilder* (void)>
-        DBResource::
-        abstractQueryBuilderFunc = NULL;
-    }
+	namespace DB
+	{
+		using namespace boost::extensions;
+		
+		using boost::function;
+		
+		void
+		DBResource::
+		setDL(shared_library* _dl)
+		{
+			if (dl != NULL)
+				throw std::exception();
+			dl = _dl;
+			
+			if (!dl->open())
+				throw CantLoadDriverLib();
+			abstractQueryBuilderFunc = dl->get<AbstractQueryBuilder*>("newQueryBuilder");
+			dbdriverBuilderFunc = dl->get<DBDriver*>("newDriver");
+			
+			if(!abstractQueryBuilderFunc || !dbdriverBuilderFunc)
+				throw DriverLibNotValid();
+		}
+		
+		DBDriver*
+		DBResource::
+		newDriver()
+		{
+			return dbdriverBuilderFunc();
+		}
+		
+		AbstractQueryBuilder*
+		DBResource::
+		newQueryBuilder()
+		{
+			return abstractQueryBuilderFunc();
+		}
+		
+		shared_library*
+		DBResource::
+		dl = NULL;
+		
+		function<DBDriver* (void)>
+		DBResource::
+		dbdriverBuilderFunc = NULL;
+		
+		function<AbstractQueryBuilder* (void)>
+		DBResource::
+		abstractQueryBuilderFunc = NULL;
+	}
 }

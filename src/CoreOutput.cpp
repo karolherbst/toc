@@ -24,52 +24,48 @@
 
 namespace TOC
 {
-    namespace core
-    {
-        CoreOutput& CoreOutput::operator<<( void (*funcPointer)(CoreOutput&) )
-        {
-            funcPointer(*this);
-            return *this;
-        }
-        
-        // Modificationfunctions
-        
-        void endline(CoreOutput& output)
-        {
-            output.endline().flush();
-        }
-        
-        extern void flush(CoreOutput& output)
-        {
-            output.flush();
-        }
-        
-        // StandartOutput
-        
-        CoreOutput& StdOutput::operator<<(const String& str)
-        {
-            COUT << str;
-            return *this;
-        }
-        
-        CoreOutput& StdOutput::operator<<(const Char* str)
-        {
-            COUT << str;
-            return *this;
-        }
-        
-        CoreOutput& StdOutput::endline()
-        {
-            COUT << std::endl;
-            return *this;
-        }
-        
-        CoreOutput& StdOutput::flush()
-        {
-            COUT.flush();
-            return *this;
-        }
-        
-        StdOutput stdOutput;
-    }
+	namespace core
+	{
+		CoreOutput& CoreOutput::operator<<( void (*funcPointer)(CoreOutput&) )
+		{
+			funcPointer(*this);
+			return *this;
+		}
+		
+		void endline(CoreOutput& output)
+		{
+			output.endline().flush();
+		}
+		
+		extern void flush(CoreOutput& output)
+		{
+			output.flush();
+		}
+		
+		CoreOutput& StdOutput::operator<<(const String& str)
+		{
+			COUT << str;
+			return *this;
+		}
+		
+		CoreOutput& StdOutput::operator<<(const Char* str)
+		{
+			COUT << str;
+			return *this;
+		}
+		
+		CoreOutput& StdOutput::endline()
+		{
+			COUT << std::endl;
+			return *this;
+		}
+		
+		CoreOutput& StdOutput::flush()
+		{
+			COUT.flush();
+			return *this;
+		}
+		
+		StdOutput stdOutput;
+	}
 }

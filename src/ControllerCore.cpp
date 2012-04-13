@@ -24,15 +24,16 @@
 
 namespace TOC
 {
-    namespace core
-    {
-        String
-        ControllerCore::
-        commandNotFoundMessage(const String& command, CoreException& e)
-        {
-            StringStream ss;
-            ss << CCHAR('"') << command << CSTRING("\" ") << e.what();
-            return ss.str();
-        }
-    }
+	namespace core
+	{
+		String
+		ControllerCore::
+		commandNotFoundMessage(const String& command,
+		                       CoreException& e)
+		{
+			StringStream ss;
+			ss << CCHAR('"') << command << CSTRING("\" ") << e.what();
+			return ss.str();
+		}
+	}
 }

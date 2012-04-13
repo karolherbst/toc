@@ -19,11 +19,3 @@
 */
 
 #include <toc/tocdb/DBExceptions.h>
-
-namespace TOC
-{
-    namespace DB
-    {
-		
-    }
-}

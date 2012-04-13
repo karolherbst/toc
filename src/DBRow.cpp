@@ -26,22 +26,22 @@
 
 namespace TOC
 {
-    namespace DB
-    {
-        DBRow::
-        DBRow(uint64_t _id,
-              AbstractQueryBuilder& _qb)
-        :   qb(_qb)
-        {
-            qb.id(_id);
-        }
-        
-        DBValue
-        DBRow::
-        operator[](const String& att)
-        {
-            qb.attribute(att);
-            return DBValue(qb);
-        }
-    }
+	namespace DB
+	{
+		DBRow::
+		DBRow(uint64_t _id,
+		      AbstractQueryBuilder& _qb)
+		:	qb(_qb)
+		{
+			qb.id(_id);
+		}
+		
+		DBValue
+		DBRow::
+		operator[](const String& att)
+		{
+			qb.attribute(att);
+			return DBValue(qb);
+		}
+	}
 }

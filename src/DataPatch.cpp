@@ -26,45 +26,41 @@
 
 namespace TOC
 {
-    namespace DB
-    {
-        AbstractDataPatch::
-        ~AbstractDataPatch()
-        {
-            
-        }
-        
-        SingleValuePatch::
-        SingleValuePatch(const String& _table,
-                         uint64_t _row,
-                         const String& _att,
-                         const String& _value)
-        :   table(_table),
-        row(_row),
-        att(_att),
-        value(_value){}
-        
-        void
-        SingleValuePatch::
-        save()
-        {
-            DB::Instance()[table][att][row] = value;
-        }
-        
-        SingleRowPatch::
-        SingleRowPatch(const String& _table,
-                       const Map& _m)
-        :   table(_table),
-        m(_m)
-        {
-            
-        }
-        
-        void
-        SingleRowPatch::
-        save()
-        {
-            DB::Instance()[table].insert(m);
-        }
-    }
+	namespace DB
+	{
+		AbstractDataPatch::
+		~AbstractDataPatch()
+		{}
+		
+		SingleValuePatch::
+		SingleValuePatch(const String& _table,
+		                 uint64_t _row,
+		                 const String& _att,
+		                 const String& _value)
+		:	table(_table),
+		row(_row),
+		att(_att),
+		value(_value){}
+		
+		void
+		SingleValuePatch::
+		save()
+		{
+			DB::Instance()[table][att][row] = value;
+		}
+		
+		SingleRowPatch::
+		SingleRowPatch(const String& _table,
+		               const Map& _m)
+		:   table(_table),
+		m(_m)
+		{}
+		
+		void
+		SingleRowPatch::
+		save()
+		{
+			DB::Instance()[table].insert(m);
+		}
+	}
 }

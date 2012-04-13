@@ -22,36 +22,45 @@
 
 namespace TOC
 {
-    namespace DB
-    {
-        DBDriver::~DBDriver()
-        {
-            
-        }
-        
-        String& DBDriver::databaseName()
-        {
-            return _databaseName;
-        }
-        
-        String& DBDriver::userName()
-        {
-            return _userName;
-        }
-        
-        String& DBDriver::userPassword()
-        {
-            return _userPassword;
-        }
-        
-        String& DBDriver::serverURL()
-        {
-            return _serverURL;
-        }
-        
-        uint32_t& DBDriver::serverPort()
-        {
-            return _serverPort;
-        }
-    }
+	namespace DB
+	{
+		DBDriver::
+		~DBDriver()
+		{}
+		
+		String&
+		DBDriver::
+		databaseName()
+		{
+			return _databaseName;
+		}
+		
+		String&
+		DBDriver::
+		userName()
+		{
+			return _userName;
+		}
+		
+		String&
+		DBDriver::
+		userPassword()
+		{
+			return _userPassword;
+		}
+		
+		String&
+		DBDriver::
+		serverURL()
+		{
+			return _serverURL;
+		}
+		
+		uint32_t&
+		DBDriver::
+		serverPort()
+		{
+			return _serverPort;
+		}
+	}
 }

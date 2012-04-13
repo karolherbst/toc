@@ -28,61 +28,61 @@
 
 namespace TOC
 {
-    namespace DB
-    {
-        DBTable::
-        DBTable(const String table)
-        {
-            qb = DBResource::newQueryBuilder();
-            qb->entityclass(table);
-        }
-        
-        DBTable::
-        ~DBTable()
-        {
-            delete qb;
-        }
-        
-        DBCol
-        DBTable::
-        operator[](const String& col)
-        {
-            return DBCol(col,
-                         *qb);
-        }
-        
-        DBRow
-        DBTable::
-        operator[](const uint64_t row)
-        {
-            return DBRow(row,
-                         *qb);
-        }
-        
-        DBTable&
-        DBTable::
-        create()
-        {
-            DB::Instance().executeQuery(qb->buildCreateEntityClassQuery());
-            return *this;
-        }
-        
-        DBTable
-        DBTable::
-        connectWith(const String& t)
-        {
-            DBTable ret( qb->entityclass() + CCHAR('_') + t );
-            DB::Instance().executeQuery(ret.qb->buildRelationEntityClassQuery(qb->entityclass(),
-                                                                              t));
-            return ret;
-        }
-        
-        DBTable&
-        DBTable::
-        insert(std::map<String, String>& values)
-        {
-            DB::Instance().executeQuery(qb->buildIdInsertQuery(values));
-            return *this;
-        }
-    }
+	namespace DB
+	{
+		DBTable::
+		DBTable(const String table)
+		{
+			qb = DBResource::newQueryBuilder();
+			qb->entityclass(table);
+		}
+		
+		DBTable::
+		~DBTable()
+		{
+			delete qb;
+		}
+		
+		DBCol
+		DBTable::
+		operator[](const String& col)
+		{
+			return DBCol(col,
+			             *qb);
+		}
+		
+		DBRow
+		DBTable::
+		operator[](const uint64_t row)
+		{
+			return DBRow(row,
+			             *qb);
+		}
+		
+		DBTable&
+		DBTable::
+		create()
+		{
+			DB::Instance().executeQuery(qb->buildCreateEntityClassQuery());
+			return *this;
+		}
+		
+		DBTable
+		DBTable::
+		connectWith(const String& t)
+		{
+			DBTable ret( qb->entityclass() + CCHAR('_') + t );
+			DB::Instance().executeQuery(ret.qb->buildRelationEntityClassQuery(qb->entityclass(),
+			                                                                  t));
+			return ret;
+		}
+		
+		DBTable&
+		DBTable::
+		insert(std::map<String, String>& values)
+		{
+			DB::Instance().executeQuery(qb->buildIdInsertQuery(values));
+			return *this;
+		}
+	}
 }

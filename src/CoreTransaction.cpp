@@ -25,67 +25,61 @@
 
 namespace TOC
 {
-    namespace DB
-    {
-        void
-        transactionCleanupFunction(CoreTransaction*);
-        
-        void
-        transactionCleanupFunction(CoreTransaction*)
-        {
-            // we do nothing with the object stored in tsp, cause it destroy itself
-        }
-        
-        boost::thread_specific_ptr<CoreTransaction>
-        CoreTransaction::
-        tsp(&transactionCleanupFunction);
-        
-        CoreTransaction::
-        CoreTransaction()
-        {
-            if (tsp.get() != NULL)
-                throw TransactionAlreadyExistsException();
-            
-            tsp.reset(this);
-        }
-        
-        CoreTransaction::
-        ~CoreTransaction()
-        {
-            if (tsp.get() == NULL)
-                throw BrokenTransactionContextException();
-            tsp.release();
-        }
-        
-        bool
-        CoreTransaction::
-        isThereAContext()
-        {
-            return tsp.get() != NULL;
-        }
-        
-        void
-        CoreTransaction::
-        addDataPatch(AbstractDataPatch* p)
-        {
-            if (!isThereAContext())
-                throw NoTransactionException();
-            tsp.get()->queue.push(p);
-        }
-        
-        void
-        CoreTransaction::
-        save()
-        {
-            DB::Instance().createTransaction();
-            while (!queue.empty())
-            {
-                AbstractDataPatch* patch = queue.front();
-                patch->save();
-                queue.pop();
-                delete patch;
-            }
-            DB::Instance().commit();
-        }
-    }
+	namespace DB
+	{
+		void
+		transactionCleanupFunction(CoreTransaction*)
+		{}
+		
+		boost::thread_specific_ptr<CoreTransaction>
+		CoreTransaction::
+		tsp(&transactionCleanupFunction);
+		
+		CoreTransaction::
+		CoreTransaction()
+		{
+			if (tsp.get() != NULL)
+				throw TransactionAlreadyExistsException();
+			tsp.reset(this);
+		}
+		
+		CoreTransaction::
+		~CoreTransaction()
+		{
+			if (tsp.get() == NULL)
+				throw BrokenTransactionContextException();
+			tsp.release();
+		}
+		
+		bool
+		CoreTransaction::
+		isThereAContext()
+		{
+			return tsp.get() != NULL;
+		}
+		
+		void
+		CoreTransaction::
+		addDataPatch(AbstractDataPatch* p)
+		{
+			if (!isThereAContext())
+				throw NoTransactionException();
+			tsp.get()->queue.push(p);
+		}
+		
+		void
+		CoreTransaction::
+		save()
+		{
+			DB::Instance().createTransaction();
+			while (!queue.empty())
+			{
+				AbstractDataPatch* patch = queue.front();
+				patch->save();
+				queue.pop();
+				delete patch;
+			}
+			DB::Instance().commit();
+		}
+	}
 }

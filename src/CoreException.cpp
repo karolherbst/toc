@@ -22,30 +22,29 @@
 
 namespace TOC
 {
-    namespace core
-    {
-        static const String DEFAULT_ERRPR_STRING = CSTRING("A critical Failure occured!");
+	namespace core
+	{
+		static const String DEFAULT_ERRPR_STRING = CSTRING("A critical Failure occured!");
 
-        CoreException::CoreException() throw()
-        :   message(DEFAULT_ERRPR_STRING)
-        {
+		CoreException::
+		CoreException() throw()
+		:	message(DEFAULT_ERRPR_STRING)
+		{}
 
-        }
+		CoreException::
+		CoreException(String _message) throw()
+		:	message(_message)
+		{}
 
-        CoreException::CoreException(String _message) throw()
-        :   message(_message)
-        {
+		CoreException::
+		~CoreException() throw()
+		{}
 
-        }
-
-        CoreException::~CoreException() throw()
-        {
-
-        }
-
-        const char* CoreException::what() const throw()
-        {
-            return (const char*)message.c_str();
-        }
-    }
+		const char*
+		CoreException::
+		what() const throw()
+		{
+			return (const char*)message.c_str();
+		}
+	}
 }

@@ -26,72 +26,73 @@
 
 namespace TOC
 {
-    namespace DB
-    {
-        DBCol::
-        DBCol(const String& col,
-              AbstractQueryBuilder& _qb)
-        :   qb(_qb)
-        {
-            qb.attribute(col);
-        }
-        
-        DBValue
-        DBCol::
-        operator[](uint64_t id)
-        {
-            qb.id(id);
-            return DBValue(qb);
-        }
-        
-        DBCol&
-        DBCol::
-        create(const String& defaultValue,
-               const String& type,
-               const int16_t size)
-        {
-            DB::Instance().executeQuery(qb.buildAddAttributeQuery(defaultValue,
-                                                                  type,
-                                                                  size));
-            return *this;
-        }
-        
-        DBCol&
-        DBCol::
-        operator>>(std::vector<String>& vec)
-        {
-            DB::Instance().executeSingleColQuery(qb.buildSingleAttributeSelectQuery(),
-                                                    vec);
-            return *this;
-        }
-        
-        uint64_t
-        DBCol::
-        search(const String& value)
-        {
-            String result;
-            qb.addWherePair(qb.attribute(), value);
-            DB::Instance().executeSingleValueQuery(qb.buildIDSelectQuery(),
-                                                      result);
-            return boost::lexical_cast<uint64_t>(result);
-        }
-        
-        DBCol&
-        DBCol::
-        where(const String& att,
-              const String value)
-        {
-            qb.addWherePair(att, value);
-            return *this;
-        }
-        
-        DBCol&
-        DBCol::
-        order(const String& att,
-              ORDER order)
-        {
-            qb.addOrderPair(att, order);
-            return *this;
-        }
-    }
+	namespace DB
+	{
+		DBCol::
+		DBCol(const String& col,
+		      AbstractQueryBuilder& _qb)
+		:	qb(_qb)
+		{
+			qb.attribute(col);
+		}
+		
+		DBValue
+		DBCol::
+		operator[](uint64_t id)
+		{
+			qb.id(id);
+			return DBValue(qb);
+		}
+		
+		DBCol&
+		DBCol::
+		create(const String& defaultValue,
+		       const String& type,
+		       const int16_t size)
+		{
+			DB::Instance().executeQuery(qb.buildAddAttributeQuery(defaultValue,
+			                                                      type,
+			                                                      size));
+			return *this;
+		}
+		
+		DBCol&
+		DBCol::
+		operator>>(std::vector<String>& vec)
+		{
+			DB::Instance().executeSingleColQuery(qb.buildSingleAttributeSelectQuery(),
+			                                     vec);
+			return *this;
+		}
+		
+		uint64_t
+		DBCol::
+		search(const String& value)
+		{
+			String result;
+			qb.addWherePair(qb.attribute(),
+			                value);
+			DB::Instance().executeSingleValueQuery(qb.buildIDSelectQuery(),
+			                                       result);
+			return boost::lexical_cast<uint64_t>(result);
+		}
+		
+		DBCol&
+		DBCol::
+		where(const String& att,
+		      const String value)
+		{
+			qb.addWherePair(att, value);
+			return *this;
+		}
+		
+		DBCol&
+		DBCol::
+		order(const String& att,
+		      ORDER order)
+		{
+			qb.addOrderPair(att, order);
+			return *this;
+		}
+	}
 }

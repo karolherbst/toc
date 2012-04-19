@@ -29,25 +29,25 @@
 #define USE_UNICODE 0
 
 #if USE_UNICODE
-	#define COUT                std::wcout
-	#define CIN                 std::wcin
-	#define CSTRING(s)          (const Char *)s
-	#define CCHAR(c)            (const Char)c
+	#define COUT              	std::wcout
+	#define CIN               	std::wcin
+	#define CSTRING(s)        	L##s
+	#define CCHAR(c)          	L##c
 
-	typedef std::wstring        String;
-	typedef wchar_t             Char;
-	typedef std::wostream       OStream;
-	typedef std::wstringstream  StringStream;
+	typedef std::wstring      	String;
+	typedef wchar_t	          	Char;
+	typedef std::wostream     	OStream;
+	typedef std::wstringstream	StringStream;
 #else
-	#define COUT				std::cout
-	#define CIN					std::cin
-	#define CSTRING(str)		str
-	#define CCHAR(c)			c
+	#define COUT              	std::cout
+	#define CIN               	std::cin
+	#define CSTRING(str)      	str
+	#define CCHAR(c)          	c
 
-	typedef std::string			String;
-	typedef char				Char;
-	typedef std::ostream		OStream;
-	typedef std::stringstream	StringStream;
+	typedef std::string       	String;
+	typedef char              	Char;
+	typedef std::ostream      	OStream;
+	typedef std::stringstream 	StringStream;
 #endif
 
 // lexical cast should be used overall
@@ -103,46 +103,46 @@ template <class C>
 void storeArgumentsIn(const String& str,
                       C& c)
 {
-    String _tmp = str;
-    trim(_tmp);
-    
-    c.push_back(getStringUntilChar(_tmp, CCHAR(' ')));
-    
-    if (str.find(CCHAR(' ')) == String::npos)
-        return;
-    
-    _tmp = getStringAfterChar(_tmp, CCHAR(' ')) + CCHAR(' '); // tweak
-    
-    while (_tmp.size() > 0)
-    {
-        if (_tmp == CSTRING(" "))
-            return;
-        
-        Char searchFor = CCHAR(' ');
-        trim_left(_tmp);
-        
-        if (_tmp.operator[](0) == CCHAR('"'))
-            searchFor = CCHAR('"');
-        
-        if (searchFor == CCHAR(' '))
-        {
-            String foundString = getStringUntilChar(_tmp,
-                                                    searchFor);
-            c.push_back(foundString);
-            _tmp = getStringAfterChar(_tmp,
-                                      searchFor);
-        }
-        else
-        {
-            String foundString = getStringUntilChar(getStringAfterChar(_tmp,
-                                                                       searchFor),
-                                                    searchFor);
-            c.push_back(foundString);
-            _tmp = getStringAfterChar(getStringAfterChar(_tmp,
-                                                         searchFor),
-                                      searchFor);
-        }
-    }
+	String _tmp = str;
+	trim(_tmp);
+	
+	c.push_back(getStringUntilChar(_tmp, CCHAR(' ')));
+	
+	if (str.find(CCHAR(' ')) == String::npos)
+		return;
+	
+	_tmp = getStringAfterChar(_tmp, CCHAR(' ')) + CCHAR(' '); // tweak
+	
+	while (_tmp.size() > 0)
+	{
+		if (_tmp == CSTRING(" "))
+			return;
+		
+		Char searchFor = CCHAR(' ');
+		trim_left(_tmp);
+		
+		if (_tmp.operator[](0) == CCHAR('"'))
+			searchFor = CCHAR('"');
+		
+		if (searchFor == CCHAR(' '))
+		{
+			String foundString = getStringUntilChar(_tmp,
+			                                        searchFor);
+			c.push_back(foundString);
+			_tmp = getStringAfterChar(_tmp,
+			                          searchFor);
+		}
+		else
+		{
+			String foundString = getStringUntilChar(getStringAfterChar(_tmp,
+			                                                           searchFor),
+			                                        searchFor);
+			c.push_back(foundString);
+			_tmp = getStringAfterChar(getStringAfterChar(_tmp,
+			                                             searchFor),
+			                          searchFor);
+		}
+	}
 }
 
 #endif //LIB_TOC_STRING

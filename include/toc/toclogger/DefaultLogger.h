@@ -30,7 +30,7 @@ CREATE_LOGGER_NAME_CLASS_DEF(DEFAULTNAME);
 
 namespace TOC
 {
-    typedef TOC::TocLogger<WriteToConsole, SingleThreadedProcessor, SimpleAppender, DEFAULTNAME> DefaultLogger;
+	typedef TOC::TocLogger<WriteToConsole, SingleThreadedProcessor, SimpleAppender, DEFAULTNAME> DefaultLogger;
 }
 
 #endif //LIB_TOCLOGGER_DEFAULTLOGGER

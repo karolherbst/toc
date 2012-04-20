@@ -18,22 +18,11 @@
 *
 */
 
-#include <toc/tocstring/TocString.h>
+#include <toc/toclogger/LoggerHolder.h>
 
 namespace TOC
 {
-	String LOG_STRINGS[4] = {
-		CSTRING("ERROR"),
-		CSTRING("WARN"),
-		CSTRING("INFO"),
-		CSTRING("DEBUG")
-	};
-
-	bool globalEnables[4] = {
-		true,
-		true,
-		true,
-		false
-	};
+	std::map <String, any>
+	TocLoggerHolder::
+	loggers;
 }
-

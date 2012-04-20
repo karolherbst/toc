@@ -21,6 +21,7 @@
 #ifndef LIB_TOC_LOGGER_LOGGER
 #define LIB_TOC_LOGGER_LOGGER 1
 
+#include <toc/toclogger/LoggerHolder.h>
 #include <toc/toclogger/macros/loggerMacros.h>
 #include <toc/tocstring/TocString.h>
 
@@ -39,12 +40,26 @@ namespace TOC
 		INFO = 2,
 		DEBUG = 3
 	};
-	
-	extern String LOG_STRINGS[4];
-	
+
+	/**
+	 * Strings for log levels
+	 *
+	 * @author	Karol Herbst
+	 * @since	0.1
+	 */
+	extern const String LOG_STRINGS[4];
+
+	/**
+	 * enables for all loggers, false will be force
+	 *
+	 * @author	Karol Herbst
+	 * @since	0.2
+	 */
+	extern       bool   globalEnables[4];
+
 	#define TEMPLATE_CLASS_DEF template <class Task, template <class> class Processor, template<const Char*> class Appender, const Char* LoggerInfo>
 	#define TEMPLATE_CLASS_ARG <Task, Processor, Appender, LoggerInfo>
-	
+
 	/**
 	 * simple logging class
 	 *
@@ -68,7 +83,7 @@ namespace TOC
 		template <LOGGINGTYPE, typename StringType>
 		inline TocLogger TEMPLATE_CLASS_ARG &
 		log(StringType str);
-		
+
 		/**
 		 * constructor with booleans for activating logger levels
 		 *
@@ -86,9 +101,11 @@ namespace TOC
 		          bool debug);
 
 		/**
-		 * default constructor
+		 * default constructor with Debug=false and all others=true
 		 *
-		 * switches will be global
+		 * @author	Karol Herbst
+		 * @since	0.1
+		 * @return	TOC::TocLogger
 		 */
 		TocLogger();
 
@@ -109,15 +126,17 @@ namespace TOC
 		enables[ (uint16_t) LOGGINGTYPE::WARN ] = warn;
 		enables[ (uint16_t) LOGGINGTYPE::INFO ] = info;
 		enables[ (uint16_t) LOGGINGTYPE::DEBUG ] = debug;
+
+		TocLoggerHolder::registerLogger(*this);
 	}
 
 	TEMPLATE_CLASS_DEF
 	TocLogger TEMPLATE_CLASS_ARG::
 	TocLogger()
-	:	enables( {true,
+	:	TocLogger(true,
 		          true,
 		          true,
-		          true} ){}
+		          false){}
 
 	TEMPLATE_CLASS_DEF
 	template<LOGGINGTYPE type, typename StringType>
@@ -125,7 +144,8 @@ namespace TOC
 	TocLogger TEMPLATE_CLASS_ARG::
 	log( StringType str )
 	{
-		if ( enables[ (uint16_t) type] ) processor.add( appender.createOutputString( str,
+		if ( globalEnables[ (uint16_t) type ] && enables[ (uint16_t) type] )
+		   processor.add( appender.createOutputString( str,
 		LOG_STRINGS[ (uint16_t) type] ) );
 		return *this;
 	}

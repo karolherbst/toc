@@ -31,3 +31,14 @@
 #define CREATE_LOGGER_NAME_CLASS_DEF(name) extern const Char name []
 #define CREATE_LOGGER_NAME_CLASS_IMPL(name, str) extern "C" const Char name [sizeof(str)] = str
 #define CREATE_LOGGER(name, nameClass) TOC::TocLogger<WriteToConsole, SingleThreadedProcessor, SimpleAppender, nameClass> name
+
+#define TOC_LOGGER_TEMPLATE_ARG(a, b, c, d, e)    \
+template <class a,                                \
+          template <class> class b,               \
+          template <const Char*> class c,         \
+          const Char* d,                          \
+          template <class,                        \
+                    template <class> class,       \
+                    template <const Char*> class, \
+                    const Char*>                  \
+          class e>

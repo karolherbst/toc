@@ -24,7 +24,7 @@
 #include <toc/tocstring/TocString.h>
 #include <exception>
 
-#include <boost/extension/impl/decl.hpp>
+#include <toc/boost/extension/impl/decl.hpp>
 #ifndef DLL_TOC_EXCEPTION
 #ifdef MAKE_TOC_EXCEPTION
 #define DLL_TOC_EXCEPTION BOOST_EXTENSION_EXPORT_DECL

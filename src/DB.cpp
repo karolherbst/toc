@@ -25,7 +25,7 @@
 
 #include <toc/tocdb/DB.h>
 
-#include <boost/extension/shared_library.hpp>
+#include <toc/boost/extension/shared_library.hpp>
 #include <boost/thread/thread.hpp>
 
 #include <toc/tocdb/DBDriver.h>

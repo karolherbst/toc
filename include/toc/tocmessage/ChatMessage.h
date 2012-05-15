@@ -21,7 +21,7 @@
 #ifndef LIB_TOC_MESSAGE_CHATMESSAGE
 #define LIB_TOC_MESSAGE_CHATMESSAGE 1
 
-#include <boost/extension/impl/decl.hpp>
+#include <toc/boost/extension/impl/decl.hpp>
 #include <TocEnv/TocEnv.h>
 #include <toc/tocstring/TocString.h>
 

@@ -28,7 +28,7 @@
 #include <toc/tocexception/CoreException.h>
 #include <toc/tocstring/TocString.h>
 
-#include <boost/extension/impl/decl.hpp>
+#include <toc/boost/extension/impl/decl.hpp>
 #ifndef DLL_TOC_DB
 #ifdef MAKE_TOC_DB
 #define DLL_TOC_DB BOOST_EXTENSION_EXPORT_DECL

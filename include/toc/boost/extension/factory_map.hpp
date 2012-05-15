@@ -14,8 +14,8 @@
 #define BOOST_EXTENSION_FACTORY_MAP_HPP
 
 #include <map>
-#include <boost/extension/factory.hpp>
-#include <boost/extension/impl/typeinfo.hpp>
+#include <toc/boost/extension/factory.hpp>
+#include <toc/boost/extension/impl/typeinfo.hpp>
 
 namespace boost {
 namespace extensions {
@@ -77,7 +77,7 @@ public:
   // specification in impl/
 # define BOOST_PP_ITERATION_LIMITS (0, \
     BOOST_PP_INC(BOOST_EXTENSION_MAX_FUNCTOR_PARAMS) - 1)
-# define BOOST_PP_FILENAME_1 <boost/extension/impl/factory_map.hpp>
+# define BOOST_PP_FILENAME_1 <toc/boost/extension/impl/factory_map.hpp>
 # include BOOST_PP_ITERATE()
 
 private:

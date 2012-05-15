@@ -26,7 +26,7 @@
 #include <toc/tocmessage/ChatMessage.h>
 #include <toc/tocstring/TocString.h>
 
-#include <boost/extension/impl/decl.hpp>
+#include <toc/boost/extension/impl/decl.hpp>
 #ifndef DLL_TOC_CORE
 #ifdef MAKE_TOC_CORE
 #define DLL_TOC_CORE BOOST_EXTENSION_EXPORT_DECL

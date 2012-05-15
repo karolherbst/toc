@@ -27,7 +27,7 @@
 
 #include <toc/tocdb/DBResource.h>
 
-#include <boost/extension/shared_library.hpp>
+#include <toc/boost/extension/shared_library.hpp>
 #include <boost/foreach.hpp>
 #include <boost/function.hpp>
 

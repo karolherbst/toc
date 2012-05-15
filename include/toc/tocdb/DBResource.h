@@ -18,8 +18,8 @@
 *
 */
 
-#include <boost/extension/impl/decl.hpp>
-#include <boost/extension/shared_library.hpp>
+#include <toc/boost/extension/impl/decl.hpp>
+#include <toc/boost/extension/shared_library.hpp>
 #include <boost/function/function_fwd.hpp>
 #include <list>
 #include <map>
@@ -111,7 +111,14 @@ namespace TOC
 		registerDriver(const ST1 &name,
 		               const ST2 &path)
 		{
-			shared_library *lib = new shared_library(path);
+			shared_library *lib = new shared_library(path, true);
+
+			if (!lib->open())
+			{
+				delete lib;
+				throw DriverLibNotValid();
+			}
+
 			function<DBDriver * (void)> d_func = lib->get<DBDriver *>("newDriver");
 			function<AbstractQueryBuilder * (void)> qb_func = lib->get<AbstractQueryBuilder *>("newQueryBuilder");
 

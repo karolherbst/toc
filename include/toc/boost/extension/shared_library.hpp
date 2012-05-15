@@ -17,8 +17,8 @@
 
 #include <string>
 
-#include <boost/extension/common.hpp>
-#include <boost/extension/impl/library_impl.hpp>
+#include <toc/boost/extension/common.hpp>
+#include <toc/boost/extension/impl/library_impl.hpp>
 #include <boost/preprocessor/iteration/iterate.hpp>
 
 namespace boost {
@@ -138,7 +138,7 @@ public:
 #else
 #define BOOST_PP_ITERATION_LIMITS (0, \
     BOOST_PP_INC(BOOST_EXTENSION_MAX_FUNCTOR_PARAMS) - 1)
-#define BOOST_PP_FILENAME_1 <boost/extension/impl/shared_library.hpp>
+#define BOOST_PP_FILENAME_1 <toc/boost/extension/impl/shared_library.hpp>
 #include BOOST_PP_ITERATE()
 #endif
 protected:

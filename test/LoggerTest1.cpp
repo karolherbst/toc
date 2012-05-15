@@ -18,5 +18,5 @@ BOOST_AUTO_TEST_CASE( LOGGERTest )
 BOOST_AUTO_TEST_CASE( GlobalEnables )
 {
 	DefaultLogger logger;
-	TocLoggerHolder::getLogger(DEFAULTNAME).log<LOGGINGTYPE::INFO>(CSTRING("hi"));
+	//TocLoggerHolder::getLogger< DEFAULTNAME >().log<LOGGINGTYPE::INFO>(CSTRING("hi"));
 }

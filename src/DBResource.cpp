@@ -20,14 +20,15 @@
 
 /*
  * TODO
- * 
+ *
  * cstring should be static members
- * 
+ *
  */
 
 #include <toc/tocdb/DBResource.h>
 
 #include <boost/extension/shared_library.hpp>
+#include <boost/foreach.hpp>
 #include <boost/function.hpp>
 
 #include <toc/tocdb/DBExceptions.h>
@@ -36,51 +37,54 @@ namespace TOC
 {
 	namespace DB
 	{
-		using namespace boost::extensions;
-		
-		using boost::function;
-		
-		void
+		String
 		DBResource::
-		setDL(shared_library* _dl)
-		{
-			if (dl != NULL)
-				throw std::exception();
-			dl = _dl;
-			
-			if (!dl->open())
-				throw CantLoadDriverLib();
-			abstractQueryBuilderFunc = dl->get<AbstractQueryBuilder*>("newQueryBuilder");
-			dbdriverBuilderFunc = dl->get<DBDriver*>("newDriver");
-			
-			if(!abstractQueryBuilderFunc || !dbdriverBuilderFunc)
-				throw DriverLibNotValid();
-		}
-		
+		_pd;
+
+		std::map<String, DBResource::DriverEntry>
+		DBResource::
+		loadedDrivers;
+
 		DBDriver*
 		DBResource::
 		newDriver()
 		{
-			return dbdriverBuilderFunc();
+			return loadedDrivers.at(_pd)._dbdriverBuilderFunc();
 		}
-		
+
 		AbstractQueryBuilder*
 		DBResource::
 		newQueryBuilder()
 		{
-			return abstractQueryBuilderFunc();
+			return loadedDrivers.at(_pd)._abstractQueryBuilderFunc();
 		}
-		
-		shared_library*
+
+		std::list<String>
 		DBResource::
-		dl = NULL;
-		
-		function<DBDriver* (void)>
-		DBResource::
-		dbdriverBuilderFunc = NULL;
-		
-		function<AbstractQueryBuilder* (void)>
-		DBResource::
-		abstractQueryBuilderFunc = NULL;
+		availableDrivers()
+		{
+			std::list<String> result;
+
+			BOOST_FOREACH(const DriverPair &p, loadedDrivers)
+			{
+				result.push_back(p.first);
+			}
+
+			return result;
+		}
+
+		DBResource::DriverEntry::
+		DriverEntry(shared_library* dl,
+		            function<DBDriver* (void)> dbdriverBuilderFunc,
+		            function<AbstractQueryBuilder* (void)> abstractQueryBuilderFunc)
+		:	_dl(dl),
+			_dbdriverBuilderFunc(dbdriverBuilderFunc),
+			_abstractQueryBuilderFunc(abstractQueryBuilderFunc){}
+
+		DBResource::DriverEntry::
+		~DriverEntry()
+		{
+			// todo: unload driver
+		}
 	}
 }

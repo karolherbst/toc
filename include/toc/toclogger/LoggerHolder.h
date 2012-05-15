@@ -26,8 +26,6 @@
 #include <toc/toclogger/macros/loggerMacros.h>
 #include <toc/tocstring.h>
 
-//class Task, template <class> class Processor
-
 namespace TOC
 {
 	using boost::any;
@@ -41,10 +39,10 @@ namespace TOC
 		void
 		registerLogger(Logger<A, B, C, D>& logger);
 
-		TOC_LOGGER_TEMPLATE_ARG(A, B, C, D, Logger)
+		/*TOC_LOGGER_TEMPLATE_ARG_NAME_FIRST(Name, A, B, C, Logger)
 		static
-		Logger<A, B, C, D>&
-		getLogger(const Char* name);
+		Logger<A, B, C, Name>&
+		getLogger();*/
 
 	private:
 		static std::map <String, any> loggers;
@@ -58,13 +56,13 @@ namespace TOC
 		loggers[Name] = logger;
 	}
 
-	TOC_LOGGER_TEMPLATE_ARG(A, B, C, D, Logger)
-	Logger<A, B, C, D>&
+/*	TOC_LOGGER_TEMPLATE_ARG_NAME_FIRST(Name, A, B, C, Logger)
+	Logger<A, B, C, Name>&
 	TocLoggerHolder::
-	getLogger(const Char* name)
+	getLogger()
 	{
-		return loggers[name];
-	}
+		return loggers[Name];
+	}*/
 }
 
 #endif //LIB_TOC_LOGGER_LOGGERHOLDER

@@ -32,6 +32,9 @@ namespace TOC
         SUBCLASS_OF_COREXCEPTION_SUBCLASS(DBException,
                                           CantLoadDriverLib,
                                           CSTRING("failed to load driver lib!"));
+		SUBCLASS_OF_COREXCEPTION_SUBCLASS(DBException,
+		                                  DriverNotLoaded,
+		                                  CSTRING("the given driver is not loaded"));
         SUBCLASS_OF_COREXCEPTION_SUBCLASS(DBException,
                                           DriverLibNotValid,
                                           CSTRING("the driver lib isn't valid!"));

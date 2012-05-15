@@ -42,3 +42,14 @@ template <class a,                                \
                     template <const Char*> class, \
                     const Char*>                  \
           class e>
+
+#define TOC_LOGGER_TEMPLATE_ARG_NAME_FIRST(a, b, c, d, e)    \
+template <class b,                                           \
+          template <class> class c,                          \
+          template <const Char*> class d,                    \
+          const Char* a,                                     \
+          template <class,                                   \
+                    template <class> class,                  \
+                    template <const Char*> class,            \
+                    const Char*>                             \
+          class e>

@@ -28,6 +28,8 @@
 #include <loki/Singleton.h>
 #include <toc/boost/extension/impl/decl.hpp>
 #include <toc/boost/extension/shared_library.hpp>
+#include <toc/tocdb/AbstractQueryBuilder.h>
+#include <toc/tocdb/DBDriver.h>
 #include <toc/tocdb/DBExceptions.h>
 #include <toc/tocstring.h>
 
@@ -43,9 +45,6 @@ namespace TOC
 {
     namespace DB
     {
-		class AbstractQueryBuilder;
-		class DBDriver;
-
         using boost::extensions::shared_library;
         using boost::function;
 

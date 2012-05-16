@@ -121,7 +121,7 @@ namespace TOC
 			}
 			catch (mysqlpp::Exception& e)
 			{
-				throw CoreException("undefined DB failure!");
+				throw CoreException(CSTRING("undefined DB failure!"));
 			}
 		}
 		
@@ -143,7 +143,7 @@ namespace TOC
 			}
 			catch (mysqlpp::Exception& e)
 			{
-				throw CoreException("undefined DB failure!");
+				throw CoreException(CSTRING("undefined DB failure!"));
 			}
 		}
 		
@@ -168,7 +168,7 @@ namespace TOC
 			}
 			catch (mysqlpp::Exception& e)
 			{
-				throw CoreException("undefined DB failure!");
+				throw CoreException(CSTRING("undefined DB failure!"));
 			}
 		}
 		

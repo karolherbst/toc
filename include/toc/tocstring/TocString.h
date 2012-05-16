@@ -100,6 +100,11 @@ getStringAfterChar(const String& str,
                    String::size_type s = 0);
 
 template <class C>
+std::ostream&
+operator<<(std::ostream &,
+		   const std::list<C> &);
+
+template <class C>
 void storeArgumentsIn(const String& str,
                       C& c)
 {
@@ -143,6 +148,23 @@ void storeArgumentsIn(const String& str,
 			                          searchFor);
 		}
 	}
+}
+
+template <class C>
+std::ostream&
+operator<<(std::ostream & os,
+           const std::list<C> &list)
+{
+	os << "List<";
+	if (list.begin() != list.end())
+		os << *list.begin();
+	std::for_each(++list.begin(),
+	              list.end(),
+	              [&os](const C &e)
+	              {
+	              	os << ", " << e;
+	              });
+	return os << '>';
 }
 
 #endif //LIB_TOC_STRING

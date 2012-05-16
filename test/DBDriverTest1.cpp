@@ -6,6 +6,9 @@
 
 #define DBResource TOC::DB::DBResource::Instance()
 
+using TOC::DB::AbstractQueryBuilder;
+using TOC::DB::DBDriver;
+
 static bool skip = false;
 static String notLoadedDriver = "sdakdjld3aijld";
 
@@ -17,7 +20,15 @@ BOOST_AUTO_TEST_CASE( CreateBuiltInDrivers )
 	}
 	else
 	{
-		
+		// check only the first driver
+		// we will test speficic drivers in different tests
+		DBResource.preferedDriver(*drivers.begin());
+		DBDriver* d = DBResource.newDriver();
+		AbstractQueryBuilder* q = DBResource.newQueryBuilder();
+
+		// delete pointers
+		delete d;
+		delete q;
 	}
 }
 

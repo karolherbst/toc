@@ -18,10 +18,9 @@
 *
 */
 
-#include <toc/tocdb/DBValue.h>
-
 #include <toc/tocdb/AbstractQueryBuilder.h>
 #include <toc/tocdb/DB.h>
+#include <toc/tocdb/DBValue.h>
 
 namespace TOC
 {

@@ -25,9 +25,8 @@
  add foreach
  */
 
-#include <toc/toccore/SessionCore.h>
 #include <boost/bind.hpp>
-
+#include <toc/toccore/SessionCore.h>
 
 namespace TOC
 {
@@ -71,7 +70,8 @@ namespace TOC
 			                      bind(&Session_Core::handle_connect,
 			                           this,
 			                           placeholders::error,
-			                           ++endpoint_iterator));
+			                           ++endpoint_iterator)
+				             );
 		}
 		
 		void
@@ -91,7 +91,8 @@ namespace TOC
 				                      bind(&Session_Core::handle_connect,
 				                           this,
 				                           placeholders::error,
-				                           ++endpoint_iterator));
+				                           ++endpoint_iterator)
+					             );
 			}
 		}
 		

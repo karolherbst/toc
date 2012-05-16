@@ -18,10 +18,9 @@
 *
 */
 
+#include <boost/algorithm/string/trim.hpp>
 #include <toc/toccore/CoreInput.h>
 #include <toc/toccore/TocCommandManager.h>
-
-#include <boost/algorithm/string/trim.hpp>
 
 namespace TOC
 {
@@ -31,8 +30,8 @@ namespace TOC
 		
 		TocCommandManager::
 		TocCommandManager()
-		:   input(stdInput),
-		    output(stdOutput)
+		:	input(stdInput),
+			output(stdOutput)
 		{}
 		
 		void
@@ -100,7 +99,8 @@ namespace TOC
 		{
 			channels.insert(std::pair<String,
 			                Session_Core*>(str,
-			                               session) );
+			                               session)
+			               );
 		}
 		
 		bool

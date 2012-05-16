@@ -24,21 +24,21 @@ const String NULLSTRING = CSTRING("NULL");
 
 namespace TOC
 {
-	const String DBString		= CSTRING("String");
-	const String DBInt		= CSTRING("int");
-	const String DBFloat		= CSTRING("float");
-	const String DBText		= CSTRING("text");
+	const String DBString = CSTRING("String");
+	const String DBInt    = CSTRING("int");
+	const String DBFloat  = CSTRING("float");
+	const String DBText   = CSTRING("text");
 	
-	createAttTypeSymbols(NameAtt, CSTRING("name"), DBString, CSTRING("Name"), 32);
-	createAttTypeSymbols(MailAtt, CSTRING("email"), DBString, CSTRING("EMail"), 64);
-	createAttTypeSymbols(PasswordAtt, CSTRING("pw"), DBString, CSTRING("Password"), 32);
-	createAttTypeSymbols(SessionTypeAtt, CSTRING("sessiontype"), DBInt, 1, 2);
-	createAttTypeSymbols(ArgCountAtt, CSTRING("argcount"), DBInt, 0, 2);
-	createAttTypeSymbols(ArgAtt, CSTRING("arg"), DBString, CSTRING(""), 4);
-	createAttTypeSymbols(ActionAtt, CSTRING("action"), DBInt, 1, 2);
-	createAttTypeSymbols(MajVersionAtt, CSTRING("maj"), DBInt, 0, 3);
-	createAttTypeSymbols(MinVersionAtt, CSTRING("min"), DBInt, 0, 3);
-	createAttTypeSymbols(RelVersionAtt, CSTRING("rel"), DBInt, 0, 3);
-	createAttTypeSymbols(BuildVersionAtt, CSTRING("build"), DBInt, 0, 6);
-	createAttTypeSymbols(TextAtt, CSTRING("text"), DBText, CSTRING(""), 0);
+	createAttTypeSymbols(NameAtt,         CSTRING("name"),        DBString, CSTRING("Name"),     32);
+	createAttTypeSymbols(MailAtt,         CSTRING("email"),       DBString, CSTRING("EMail"),    64);
+	createAttTypeSymbols(PasswordAtt,     CSTRING("pw"),          DBString, CSTRING("Password"), 32);
+	createAttTypeSymbols(SessionTypeAtt,  CSTRING("sessiontype"), DBInt,    1,                    2);
+	createAttTypeSymbols(ArgCountAtt,     CSTRING("argcount"),    DBInt,    0,                    2);
+	createAttTypeSymbols(ArgAtt,          CSTRING("arg"),         DBString, CSTRING(""),          4);
+	createAttTypeSymbols(ActionAtt,       CSTRING("action"),      DBInt,    1,                    2);
+	createAttTypeSymbols(MajVersionAtt,   CSTRING("maj"),         DBInt,    0,                    3);
+	createAttTypeSymbols(MinVersionAtt,   CSTRING("min"),         DBInt,    0,                    3);
+	createAttTypeSymbols(RelVersionAtt,   CSTRING("rel"),         DBInt,    0,                    3);
+	createAttTypeSymbols(BuildVersionAtt, CSTRING("build"),       DBInt,    0,                    6);
+	createAttTypeSymbols(TextAtt,         CSTRING("text"),        DBText,   CSTRING(""),          0);
 }

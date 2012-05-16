@@ -18,10 +18,9 @@
 *
 */
 
-#include <toc/toccore/SocketCore.h>
-
 #include <boost/foreach.hpp>
 #include <boost/thread.hpp>
+#include <toc/toccore/SocketCore.h>
 
 namespace TOC
 {
@@ -29,7 +28,7 @@ namespace TOC
 	{
 		SocketCore::
 		SocketCore()
-		:   thread(NULL)
+		:	thread(NULL)
 		{
 			instances.insert(this);
 		}

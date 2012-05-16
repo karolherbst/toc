@@ -58,7 +58,10 @@ namespace TOC
 			IVersion& right = const_cast<IVersion&>(__v);
 			IVersion& left = const_cast<IVersion&>(*this);
 			
-			return right.rel() == left.rel() && right.maj() == left.rel() && right.min() == left.min() && right.bui() == left.bui(); 
+			return right.rel() == left.rel()
+			    && right.maj() == left.rel()
+			    && right.min() == left.min()
+			    && right.bui() == left.bui(); 
 		}
 		
 		void
@@ -76,9 +79,9 @@ namespace TOC
 		           TOC::core::IVersion &v)
 		{
 			return (ostr << lexical_cast<String>(v.rel()) << '.'
-						 << lexical_cast<String>(v.maj()) << '.'
-						 << lexical_cast<String>(v.min()) << ':'
-						 << lexical_cast<String>(v.bui()));
+			             << lexical_cast<String>(v.maj()) << '.'
+			             << lexical_cast<String>(v.min()) << ':'
+			             << lexical_cast<String>(v.bui()));
 		}
 		
 		Version::
@@ -94,10 +97,10 @@ namespace TOC
 		
 		Version::
 		Version(const uint16_t arr[4])
-		:   _rel(arr[0]),
-		    _maj(arr[1]),
-		    _min(arr[2]),
-		    _bui(arr[3])
+		:	Version(arr[0],
+			        arr[1],
+			        arr[2],
+			        arr[3])
 		{}
 		
 		IVersion&

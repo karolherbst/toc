@@ -24,6 +24,7 @@
 #include <boost/thread/tss.hpp>
 #include <loki/Singleton.h>
 #include <map>
+#include <toc/tocdb/DBResource.h>
 #include <toc/toclogger.h>
 #include <toc/tocstring/TocString.h>
 

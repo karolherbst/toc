@@ -33,7 +33,7 @@ namespace TOC
 		DBTable::
 		DBTable(const String table)
 		{
-			qb = DBResource::newQueryBuilder();
+			qb = DBResource::Instance().newQueryBuilder();
 			qb->entityclass(table);
 		}
 		

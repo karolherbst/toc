@@ -30,7 +30,6 @@
 
 #include <toc/tocdb/DBDriver.h>
 #include <toc/tocdb/DBExceptions.h>
-#include <toc/tocdb/DBResource.h>
 #include <toc/tocdb/DBResult.h>
 #include <toc/tocdb/DBTable.h>
 
@@ -60,7 +59,7 @@ namespace TOC
 		DBImpl::
 		initDriver()
 		{
-			driver.reset(DBResource::newDriver());
+			driver.reset(DBResource::Instance().newDriver());
 			driver->databaseName() = db;
 			driver->userName() = user;
 			driver->userPassword() = pw;

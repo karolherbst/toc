@@ -9,7 +9,7 @@ macro(add_linker_flags)
   endforeach()
 endmacro()
 
-add_linker_flags(-ldl)
+add_linker_flags(-ldl -lmysqlclient -lmysqlpp)
 
 set(TOC_USE_C++X0 TRUE)
 set(NEEDED_BOOST_LIBS thread system)

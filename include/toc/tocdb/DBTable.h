@@ -45,7 +45,7 @@ namespace TOC
         class DLL_TOC_DB DBTable
         {
         public:
-            DBTable(const String str);
+            DBTable(const String);
             ~DBTable();
             
             DBCol operator[](const String& col);

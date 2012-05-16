@@ -18,50 +18,48 @@
 *
 */
 
-/*
- * TODO
- *
- * cstring should be static members
- *
- */
-
 #include <toc/tocdb/DBResource.h>
 
 #include <toc/boost/extension/shared_library.hpp>
 #include <boost/foreach.hpp>
 #include <boost/function.hpp>
 
+#include <toc/tocdb/DBDriver.h>
 #include <toc/tocdb/DBExceptions.h>
+
+//MySQL Driver
+#include "MySQLDriver.h"
+#include "MySQLQueryBuilder.h"
 
 namespace TOC
 {
 	namespace DB
 	{
-		String
-		DBResource::
-		_pd;
-
-		std::map<String, DBResource::DriverEntry>
-		DBResource::
-		loadedDrivers;
+		DBResourceImpl::
+		DBResourceImpl()
+		{
+			registerDriver(CSTRING("MySQL"),
+			               &MySQLDriver::newDriver,
+			               &MySQLQueryBuilder::newQueryBuilder);
+		}
 
 		DBDriver*
-		DBResource::
-		newDriver()
+		DBResourceImpl::
+		newDriver() const
 		{
 			return loadedDrivers.at(_pd)._dbdriverBuilderFunc();
 		}
 
 		AbstractQueryBuilder*
-		DBResource::
-		newQueryBuilder()
+		DBResourceImpl::
+		newQueryBuilder() const
 		{
 			return loadedDrivers.at(_pd)._abstractQueryBuilderFunc();
 		}
 
 		std::list<String>
-		DBResource::
-		availableDrivers()
+		DBResourceImpl::
+		availableDrivers() const
 		{
 			std::list<String> result;
 
@@ -73,7 +71,7 @@ namespace TOC
 			return result;
 		}
 
-		DBResource::DriverEntry::
+		DBResourceImpl::DriverEntry::
 		DriverEntry(shared_library* dl,
 		            function<DBDriver* (void)> dbdriverBuilderFunc,
 		            function<AbstractQueryBuilder* (void)> abstractQueryBuilderFunc)
@@ -81,7 +79,7 @@ namespace TOC
 			_dbdriverBuilderFunc(dbdriverBuilderFunc),
 			_abstractQueryBuilderFunc(abstractQueryBuilderFunc){}
 
-		DBResource::DriverEntry::
+		DBResourceImpl::DriverEntry::
 		~DriverEntry()
 		{
 			// todo: unload driver

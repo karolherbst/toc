@@ -139,8 +139,10 @@ namespace TOC
 		close()
 		{
 			// todo: close in each thread
+
+			// if no driver loaded, why we have to close connection?
 			if (driver.get() == NULL)
-				initDriver();
+				return;
 			driver->close();
 			logger.log<LOGGINGTYPE::INFO>("Database shut down");
 		}

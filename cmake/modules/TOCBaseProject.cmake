@@ -234,7 +234,6 @@ macro(setup_toc_build_env_header PNAME MAJOR MINOR PATCH)
 endmacro(setup_toc_build_env_header)
 
 macro(setup_toc_build_env_test)
-  message("-- Test --")
   ENABLE_TESTING()
   find_package(Boost 1.42 COMPONENTS ${NEEDED_BOOST_LIBS_TEST} prg_exec_monitor test_exec_monitor unit_test_framework REQUIRED)
   include_directories(

@@ -30,6 +30,9 @@
 //MySQL Driver
 #include "MySQLDriver.h"
 #include "MySQLQueryBuilder.h"
+//SQLite Driver
+#include "SQLiteDriver.h"
+#include "SQLiteQueryBuilder.h"
 
 namespace TOC
 {
@@ -41,6 +44,9 @@ namespace TOC
 			registerDriver(CSTRING("MySQL"),
 			               &MySQLDriver::newDriver,
 			               &MySQLQueryBuilder::newQueryBuilder);
+			registerDriver(CSTRING("SQLite"),
+			               &SQLiteDriver::newDriver,
+			               &SQLiteQueryBuilder::newQueryBuilder);
 		}
 
 		DBDriver*

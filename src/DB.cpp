@@ -85,34 +85,6 @@ namespace TOC
 		
 		void
 		DBImpl::
-		setDatabaseName(String& _db)
-		{
-			db = _db;
-		}
-		
-		void
-		DBImpl::
-		setUserName(String& name)
-		{
-			user = name;
-		}
-		
-		void
-		DBImpl::
-		setUserPassword(String& _pw)
-		{
-			pw = _pw;
-		}
-		
-		void
-		DBImpl::
-		setServerURL(String& _url)
-		{
-			url = _url;
-		}
-		
-		void
-		DBImpl::
 		setServerPort(uint32_t _port)
 		{
 			port = _port;
@@ -126,7 +98,7 @@ namespace TOC
 			{
 				driver->auth();
 			}
-			catch (CoreException& e)
+			catch (DBException& e)
 			{
 				logger.log<LOGGINGTYPE::ERROR>(e.what());
 				throw AuthenticationFailedException();

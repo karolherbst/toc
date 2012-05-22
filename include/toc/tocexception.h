@@ -21,6 +21,6 @@
 #ifndef LIB_TOC_EXCEPTION_INCLUDE
 #define LIB_TOC_EXCEPTION_INCLUDE 1
 
-#include <toc/tocexception/TocException.h>
+#include <toc/tocexception/CoreException.h>
 
 #endif //LIB_TOC_EXCEPTION_INCLUDE

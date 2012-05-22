@@ -18,7 +18,6 @@
 *
 */
 
-#include <boost/noncopyable.hpp>
 #include <mysql++/mysql++.h>
 #include <toc/tocdb/DBDriver.h>
 #include <toc/toclogger.h>
@@ -30,7 +29,7 @@ namespace TOC
 {
 	namespace DB
 	{
-		class MySQLDriver : public DBDriver, boost::noncopyable
+		class MySQLDriver : public DBDriver
 		{
 		public:
 			MySQLDriver();

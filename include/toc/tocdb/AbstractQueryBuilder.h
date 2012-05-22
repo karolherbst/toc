@@ -24,6 +24,7 @@
 #include <map>
 #include <queue>
 
+#include <boost/noncopyable.hpp>
 #include <toc/tocdb/DBTypes.h>
 #include <toc/tocexception/CoreException.h>
 #include <toc/tocstring/TocString.h>

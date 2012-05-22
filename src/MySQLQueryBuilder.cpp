@@ -49,44 +49,23 @@ namespace TOC
 		
 		String
 		MySQLQueryBuilder::
-		StartTransaction()
+		startTransaction()
 		{
 			return "START TRANSACTION;";
 		}
 		
 		String
 		MySQLQueryBuilder::
-		startTransaction()
-		{
-			return StartTransaction();
-		}
-		
-		String
-		MySQLQueryBuilder::
-		CommitTransaction()
+		commitTransaction()
 		{
 			return "COMMIT;";
 		}
 		
 		String
 		MySQLQueryBuilder::
-		commitTransaction()
-		{
-			return CommitTransaction();
-		}
-		
-		String
-		MySQLQueryBuilder::
-		RollbackTransaction()
-		{
-			return "ROLLBACK;";
-		}
-		
-		String
-		MySQLQueryBuilder::
 		rollbackTransaction()
 		{
-			return RollbackTransaction();
+			return "ROLLBACK;";
 		}
 		
 		String

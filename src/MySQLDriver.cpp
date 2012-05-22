@@ -39,6 +39,8 @@
 #include <boost/foreach.hpp>
 #include <toc/tocdb/DBExceptions.h>
 
+CREATE_LOGGER_NAME_CLASS_IMPL(MySQLLog, CSTRING("MySQL"));
+
 namespace TOC
 {
 	using core::CoreException;
@@ -75,11 +77,11 @@ namespace TOC
 			}
 			catch (mysqlpp::ConnectionFailed& e)
 			{
-				throw CoreException(e.what());
+				throw DBException(e.what());
 			}
 			catch (mysqlpp::DBSelectionFailed& e)
 			{
-				throw CoreException(e.what());
+				throw DBException(e.what());
 			}
 		}
 		
@@ -87,21 +89,21 @@ namespace TOC
 		MySQLDriver::
 		startTransaction()
 		{
-			exec(MySQLQueryBuilder::StartTransaction());
+			exec(MySQLQueryBuilder().startTransaction());
 		}
 		
 		void
 		MySQLDriver::
 		commit()
 		{
-			exec(MySQLQueryBuilder::CommitTransaction());
+			exec(MySQLQueryBuilder().commitTransaction());
 		}
 		
 		void
 		MySQLDriver::
 		rollback()
 		{
-			exec(MySQLQueryBuilder::RollbackTransaction());
+			exec(MySQLQueryBuilder().rollbackTransaction());
 		}
 		
 		bool
@@ -121,7 +123,7 @@ namespace TOC
 			}
 			catch (mysqlpp::Exception& e)
 			{
-				throw CoreException(CSTRING("undefined DB failure!"));
+				throw DBException(CSTRING("undefined DB failure!"));
 			}
 		}
 		
@@ -143,7 +145,7 @@ namespace TOC
 			}
 			catch (mysqlpp::Exception& e)
 			{
-				throw CoreException(CSTRING("undefined DB failure!"));
+				throw DBException(CSTRING("undefined DB failure!"));
 			}
 		}
 		
@@ -168,7 +170,7 @@ namespace TOC
 			}
 			catch (mysqlpp::Exception& e)
 			{
-				throw CoreException(CSTRING("undefined DB failure!"));
+				throw DBException(CSTRING("undefined DB failure!"));
 			}
 		}
 		

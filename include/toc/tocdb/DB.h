@@ -73,10 +73,19 @@ namespace TOC
                                    String& user,
                                    String& pw,
                                    String& db);
-            void setDatabaseName(String&);
-            void setUserName(String&);
-            void setUserPassword(String&);
-            void setServerURL(String&);
+
+			template <typename ST>
+            void setDatabaseName(const ST&);
+
+			template <typename ST>
+            void setUserName(const ST&);
+
+			template <typename ST>
+            void setUserPassword(const ST&);
+
+			template <typename ST>
+            void setServerURL(const ST&);
+
             void setServerPort(uint32_t);
             
             // db accessing
@@ -109,6 +118,38 @@ namespace TOC
         inline DBImpl& Instance()
         {
             return TOC::DB::DB::Instance();
+        }
+
+		template <typename ST>
+		void
+        DBImpl::
+        setDatabaseName(const ST& _db)
+        {
+            db = _db;
+        }
+
+		template <typename ST>
+        void
+        DBImpl::
+        setUserName(const ST& name)
+        {
+            user = name;
+        }
+
+		template <typename ST>
+        void
+        DBImpl::
+        setUserPassword(const ST& _pw)
+        {
+            pw = _pw;
+        }
+
+		template <typename ST>
+        void
+        DBImpl::
+        setServerURL(const ST& _url)
+        {
+            url = _url;
         }
     }
 }

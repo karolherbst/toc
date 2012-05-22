@@ -21,10 +21,10 @@
 #ifndef LIB_TOCCORE_COREEXCEPTION
 #define LIB_TOCCORE_COREEXCEPTION 1
 
-#include <toc/tocstring/TocString.h>
 #include <exception>
-
 #include <toc/boost/extension/impl/decl.hpp>
+#include <toc/tocstring/TocString.h>
+
 #ifndef DLL_TOC_EXCEPTION
 #ifdef MAKE_TOC_EXCEPTION
 #define DLL_TOC_EXCEPTION BOOST_EXTENSION_EXPORT_DECL
@@ -70,7 +70,7 @@ namespace TOC
              * @author  Karol Herbst
              * @since   0.1
              */
-            ~CoreException() throw();
+            virtual ~CoreException() throw() override;
             
             /**
              * method to return error message
@@ -79,8 +79,12 @@ namespace TOC
              * @since   0.1
              * @return  message from this exception
              */
-            const char* what() const throw();
-            
+            virtual const char* what() const throw() override;
+
+			const String getMessage() const;
+		protected:
+			String name;
+
         private:
             const String message;
         };
@@ -109,10 +113,10 @@ namespace TOC
 #define SUBCLASS_OF_COREXCEPTION_SUBCLASS(parentclass, childclass, str) \
 struct childclass : public parentclass                                  \
 {                                                                       \
-    childclass()                                                        \
-    :   parentclass(str){}                                              \
     childclass(String message)                                          \
-    :   parentclass(message){}                                          \
+    :   parentclass(message){this->name = #childclass;}                 \
+    childclass()                                                        \
+    :   childclass(str){}                                               \
 }
 
 #endif //LIB_TOCCORE_COREEXCEPTION

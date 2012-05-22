@@ -44,6 +44,9 @@ namespace TOC
         SUBCLASS_OF_COREXCEPTION_SUBCLASS(DBException,
                                           AuthenticationFailedException,
                                           CSTRING("authentication failed!"));
+		SUBCLASS_OF_COREXCEPTION_SUBCLASS(DBException,
+		                                  CantCloseDBException,
+		                                  CSTRING("unable to close database"));
         SUBCLASS_OF_COREXCEPTION_SUBCLASS(DBException,
                                           QueryException,
                                           CSTRING("Query failed!"));

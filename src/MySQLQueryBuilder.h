@@ -31,9 +31,6 @@ namespace TOC
         {
         public:
             //transactions, locks, etc...
-            static String StartTransaction();
-            static String CommitTransaction();
-            static String RollbackTransaction();
             String startTransaction();
             String commitTransaction();
             String rollbackTransaction();

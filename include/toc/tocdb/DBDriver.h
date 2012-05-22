@@ -21,6 +21,7 @@
 #ifndef LIB_TOCDB_DB_DBDRIVER
 #define LIB_TOCDB_DB_DBDRIVER 1
 
+#include <boost/noncopyable.hpp>
 #include <stdint.h>
 #include <toc/tocstring/TocString.h>
 #include <toc/tocdb/DBResult.h>
@@ -39,7 +40,7 @@ namespace TOC
 {
     namespace DB
     {
-        class DLL_TOC_DB DBDriver
+        class DLL_TOC_DB DBDriver : boost::noncopyable
         {
         public:
             virtual ~DBDriver();

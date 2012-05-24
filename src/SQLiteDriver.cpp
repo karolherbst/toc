@@ -23,21 +23,59 @@
 
 #include <toc/tocdb/DBExceptions.h>
 
-CREATE_LOGGER_NAME_CLASS_IMPL(SQLiteLog, CSTRING("SQLite"));
-
 namespace TOC
 {
 	namespace DB
 	{
+		template <class Exception>
+		void
+		SQLiteDriver::
+        handleError(uint16_t code,
+                    const String &sql)
+        {
+            switch (code)
+            {
+            case SQLITE_OK:
+                break;
+            default:
+                StringStream ss;
+                ss << sqlite3_errmsg(this->driver) << " (error: " << code
+                   << ", extended error: " << sqlite3_extended_errcode(this->driver)
+                   << ") in SQL statement: " << sql;
+                throw Exception(ss.str());
+            }
+        }
+
 		SQLiteDriver::
 		SQLiteDriver()
 		:	driver(nullptr)
-		{}
+		{
+			static bool initialized = false;
+			if(!initialized)
+			{
+				sqlite3_config(SQLITE_CONFIG_MULTITHREAD);
+				initialized = true;
+			}
+		}
 
 		SQLiteDriver::
 		~SQLiteDriver()
 		{
 			close();
+		}
+
+		void
+		SQLiteDriver::
+		databaseName(String s)
+		{
+			this->dbname = s;
+		}
+
+		String
+		SQLiteDriver::
+		databaseName()
+		{
+			return this->dbname;
 		}
 
 		void
@@ -53,7 +91,7 @@ namespace TOC
 		SQLiteDriver::
 		auth()
 		{
-			sqlite3_open(this->databaseName().c_str(),
+			sqlite3_open(this->sqliteFileName().c_str(),
 			             &this->driver);
 		}
 
@@ -80,9 +118,25 @@ namespace TOC
 
 		bool
 		SQLiteDriver::
-		exec(const String&)
+		exec(const String& query)
 		{
-			
+			char *error;
+			const char *tail;
+			struct sqlite3_stmt * stmt;
+
+			int ret = sqlite3_prepare_v2(this->driver,
+			                             query.c_str(),
+			                             query.size(),
+			                             &stmt,
+			                             &tail);
+			handleError<MalformedQueryException>(ret, query);
+			ret = sqlite3_step(stmt);
+			if (ret != SQLITE_DONE)
+				throw QueryWasMissUsedException("In DBDriver::exec only query without return values are alowed!");
+			handleError(ret, query);
+
+			sqlite3_finalize(stmt);
+			return ret == SQLITE_OK;
 		}
 
 		DBSingleValueResult
@@ -106,6 +160,13 @@ namespace TOC
 		newDriver()
 		{
 			return new SQLiteDriver();
+		}
+
+		String
+		SQLiteDriver::
+		sqliteFileName()
+		{
+			return this->dbname + ".sqlite";
 		}
 	}
 }

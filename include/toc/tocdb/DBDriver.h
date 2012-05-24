@@ -43,13 +43,18 @@ namespace TOC
         class DLL_TOC_DB DBDriver : boost::noncopyable
         {
         public:
-            virtual ~DBDriver();
+            inline virtual ~DBDriver(){};
             
-            String& databaseName();
-            String& userName();
-            String& userPassword();
-            String& serverURL();
-            uint32_t& serverPort();
+            inline virtual void databaseName(String){};
+            inline virtual String databaseName(){return String();};
+            inline virtual void userName(String){};
+            inline virtual String userName(){return String();};
+            inline virtual void userPassword(String){};
+            inline virtual String userPassword(){return String();};
+            inline virtual void serverURL(String){};
+            inline virtual String serverURL(){return String();};
+            inline virtual void serverPort(uint16_t){};
+            inline virtual uint16_t serverPort(){return 0;};
             
             virtual void close() = 0;
             /*
@@ -67,12 +72,6 @@ namespace TOC
                                                                 String& resultHolder) = 0;
             virtual DBSingleColResult executeSingleColQuery(const String& q,
                                                             std::vector<String>& result) = 0;
-        private:
-            String _databaseName;
-            String _userName;
-            String _userPassword;
-            String _serverURL;
-            uint32_t _serverPort;
         };
     }
 }

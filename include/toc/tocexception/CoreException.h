@@ -62,7 +62,8 @@ namespace TOC
              * @since   0.1
              * @param   message the message for the new created exception
              */
-            CoreException(String message) throw();
+			template <typename ST>
+            CoreException(const ST &message) throw();
             
             /**
              * default destructor
@@ -81,13 +82,20 @@ namespace TOC
              */
             virtual const char* what() const throw() override;
 
-			const String getMessage() const;
+			String getMessage() const;
 		protected:
 			String name;
 
         private:
             const String message;
         };
+
+		template <typename ST>
+		CoreException::
+		CoreException(const ST &_message) throw()
+		:	name("CoreException"),
+		message(_message)
+		{}
     }
 }
 
@@ -113,10 +121,11 @@ namespace TOC
 #define SUBCLASS_OF_COREXCEPTION_SUBCLASS(parentclass, childclass, str) \
 struct childclass : public parentclass                                  \
 {                                                                       \
-    childclass(String message)                                          \
-    :   parentclass(message){this->name = #childclass;}                 \
     childclass()                                                        \
     :   childclass(str){}                                               \
+	template <typename ST>                                              \
+    childclass(const ST &message)                                       \
+    :   parentclass(message){this->name = #childclass;}                 \
 }
 
 #endif //LIB_TOCCORE_COREEXCEPTION

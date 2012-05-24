@@ -29,16 +29,16 @@ namespace TOC
     class SingleThreadedProcessor
     {
     public:
-        template <class StringType>
+        template <class ST>
         void
-        add(StringType str);
+        add(const ST &str);
     };
 
     template <class Task>
-    template <class StringType>
+    template <class ST>
     void
     SingleThreadedProcessor<Task>::
-    add(StringType str)
+    add(const ST &str)
     {
         Task::run(str);
     }

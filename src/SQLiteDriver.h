@@ -19,17 +19,19 @@
 */
 
 #include <toc/tocdb/DBDriver.h>
-#include <toc/toclogger.h>
-
-CREATE_LOGGER_NAME_CLASS_DEF(SQLiteLog);
 
 namespace TOC
 {
 	namespace DB
 	{
+		class DBException;
+
 		class SQLiteDriver : public DBDriver
 		{
 		public:
+			virtual void databaseName(String) override;
+            virtual String databaseName() override;
+
 			SQLiteDriver();
 			virtual ~SQLiteDriver() override;
 
@@ -46,8 +48,14 @@ namespace TOC
 			static DBDriver* newDriver();
 
 		private:
-			CREATE_LOGGER(logger, SQLiteLog);
 			struct sqlite3 *driver;
+
+			String dbname;
+			String sqliteFileName();
+
+			template <class Exception = DBException>
+	        void handleError(uint16_t,
+                             const String& sql);
 		};
 	}
 }

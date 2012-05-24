@@ -32,12 +32,6 @@ namespace TOC
 		{}
 
 		CoreException::
-		CoreException(String _message) throw()
-		:	name("CoreException"),
-			message(_message)
-		{}
-
-		CoreException::
 		~CoreException() throw()
 		{}
 
@@ -48,7 +42,7 @@ namespace TOC
 			return static_cast<const char*>(this->getMessage().c_str());
 		}
 
-		const String
+		String
 		CoreException::
 		getMessage() const
 		{

@@ -7,7 +7,7 @@
 *   the Free Software Foundation; either version 2 of the License, or
 *   (at your option) any later version.
 *
-*   This program is distributed in the hope that it will be useful,
+   This program is distributed in the hope that it will be useful,
 *   but WITHOUT ANY WARRANTY; without even the implied warranty of
 *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 *   GNU General Public License for more details.
@@ -39,8 +39,6 @@
 #include <boost/foreach.hpp>
 #include <toc/tocdb/DBExceptions.h>
 
-CREATE_LOGGER_NAME_CLASS_IMPL(MySQLLog, CSTRING("MySQL"));
-
 namespace TOC
 {
 	using core::CoreException;
@@ -56,6 +54,77 @@ namespace TOC
 			delete conn;
 		}
 		
+
+		void
+		MySQLDriver::
+		databaseName(String s)
+		{
+			this->dbname = s;
+		}
+
+		String
+		MySQLDriver::
+		databaseName()
+		{
+			return this->dbname;
+		}
+
+		void
+		MySQLDriver::
+		userName(String s)
+		{
+			this->uname = s;
+		}
+
+		String
+		MySQLDriver::
+		userName()
+		{
+			return this->uname;
+		}
+
+		void
+		MySQLDriver::
+		userPassword(String s)
+		{
+			this->pw = s;
+		}
+
+        String
+		MySQLDriver::
+		userPassword()
+		{
+			return this->pw;
+		}
+
+        void
+		MySQLDriver::
+		serverURL(String s)
+		{
+			this->url = s;
+		}
+
+        String
+		MySQLDriver::
+		serverURL()
+		{
+			return this->url;
+		}
+
+        void
+		MySQLDriver::
+		serverPort(uint16_t i)
+		{
+			this->port = i;
+		}
+
+        uint16_t
+		MySQLDriver::
+		serverPort()
+		{
+			return this->port;
+		}
+
 		void
 		MySQLDriver::
 		close()
@@ -202,7 +271,6 @@ namespace TOC
 		handleMYSQLerrno(int32_t error,
 		                 const char* message)
 		{
-			logger.log<LOGGINGTYPE::ERROR>(message);
 			switch (error)
 			{
 				case 1146:

@@ -29,16 +29,16 @@ namespace TOC
     class SimpleAppender
     {
     public:
-        template <typename StringType, typename StringType2>
+        template <typename ST1, typename ST2>
         String
-        createOutputString(StringType str, StringType2 level);
+        createOutputString(const ST1 &str, const ST2 &level);
     };
 
     template <const Char* Name>
-    template <typename StringType, typename StringType2>
+    template <typename ST1, typename ST2>
     String
     SimpleAppender<Name>::
-    createOutputString(StringType str, StringType2 level)
+    createOutputString(const ST1 &str, const ST2 &level)
     {
         StringStream ss;
         ss << '<' << level << "> (" << Name << "): " << str;

@@ -20,10 +20,7 @@
 
 #include <mysql++/mysql++.h>
 #include <toc/tocdb/DBDriver.h>
-#include <toc/toclogger.h>
 #include <toc/tocstring/TocString.h>
-
-CREATE_LOGGER_NAME_CLASS_DEF(MySQLLog);
 
 namespace TOC
 {
@@ -34,7 +31,25 @@ namespace TOC
 		public:
 			MySQLDriver();
 			~MySQLDriver();
-			
+
+			virtual void databaseName(String) override;
+            virtual String databaseName() override;
+            virtual void userName(String) override;
+            virtual String userName() override;
+            virtual void userPassword(String) override;
+            virtual String userPassword() override;
+            virtual void serverURL(String) override;
+            virtual String serverURL() override;
+            virtual void serverPort(uint16_t) override;
+            virtual uint16_t serverPort() override;
+		private:
+			String dbname;
+			String uname;
+			String pw;
+			String url;
+			uint16_t port;
+
+		public:
 			void
 			close();
 			/*
@@ -82,9 +97,6 @@ namespace TOC
 			
 			mysqlpp::StoreQueryResult
 			store(const String&);
-			
-			CREATE_LOGGER(logger,
-			              MySQLLog);
 		};
 	}
 }

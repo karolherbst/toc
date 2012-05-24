@@ -48,14 +48,14 @@ namespace TOC
 		                                  CantCloseDBException,
 		                                  CSTRING("unable to close database"));
         SUBCLASS_OF_COREXCEPTION_SUBCLASS(DBException,
-                                          QueryException,
-                                          CSTRING("Query failed!"));
+                                          MalformedQueryException,
+                                          CSTRING("Query was malformed!"));
+        SUBCLASS_OF_COREXCEPTION_SUBCLASS(DBException,
+                                          QueryWasMissUsedException,
+                                          CSTRING("the given query was execute at the wrong place!!"));
         SUBCLASS_OF_COREXCEPTION_SUBCLASS(DBException,
                                           EmptyResultException,
                                           CSTRING("The Result is empty!"));
-        SUBCLASS_OF_COREXCEPTION_SUBCLASS(DBException,
-                                          QueryFailedException,
-                                          CSTRING("The query failed!"));
         SUBCLASS_OF_COREXCEPTION_SUBCLASS(DBException,
                                           TableDoesntExistException,
                                           CSTRING("The query failed!"));

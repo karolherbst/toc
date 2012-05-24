@@ -80,9 +80,9 @@ namespace TOC
 		 * @param   str		 the input string
 		 * @return  TOC::TocLogger
 		 */
-		template <LOGGINGTYPE, typename StringType>
-		inline TocLogger TEMPLATE_CLASS_ARG &
-		log(StringType str);
+		template <LOGGINGTYPE, typename ST>
+		TocLogger TEMPLATE_CLASS_ARG &
+		log(const ST &str);
 
 		/**
 		 * constructor with booleans for activating logger levels
@@ -139,14 +139,14 @@ namespace TOC
 		          false){}
 
 	TEMPLATE_CLASS_DEF
-	template<LOGGINGTYPE type, typename StringType>
+	template<LOGGINGTYPE type, typename ST>
 	TocLogger TEMPLATE_CLASS_ARG &
 	TocLogger TEMPLATE_CLASS_ARG::
-	log( StringType str )
+	log( const ST &str )
 	{
 		if ( globalEnables[ (uint16_t) type ] && enables[ (uint16_t) type] )
 		   processor.add( appender.createOutputString( str,
-		LOG_STRINGS[ (uint16_t) type] ) );
+		                                               LOG_STRINGS[ (uint16_t) type] ) );
 		return *this;
 	}
 

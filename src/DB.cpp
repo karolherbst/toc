@@ -60,11 +60,11 @@ namespace TOC
 		initDriver()
 		{
 			driver.reset(DBResource::Instance().newDriver());
-			driver->databaseName() = db;
-			driver->userName() = user;
-			driver->userPassword() = pw;
-			driver->serverURL() = url;
-			driver->serverPort() = port;
+			driver->databaseName(db);
+			driver->userName(user);
+			driver->userPassword(pw);
+			driver->serverURL(url);
+			driver->serverPort(port);
 			Open();
 		}
 		

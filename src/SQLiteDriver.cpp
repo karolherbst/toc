@@ -20,6 +20,7 @@
 
 #include <sqlite3.h>
 #include "SQLiteDriver.h"
+#include "SQLiteQueryBuilder.h"
 
 #include <toc/tocdb/DBExceptions.h>
 
@@ -99,21 +100,21 @@ namespace TOC
 		SQLiteDriver::
 		startTransaction()
 		{
-			
+			this->exec(SQLiteQueryBuilder().startTransaction());
 		}
 
 		void
 		SQLiteDriver::
 		commit()
 		{
-			
+			this->exec(SQLiteQueryBuilder().commitTransaction());
 		}
 
 		void
 		SQLiteDriver::
 		rollback()
 		{
-			
+			this->exec(SQLiteQueryBuilder().rollbackTransaction());
 		}
 
 		bool
@@ -122,7 +123,7 @@ namespace TOC
 		{
 			char *error;
 			const char *tail;
-			struct sqlite3_stmt * stmt;
+			struct sqlite3_stmt *stmt;
 
 			int ret = sqlite3_prepare_v2(this->driver,
 			                             query.c_str(),
@@ -144,7 +145,30 @@ namespace TOC
 		executeSingleValueQuery(const String& query,
 		                        String& resultHolder)
 		{
-			
+			char *error;
+			const char *tail;
+			struct sqlite3_stmt *stmt;
+
+			int ret = sqlite3_prepare_v2(this->driver,
+			                             query.c_str(),
+			                             query.size(),
+			                             &stmt,
+			                             &tail);
+			this->handleError<MalformedQueryException>(ret, query);
+			ret = sqlite3_step(stmt);
+			if (ret == SQLITE_OK)
+				throw EmptyResultException();
+			else if (ret != SQLITE_ROW)
+				this->handleError(ret, query);
+
+			DBSingleValueResult result(this->convertSQLiteTypeToString(stmt,
+			                                                           0,
+			                                                           sqlite3_column_type(stmt, 0)
+			                                                          ));
+
+			ret = sqlite3_step(stmt);
+			handleError(ret, query);
+			return result;
 		}
 
 		DBSingleColResult
@@ -167,6 +191,30 @@ namespace TOC
 		sqliteFileName()
 		{
 			return this->dbname + ".sqlite";
+		}
+
+		String
+		SQLiteDriver::
+		convertSQLiteTypeToString(struct sqlite3_stmt *stmt,
+		                          int index,
+		                          int type)
+		{
+			switch (type)
+			{
+			case SQLITE_INTEGER:
+				return lexical_cast<String>(sqlite3_column_int64(stmt, index));
+				break;
+			case SQLITE_FLOAT:
+				return lexical_cast<String>(sqlite3_column_double(stmt, index));
+				break;
+			case SQLITE_BLOB:
+				return lexical_cast<String>(sqlite3_column_bytes16(stmt, index));
+			case SQLITE_NULL:
+				return nullptr;
+			case SQLITE_TEXT:
+				return lexical_cast<String>(sqlite3_column_text(stmt, index));
+				break;
+			}
 		}
 	}
 }

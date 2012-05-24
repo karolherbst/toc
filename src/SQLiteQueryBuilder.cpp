@@ -87,21 +87,21 @@ namespace TOC
 		SQLiteQueryBuilder::
 		startTransaction()
 		{
-			
+			return "BEGIN";
 		}
 
 		String
 		SQLiteQueryBuilder::
 		commitTransaction()
 		{
-			
+			return "COMMIT";
 		}
 
 		String
 		SQLiteQueryBuilder::
 		rollbackTransaction()
 		{
-			
+			return "ROLLBACK";
 		}
 
 		const uint64_t

@@ -56,6 +56,9 @@ namespace TOC
 			template <class Exception = DBException>
 	        void handleError(uint16_t,
                              const String& sql);
+			String convertSQLiteTypeToString(struct sqlite3_stmt *stmt,
+			                                 int index,
+			                                 int type);
 		};
 	}
 }

@@ -32,7 +32,7 @@ namespace TOC
         template <typename Type>
         struct DBResult
         {
-            DBResult(Type& result);
+            DBResult(const Type& result);
             DBResult();
             
             const Type& result;
@@ -47,7 +47,7 @@ namespace TOC
         
         template <typename T>
         DBResult<T>::
-        DBResult(T& _result)
+        DBResult(const T& _result)
         :   result(_result),
         empty(false)
         {

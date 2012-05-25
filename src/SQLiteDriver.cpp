@@ -92,8 +92,8 @@ namespace TOC
 		SQLiteDriver::
 		auth()
 		{
-			sqlite3_open(this->sqliteFileName().c_str(),
-			             &this->driver);
+			return sqlite3_open(this->sqliteFileName().c_str(),
+			                    &this->driver) == SQLITE_OK;
 		}
 
 		void
@@ -121,7 +121,6 @@ namespace TOC
 		SQLiteDriver::
 		exec(const String& query)
 		{
-			char *error;
 			const char *tail;
 			struct sqlite3_stmt *stmt;
 
@@ -135,7 +134,6 @@ namespace TOC
 			if (ret != SQLITE_DONE)
 				throw QueryWasMissUsedException("In DBDriver::exec only query without return values are alowed!");
 			handleError(ret, query);
-
 			sqlite3_finalize(stmt);
 			return ret == SQLITE_OK;
 		}
@@ -145,7 +143,6 @@ namespace TOC
 		executeSingleValueQuery(const String& query,
 		                        String& resultHolder)
 		{
-			char *error;
 			const char *tail;
 			struct sqlite3_stmt *stmt;
 
@@ -161,14 +158,14 @@ namespace TOC
 			else if (ret != SQLITE_ROW)
 				this->handleError(ret, query);
 
-			DBSingleValueResult result(this->convertSQLiteTypeToString(stmt,
-			                                                           0,
-			                                                           sqlite3_column_type(stmt, 0)
-			                                                          ));
-
+			resultHolder = this->convertSQLiteTypeToString(stmt,
+			                                               0,
+			                                               sqlite3_column_type(stmt, 0)
+			                                              );
 			ret = sqlite3_step(stmt);
 			handleError(ret, query);
-			return result;
+			sqlite3_finalize(stmt);
+			return DBSingleValueResult(resultHolder);
 		}
 
 		DBSingleColResult
@@ -176,7 +173,33 @@ namespace TOC
 		executeSingleColQuery(const String& q,
 		                      std::vector<String>& result)
 		{
-			
+			char *error;
+			const char *tail;
+			struct sqlite3_stmt *stmt;
+
+			int ret = sqlite3_prepare_v2(this->driver,
+			                             q.c_str(),
+			                             q.size(),
+			                             &stmt,
+			                             &tail);
+			this->handleError<MalformedQueryException>(ret, q);
+			ret = sqlite3_step(stmt);
+			if (ret == SQLITE_OK)
+				throw EmptyResultException();
+			else if (ret != SQLITE_ROW)
+				this->handleError(ret, q);
+
+			int type = sqlite3_column_type(stmt, 0);
+			while ( ret == SQLITE_ROW )
+			{
+				result.push_back(this->convertSQLiteTypeToString(stmt,
+				                                                 0,
+				                                                 type));
+				ret = sqlite3_step(stmt);
+			}
+			handleError(ret, q);
+			sqlite3_finalize(stmt);
+			return DBSingleColResult(result);
 		}
 
 		DBDriver*
@@ -209,10 +232,13 @@ namespace TOC
 				break;
 			case SQLITE_BLOB:
 				return lexical_cast<String>(sqlite3_column_bytes16(stmt, index));
-			case SQLITE_NULL:
-				return nullptr;
+				break;
 			case SQLITE_TEXT:
 				return lexical_cast<String>(sqlite3_column_text(stmt, index));
+				break;
+			case SQLITE_NULL:
+			default:
+				return nullptr;
 				break;
 			}
 		}

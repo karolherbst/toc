@@ -50,7 +50,7 @@ namespace TOC
 		{
 			std::stringstream ss;
 			ss << "CREATE TABLE " << entityclass()
-			   << " (ID INT UNSIGNED NOT NULL AUTO_INCREMENT, PRIMARY KEY(ID) ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
+			   << " (ID INTEGER UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 			return ss.str();
 		}
 		
@@ -68,19 +68,6 @@ namespace TOC
 			   << t1 << " (ID) ON DELETE CASCADE ON UPDATE CASCADE, CONSTRAINT "
 			   << t2 << " FOREIGN KEY (" << t2 << ") REFERENCES " << t2
 			   << " (ID) ON DELETE RESTRICT ON UPDATE CASCADE) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
-			return ss.str();
-		}
-		
-		String
-		MySQLQueryBuilder::
-		buildAddAttributeQuery(const String& defaultValue,
-		                       const String& type,
-		                       const int16_t size)
-		{
-			std::stringstream ss;
-			ss << "ALTER TABLE " << entityclass() << " ADD COLUMN " << attribute()
-			   << replaceType(type) << '(' << size << ") " << "DEFAULT '"
-			   << defaultValue << "';";
 			return ss.str();
 		}
 		

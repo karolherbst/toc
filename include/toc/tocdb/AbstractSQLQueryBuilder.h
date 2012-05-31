@@ -47,9 +47,6 @@ namespace TOC
             virtual String buildCreateEntityClassQuery() = 0;
             virtual String buildRelationEntityClassQuery(const String& t1,
                                                          const String& t2) = 0;
-            virtual String buildAddAttributeQuery(const String& defaultValue,
-                                                  const String& type,
-                                                  const int16_t size) = 0;
             virtual String buildIDSelectQuery() = 0;
             virtual String buildSingleAttributeSelectQuery() = 0;
             virtual String buildSingleValueInsertQuery(const String& attribute) = 0;
@@ -63,6 +60,9 @@ namespace TOC
             virtual String rollbackTransaction() override;
             virtual String buildSingleValueSelectQuery() override;
 			virtual String buildDeleteEntityClassQuery(bool ifExists = false) override;
+            virtual String buildAddAttributeQuery(const String& defaultValue,
+                                                  const String& type,
+                                                  const int16_t size) override;
 		protected:
 			virtual String replaceASCnDESC(ORDER o);
 			virtual String replaceType(const String& type) = 0;

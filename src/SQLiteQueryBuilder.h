@@ -33,9 +33,6 @@ namespace TOC
 			virtual String buildIdInsertQuery(std::map<String, String>&) override;
 			virtual String buildRelationEntityClassQuery(const String&,
 			                                             const String&) override;
-			virtual String buildAddAttributeQuery(const String& defaultValue,
-			                                      const String& _type,
-			                                      const int16_t size) override;
 			virtual String buildSingleValueInsertQuery(const String&) override;
 
 			virtual String startTransaction() override;

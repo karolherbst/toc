@@ -83,15 +83,6 @@ namespace TOC
 
 		String
 		SQLiteQueryBuilder::
-		buildAddAttributeQuery(const String& defaultValue,
-		                              const String& _type,
-		                              const int16_t size)
-		{
-			
-		}
-
-		String
-		SQLiteQueryBuilder::
 		buildSingleValueInsertQuery(const String&)
 		{
 			

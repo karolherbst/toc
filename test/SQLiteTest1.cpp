@@ -6,6 +6,7 @@
 #include <toc/tocdb/DB.h>
 #include <toc/tocdb/DBMS.h>
 #include <toc/tocdb/DBResource.h>
+#include <toc/tocdb/StandardTypes.h>
 
 using namespace TOC::DB;
 #define BOOST_TEST_LOG_LEVEL all
@@ -24,6 +25,10 @@ BOOST_AUTO_TEST_CASE( CheckConnection )
 		db.createTransaction();
 		db.executeQuery(qb1.buildDeleteEntityClassQuery(true));
 		db.executeQuery(qb1.buildCreateEntityClassQuery());
+
+		qb1.attribute("name");
+		db.executeQuery(qb1.buildAddAttributeQuery(String("karol"), TOC::DBString, 32));
+
 		db.commit();
 	}
 	catch (DBException &e){}

@@ -73,5 +73,18 @@ namespace TOC
 			ss << entityclass() << ";";
 			return ss.str();
 		}
+
+		String
+        AbstractSQLQueryBuilder::
+        buildAddAttributeQuery(const String& defaultValue,
+                               const String& type,
+                               const int16_t size)
+        {
+            std::stringstream ss;
+            ss << "ALTER TABLE " << entityclass() << " ADD COLUMN " << attribute()
+               << replaceType(type) << '(' << size << ") " << "DEFAULT '"
+               << defaultValue << "';";
+            return ss.str();
+        }
 	}
 }

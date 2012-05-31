@@ -136,7 +136,7 @@ namespace TOC
 	:	TocLogger(true,
 		          true,
 		          true,
-		          false){}
+		          true){}
 
 	TEMPLATE_CLASS_DEF
 	template<LOGGINGTYPE type, typename ST>

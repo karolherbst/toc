@@ -20,29 +20,50 @@
 
 #include "SQLiteQueryBuilder.h"
 
+#include <toc/tocdb/StandardTypes.h>
+
 namespace TOC
 {
 	namespace DB
 	{
 		String
 		SQLiteQueryBuilder::
+        replaceType(const String& type)
+   	    {
+       	    if (type == DBInt)
+           	    return " INT";
+            if (type == DBString)
+   	            return " TEXT";
+       	    if (type == DBFloat)
+           	    return " REAL";
+            if (type == DBText)
+   	            return " TEXT";
+       	    return "";
+        }
+
+		String
+		SQLiteQueryBuilder::
 		buildCreateEntityClassQuery()
 		{
-			
+			std::stringstream ss;
+			ss << "CREATE TABLE " << entityclass()
+				// we use INTEGER here, because it will be an alias for the internal rowid used by sqlite
+			   << " (ID INTEGER NOT NULL PRIMARY KEY ASC AUTOINCREMENT);";
+			return ss.str();
 		}
 
 		String
 		SQLiteQueryBuilder::
 		buildSingleAttributeSelectQuery()
 		{
-			
+
 		}
 
 		String
 		SQLiteQueryBuilder::
 		buildIDSelectQuery()
 		{
-			
+
 		}
 
 		String
@@ -71,13 +92,6 @@ namespace TOC
 
 		String
 		SQLiteQueryBuilder::
-		buildSingleValueSelectQuery()
-		{
-			
-		}
-
-		String
-		SQLiteQueryBuilder::
 		buildSingleValueInsertQuery(const String&)
 		{
 			
@@ -87,63 +101,49 @@ namespace TOC
 		SQLiteQueryBuilder::
 		startTransaction()
 		{
-			return "BEGIN";
-		}
-
-		String
-		SQLiteQueryBuilder::
-		commitTransaction()
-		{
-			return "COMMIT";
-		}
-
-		String
-		SQLiteQueryBuilder::
-		rollbackTransaction()
-		{
-			return "ROLLBACK";
+			return "BEGIN TRANSACTION;";
 		}
 
 		const uint64_t
 		SQLiteQueryBuilder::
 		id() const
 		{
-			
+			return this->_id;
 		}
 
 		void
 		SQLiteQueryBuilder::
-		id(const uint64_t&)
+		id(const uint64_t &i)
 		{
-			
+			this->_id = i;
 		}
 
 		const String
 		SQLiteQueryBuilder::
 		attribute() const
 		{
-			
+			return this->_attribute;
 		}
 
 		void
 		SQLiteQueryBuilder::
-		attribute(const String&)
+		attribute(const String &s)
 		{
-			
+			this->_attribute = s;
 		}
 
 		const String
 		SQLiteQueryBuilder::
 		entityclass() const
 		{
-			
+			return this->_entityclass;
 		}
 
 		void
 		SQLiteQueryBuilder::
-		entityclass(const String&)
+		entityclass(const String& s)
 		{
-			
+			this->_entityclass = s;
 		}
 		
 		AbstractQueryBuilder*

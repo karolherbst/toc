@@ -64,7 +64,7 @@ namespace TOC
 		 * @author	Karol Herbst
 		 * @since	0.1
 		 */
-        class DLL_TOC_DB AbstractQueryBuilder
+        class DLL_TOC_DB AbstractQueryBuilder : boost::noncopyable
         {
         public:
 			/**
@@ -185,6 +185,7 @@ namespace TOC
              * @since   0.1
              */
             virtual String buildCreateEntityClassQuery() = 0;
+			virtual String buildDeleteEntityClassQuery(bool ifExists = false) = 0;
             
             /**
              * creates a query to create a relation entityclass between to others

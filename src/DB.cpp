@@ -134,7 +134,14 @@ namespace TOC
 		{
 			if (driver.get() == NULL)
 				initDriver();
-			driver->startTransaction();
+			try
+			{
+				driver->startTransaction();
+			}
+			catch (DBException &e)
+			{
+				logger.log<LOGGINGTYPE::ERROR>(e.what());
+			}
 		}
 		
 		void
@@ -143,7 +150,14 @@ namespace TOC
 		{
 			if (driver.get() == NULL)
 				initDriver();
-			driver->commit();
+			try
+			{
+				driver->commit();
+			}
+			catch (DBException &e)
+			{
+				logger.log<LOGGINGTYPE::ERROR>(e.what());
+			}
 		}
 		
 		void
@@ -152,7 +166,14 @@ namespace TOC
 		{
 			if (driver.get() == NULL)
 				initDriver();
-			driver->rollback();
+			try
+			{
+				driver->rollback();
+			}
+			catch (DBException &e)
+			{
+				logger.log<LOGGINGTYPE::ERROR>(e.what());
+			}
 		}
 		
 		void
@@ -162,7 +183,15 @@ namespace TOC
 			if (driver.get() == NULL)
 				initDriver();
 			logger.log<LOGGINGTYPE::DEBUG>(q);
-			driver->exec(q);
+			try
+			{
+				driver->exec(q);
+			}
+			catch (DBException &e)
+			{
+				logger.log<LOGGINGTYPE::ERROR>(e.what());
+				throw CoreException("a critical error occured during DB::executeQuery");
+			}
 		}
 		
 		void
@@ -171,6 +200,7 @@ namespace TOC
 		                 bool&)
 		{
 			logger.log<LOGGINGTYPE::DEBUG>(q);
+			throw MethodNotImplementedException();
 		}
 		
 		void
@@ -181,8 +211,15 @@ namespace TOC
 			if (driver.get() == NULL)
 				initDriver();
 			logger.log<LOGGINGTYPE::DEBUG>(q);
-			DBSingleValueResult dbresult = driver->executeSingleValueQuery(q,
-			                                                               result);
+			try
+			{
+				DBSingleValueResult dbresult = driver->executeSingleValueQuery(q,
+				                                                               result);
+			}
+			catch (DBException &e)
+			{
+				logger.log<LOGGINGTYPE::ERROR>(e.what());
+			}
 		}
 		
 		void
@@ -193,6 +230,7 @@ namespace TOC
 			if (driver.get() == NULL)
 				initDriver();
 			logger.log<LOGGINGTYPE::DEBUG>(q);
+			throw MethodNotImplementedException();
 		}
 		
 		void
@@ -203,8 +241,15 @@ namespace TOC
 			if (driver.get() == NULL)
 				initDriver();
 			logger.log<LOGGINGTYPE::DEBUG>(q);
-			DBSingleColResult dbresult = driver->executeSingleColQuery(q,
-			                                                           result);
+			try
+			{
+				DBSingleColResult dbresult = driver->executeSingleColQuery(q,
+				                                                           result);
+			}
+			catch (DBException &e)
+			{
+				logger.log<LOGGINGTYPE::ERROR>(e.what());
+			}
 		}
 		
 		void
@@ -215,6 +260,7 @@ namespace TOC
 			if (driver.get() == NULL)
 				initDriver();
 			logger.log<LOGGINGTYPE::DEBUG>(q);
+			throw MethodNotImplementedException();
 		}
 	}
 }

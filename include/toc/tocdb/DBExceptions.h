@@ -29,36 +29,36 @@ namespace TOC
     {
         COREEXCEPTION_SUBCLASS(DBException,
                                CSTRING("critical DB failure"));
-        SUBCLASS_OF_COREXCEPTION_SUBCLASS(DBException,
-                                          CantLoadDriverLib,
-                                          CSTRING("failed to load driver lib!"));
-		SUBCLASS_OF_COREXCEPTION_SUBCLASS(DBException,
-		                                  DriverNotLoaded,
-		                                  CSTRING("the given driver is not loaded"));
-        SUBCLASS_OF_COREXCEPTION_SUBCLASS(DBException,
-                                          DriverLibNotValid,
-                                          CSTRING("the driver lib isn't valid!"));
-        SUBCLASS_OF_COREXCEPTION_SUBCLASS(DBException,
-                                          CantConnectToDBException,
-                                          CSTRING("can't connect to db!"));
-        SUBCLASS_OF_COREXCEPTION_SUBCLASS(DBException,
-                                          AuthenticationFailedException,
-                                          CSTRING("authentication failed!"));
-		SUBCLASS_OF_COREXCEPTION_SUBCLASS(DBException,
-		                                  CantCloseDBException,
-		                                  CSTRING("unable to close database"));
-        SUBCLASS_OF_COREXCEPTION_SUBCLASS(DBException,
-                                          MalformedQueryException,
-                                          CSTRING("Query was malformed!"));
-        SUBCLASS_OF_COREXCEPTION_SUBCLASS(DBException,
-                                          QueryWasMissUsedException,
-                                          CSTRING("the given query was execute at the wrong place!!"));
-        SUBCLASS_OF_COREXCEPTION_SUBCLASS(DBException,
-                                          EmptyResultException,
-                                          CSTRING("The Result is empty!"));
-        SUBCLASS_OF_COREXCEPTION_SUBCLASS(DBException,
-                                          TableDoesntExistException,
-                                          CSTRING("The query failed!"));
+        SUBCLASS_OF_COREEXCEPTION_SUBCLASS(DBException,
+                                           CantLoadDriverLib,
+                                           CSTRING("failed to load driver lib!"));
+		SUBCLASS_OF_COREEXCEPTION_SUBCLASS(DBException,
+		                                   DriverNotLoaded,
+		                                   CSTRING("the given driver is not loaded"));
+        SUBCLASS_OF_COREEXCEPTION_SUBCLASS(DBException,
+                                           DriverLibNotValid,
+                                           CSTRING("the driver lib isn't valid!"));
+        SUBCLASS_OF_COREEXCEPTION_SUBCLASS(DBException,
+                                           CantConnectToDBException,
+                                           CSTRING("can't connect to db!"));
+        SUBCLASS_OF_COREEXCEPTION_SUBCLASS(DBException,
+                                           AuthenticationFailedException,
+                                           CSTRING("authentication failed!"));
+		SUBCLASS_OF_COREEXCEPTION_SUBCLASS(DBException,
+		                                   CantCloseDBException,
+		                                   CSTRING("unable to close database"));
+        SUBCLASS_OF_COREEXCEPTION_SUBCLASS(DBException,
+                                           MalformedQueryException,
+                                           CSTRING("Query was malformed!"));
+        SUBCLASS_OF_COREEXCEPTION_SUBCLASS(DBException,
+                                           QueryWasMissUsedException,
+                                           CSTRING("the given query was execute at the wrong place!!"));
+        SUBCLASS_OF_COREEXCEPTION_SUBCLASS(DBException,
+                                           EmptyResultException,
+                                           CSTRING("The Result is empty!"));
+        SUBCLASS_OF_COREEXCEPTION_SUBCLASS(DBException,
+                                           TableDoesntExistException,
+                                           CSTRING("The query failed!"));
     }
 }
 

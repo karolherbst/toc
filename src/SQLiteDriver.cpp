@@ -37,6 +37,7 @@ namespace TOC
             switch (code)
             {
             case SQLITE_OK:
+			case SQLITE_DONE:
                 break;
             default:
                 StringStream ss;

@@ -18,23 +18,17 @@
 *
 */
 
-#include <boost/noncopyable.hpp>
 #include <toc/boost/extension/extension.hpp>
-#include <toc/tocdb/AbstractQueryBuilder.h>
+#include <toc/tocdb/AbstractSQLQueryBuilder.h>
 #include <toc/tocdb/StandardTypes.h>
 
 namespace TOC
 {
     namespace DB
     {
-        class BOOST_EXTENSION_EXPORT_DECL MySQLQueryBuilder : public AbstractQueryBuilder, boost::noncopyable
+        class BOOST_EXTENSION_EXPORT_DECL MySQLQueryBuilder : public AbstractSQLQueryBuilder
         {
         public:
-            //transactions, locks, etc...
-            String startTransaction();
-            String commitTransaction();
-            String rollbackTransaction();
-            
             String buildIdInsertQuery(std::map<String, String>&);
             String buildRelationEntityClassQuery(const String&,
                                                  const String&);
@@ -46,7 +40,6 @@ namespace TOC
             
             // selects
             String buildIDSelectQuery();
-            String buildSingleValueSelectQuery();
             
             // inserts
             String buildSingleValueInsertQuery(const String&);
@@ -61,6 +54,8 @@ namespace TOC
 			void entityclass(const String&);
 
 			static AbstractQueryBuilder* newQueryBuilder();
+		protected:
+			virtual String replaceType(const String& type) override;
         private:
             template<class T>
             void buildOrderPart(T& ss);

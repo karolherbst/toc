@@ -29,12 +29,9 @@ namespace TOC
 {
 	namespace DB
 	{
-		String replaceASCnDESC(ORDER o)
-		{
-			return o == ORDER::ASC ? "ASC" : "DESC";
-		}
-		
-		String replaceType(const String& type)
+		String
+		MySQLQueryBuilder::
+		replaceType(const String& type)
 		{
 			if (type == DBInt)
 				return " INT";
@@ -46,28 +43,7 @@ namespace TOC
 				return " TEXT";
 			return " VARCHAR";
 		}
-		
-		String
-		MySQLQueryBuilder::
-		startTransaction()
-		{
-			return "START TRANSACTION;";
-		}
-		
-		String
-		MySQLQueryBuilder::
-		commitTransaction()
-		{
-			return "COMMIT;";
-		}
-		
-		String
-		MySQLQueryBuilder::
-		rollbackTransaction()
-		{
-			return "ROLLBACK;";
-		}
-		
+
 		String
 		MySQLQueryBuilder::
 		buildCreateEntityClassQuery()
@@ -117,16 +93,6 @@ namespace TOC
 			buildWherePart(ss);
 			buildOrderPart(ss);
 			ss << ';';
-			return ss.str();
-		}
-		
-		String
-		MySQLQueryBuilder::
-		buildSingleValueSelectQuery()
-		{
-			std::stringstream ss;
-			ss << "SELECT " << attribute() << " FROM " << entityclass() << " WHERE ID='"
-			   << id() << "';";
 			return ss.str();
 		}
 		

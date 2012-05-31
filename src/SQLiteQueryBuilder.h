@@ -18,13 +18,13 @@
 *
 */
 
-#include <toc/tocdb/AbstractQueryBuilder.h>
+#include <toc/tocdb/AbstractSQLQueryBuilder.h>
 
 namespace TOC
 {
 	namespace DB
 	{
-		class SQLiteQueryBuilder : public AbstractQueryBuilder
+		class SQLiteQueryBuilder : public AbstractSQLQueryBuilder
 		{
 		public:
 			virtual String buildCreateEntityClassQuery() override;
@@ -36,12 +36,9 @@ namespace TOC
 			virtual String buildAddAttributeQuery(const String& defaultValue,
 			                                      const String& _type,
 			                                      const int16_t size) override;
-			virtual String buildSingleValueSelectQuery() override;
 			virtual String buildSingleValueInsertQuery(const String&) override;
 
 			virtual String startTransaction() override;
-			virtual String commitTransaction() override;
-			virtual String rollbackTransaction() override;
 
 			virtual const uint64_t id() const override;
 			virtual void id(const uint64_t&) override;
@@ -53,6 +50,12 @@ namespace TOC
 			virtual void entityclass(const String&) override;
 
 			static AbstractQueryBuilder* newQueryBuilder();
+		protected:
+			virtual String replaceType(const String& type) override;
+		private:
+			String _entityclass;
+			String _attribute;
+			uint64_t _id;
 		};
 	}
 }

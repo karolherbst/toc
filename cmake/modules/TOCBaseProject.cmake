@@ -246,6 +246,9 @@ macro(add_toc_test TESTNAME)
   if(NOT TOC_TEST_ENABLED)
     setup_toc_build_env_test()
   endif()
+  include_directories(
+    ${TOC_SRC_DIR}
+  )
   file(GLOB ${TESTNAME}_SRC ${TOC_TEST_DIR}/${TESTNAME}*.c
                             ${TOC_TEST_DIR}/${TESTNAME}*.C
                             ${TOC_TEST_DIR}/${TESTNAME}*.cc

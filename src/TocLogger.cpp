@@ -33,7 +33,7 @@ namespace TOC
 		true,
 		true,
 		true,
-		false
+		true
 	};
 }
 

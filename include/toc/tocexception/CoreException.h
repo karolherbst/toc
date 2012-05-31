@@ -100,16 +100,6 @@ namespace TOC
 }
 
 /**
- * this macro provides a simple was to subclass from CoreException
- *
- * @author  Karol Herbst
- * @since   0.1
- * @param   classname   the name of the new exception class
- * @param   string      default error message
- */
-#define COREEXCEPTION_SUBCLASS(classname, string) SUBCLASS_OF_COREXCEPTION_SUBCLASS(TOC::core::CoreException, classname, string)
-
-/**
  * this macro provides a simple way to subclass a CoreException subclass
  *
  * @author  Karol Herbst
@@ -118,14 +108,27 @@ namespace TOC
  * @param   childclass  the new exception class name
  * @param  str         the default message
  */
-#define SUBCLASS_OF_COREXCEPTION_SUBCLASS(parentclass, childclass, str) \
-struct childclass : public parentclass                                  \
-{                                                                       \
-    childclass()                                                        \
-    :   childclass(str){}                                               \
-	template <typename ST>                                              \
-    childclass(const ST &message)                                       \
-    :   parentclass(message){this->name = #childclass;}                 \
+#define SUBCLASS_OF_COREEXCEPTION_SUBCLASS(parentclass, childclass, str) \
+struct childclass : public parentclass                                   \
+{                                                                        \
+    childclass()                                                         \
+    :   childclass(str){}                                                \
+	template <typename ST>                                               \
+    childclass(const ST &message)                                        \
+    :   parentclass(message){this->name = #childclass;}                  \
 }
+
+/**
+ * this macro provides a simple was to subclass from CoreException
+ *
+ * @author  Karol Herbst
+ * @since   0.1
+ * @param   classname   the name of the new exception class
+ * @param   string      default error message
+ */
+#define COREEXCEPTION_SUBCLASS(classname, string) SUBCLASS_OF_COREEXCEPTION_SUBCLASS(TOC::core::CoreException, classname, string)
+
+COREEXCEPTION_SUBCLASS(DeveloperException, "Some dev did shit!");
+SUBCLASS_OF_COREEXCEPTION_SUBCLASS(DeveloperException, MethodNotImplementedException, "Method not implemented!");
 
 #endif //LIB_TOCCORE_COREEXCEPTION

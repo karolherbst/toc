@@ -37,12 +37,12 @@ namespace TOC
         class DLL_TOC_DB AbstractSQLQueryBuilder : public AbstractQueryBuilder
         {
         public:
-			virtual const String entityclass() const = 0;
-			virtual void entityclass(const String & entityclass) = 0;
-			virtual const String attribute() const = 0;
-			virtual void attribute(const String & attribute) = 0;
-			virtual const uint64_t id() const = 0;
-			virtual void id(const uint64_t & id) = 0;
+			virtual const String entityclass() const override;
+			virtual void entityclass(const String & entityclass) override;
+			virtual const String attribute() const override;
+			virtual void attribute(const String & attribute) override;
+			virtual const uint64_t id() const override;
+			virtual void id(const uint64_t & id) override;
 
             virtual String buildCreateEntityClassQuery() = 0;
             virtual String buildRelationEntityClassQuery(const String& t1,
@@ -66,6 +66,10 @@ namespace TOC
 		protected:
 			virtual String replaceASCnDESC(ORDER o);
 			virtual String replaceType(const String& type) = 0;
+		private:
+			String _entityclass;
+			String _attribute;
+			uint64_t _id;
         };
     }
 }

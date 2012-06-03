@@ -37,22 +37,9 @@ namespace TOC
 
 			virtual String startTransaction() override;
 
-			virtual const uint64_t id() const override;
-			virtual void id(const uint64_t&) override;
-
-			virtual const String attribute() const override;
-			virtual void attribute(const String&) override;
-
-			virtual const String entityclass() const override;
-			virtual void entityclass(const String&) override;
-
 			static AbstractQueryBuilder* newQueryBuilder();
 		protected:
 			virtual String replaceType(const String& type) override;
-		private:
-			String _entityclass;
-			String _attribute;
-			uint64_t _id;
 		};
 	}
 }

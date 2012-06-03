@@ -208,48 +208,6 @@ namespace TOC
 			}
 		}
 
-		const uint64_t
-		MySQLQueryBuilder::
-		id() const
-		{
-			return _id;
-		}
-
-		void
-		MySQLQueryBuilder::
-		id(const uint64_t &i)
-		{
-			_id = i;
-		}
-
-		const String
-		MySQLQueryBuilder::
-		attribute() const
-		{
-			return _attribute;
-		}
-
-		void
-		MySQLQueryBuilder::
-		attribute(const String &a)
-		{
-			_attribute = a;
-		}
-
-		const String
-		MySQLQueryBuilder::
-		entityclass() const
-		{
-			return _entityclass;
-		}
-
-		void
-		MySQLQueryBuilder::
-		entityclass(const String &e)
-		{
-			_entityclass = e;
-		}
-
 		AbstractQueryBuilder*
 		MySQLQueryBuilder::
 		newQueryBuilder()

@@ -95,48 +95,6 @@ namespace TOC
 			return "BEGIN TRANSACTION;";
 		}
 
-		const uint64_t
-		SQLiteQueryBuilder::
-		id() const
-		{
-			return this->_id;
-		}
-
-		void
-		SQLiteQueryBuilder::
-		id(const uint64_t &i)
-		{
-			this->_id = i;
-		}
-
-		const String
-		SQLiteQueryBuilder::
-		attribute() const
-		{
-			return this->_attribute;
-		}
-
-		void
-		SQLiteQueryBuilder::
-		attribute(const String &s)
-		{
-			this->_attribute = s;
-		}
-
-		const String
-		SQLiteQueryBuilder::
-		entityclass() const
-		{
-			return this->_entityclass;
-		}
-
-		void
-		SQLiteQueryBuilder::
-		entityclass(const String& s)
-		{
-			this->_entityclass = s;
-		}
-		
 		AbstractQueryBuilder*
 		SQLiteQueryBuilder::
 		newQueryBuilder()

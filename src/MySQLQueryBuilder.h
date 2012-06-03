@@ -41,15 +41,6 @@ namespace TOC
             // inserts
             String buildSingleValueInsertQuery(const String&);
 
-			const uint64_t id() const;
-			void id(const uint64_t&);
-
-			const String attribute() const;
-			void attribute(const String&);
-
-			const String entityclass() const;
-			void entityclass(const String&);
-
 			static AbstractQueryBuilder* newQueryBuilder();
 		protected:
 			virtual String replaceType(const String& type) override;
@@ -58,10 +49,6 @@ namespace TOC
             void buildOrderPart(T& ss);
             template<class T>
             void buildWherePart(T& ss);
-
-			uint64_t _id;
-			String  _attribute;
-			String  _entityclass;
         };
     }
 }

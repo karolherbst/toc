@@ -86,5 +86,47 @@ namespace TOC
                << defaultValue << "';";
             return ss.str();
         }
+
+		const uint64_t
+        AbstractSQLQueryBuilder::
+		id() const
+		{
+			return this->_id;
+		}
+
+		void
+        AbstractSQLQueryBuilder::
+		id(const uint64_t &i)
+		{
+			this->_id = i;
+		}
+
+		const String
+        AbstractSQLQueryBuilder::
+		attribute() const
+		{
+			return this->_attribute;
+		}
+
+		void
+        AbstractSQLQueryBuilder::
+		attribute(const String &s)
+		{
+			this->_attribute = s;
+		}
+
+		const String
+        AbstractSQLQueryBuilder::
+		entityclass() const
+		{
+			return this->_entityclass;
+		}
+
+		void
+        AbstractSQLQueryBuilder::
+		entityclass(const String& s)
+		{
+			this->_entityclass = s;
+		}
 	}
 }

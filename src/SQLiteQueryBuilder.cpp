@@ -21,6 +21,10 @@
 #include "SQLiteQueryBuilder.h"
 
 #include <toc/tocdb/StandardTypes.h>
+#include <boost/foreach.hpp>
+
+#define foreach		 BOOST_FOREACH
+#define reverse_foreach BOOST_REVERSE_FOREACH
 
 namespace TOC
 {
@@ -56,21 +60,58 @@ namespace TOC
 		SQLiteQueryBuilder::
 		buildSingleAttributeSelectQuery()
 		{
-
+			return "";
 		}
 
 		String
 		SQLiteQueryBuilder::
 		buildIDSelectQuery()
 		{
-
+			return "";
 		}
 
 		String
 		SQLiteQueryBuilder::
-		buildIdInsertQuery(std::map<String, String>&)
+		buildIdInsertQuery(std::map<String, String>& values)
 		{
-			
+			std::stringstream ss;
+			if (values.size() > 0)
+			{
+				typedef std::pair<String, String> Pair;
+				ss << "INSERT OR REPLACE INTO " << entityclass() << " (" << values.begin()->first;
+				
+				if (values.size() > 1)
+				{
+					bool tmp = true;
+					foreach(const Pair& p, values)
+					{
+						if (tmp)
+						{
+							tmp = false;
+							continue;
+						}
+						ss << ", " << p.first;
+					}
+				}
+				ss << ") VALUES ('" << values.begin()->second;
+				
+				if (values.size() > 1)
+				{
+					bool tmp = true;
+					foreach(const Pair& p, values)
+					{
+						if (tmp)
+						{
+							tmp = false;
+							continue;
+						}
+						ss << "', '" << p.second;
+					}
+				}
+				
+				ss << "');";
+			}
+			return ss.str();
 		}
 
 		String
@@ -78,14 +119,14 @@ namespace TOC
 		buildRelationEntityClassQuery(const String&,
 		                                     const String&)
 		{
-			
+			return "";
 		}
 
 		String
 		SQLiteQueryBuilder::
 		buildSingleValueInsertQuery(const String&)
 		{
-			
+			return "";
 		}
 
 		String

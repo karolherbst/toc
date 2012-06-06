@@ -49,7 +49,33 @@ BOOST_AUTO_TEST_CASE( QueryBuilder )
 		db.executeQuery(qb.buildIdInsertQuery(values));
 		db.executeQuery(qb.buildIdInsertQuery(values));
 
+		qb.attribute("age");
+		qb.id(1);
+		db.executeQuery(qb.buildSingleValueInsertQuery("22"));
 		db.commit();
+
+		// now we want to check some values stored in the database;
+		std::map<String, String> result;
+		qb.entityclass("test");
+		qb.attribute("");
+		qb.id(1);
+		db.executeSingleRowQuery(qb.buildIDSelectQuery() , result);
+		BOOST_REQUIRE_EQUAL(result.at("ID"), "1");
+		BOOST_REQUIRE_EQUAL(result.at("name"), "herbst");
+		BOOST_REQUIRE_EQUAL(result.at("age"), "22");
+		BOOST_REQUIRE_EQUAL(result.at("gender"), "M");
+
+		// insert a single values
+		db.createTransaction();
+		qb.entityclass("test");
+		qb.attribute("name");
+		qb.id(2);
+		db.executeQuery(qb.buildSingleValueInsertQuery("name1"));
+		db.commit();
+
+		std::map<String, String> result2;
+//		db.executeSingleRowQuery(qb.buildIDSelectQuery(), result2);
+//		BOOST_REQUIRE_EQUAL(result.at("name1"), "name1");
 	}
 	catch (DBException &e){}
 }

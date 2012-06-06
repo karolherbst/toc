@@ -24,7 +24,7 @@
 #include <boost/noncopyable.hpp>
 #include <stdint.h>
 #include <toc/tocstring/TocString.h>
-#include <toc/tocdb/DBResult.h>
+#include <map>
 #include <vector>
 
 #include <toc/boost/extension/impl/decl.hpp>
@@ -68,10 +68,12 @@ namespace TOC
             virtual void commit() = 0;
             virtual void rollback() = 0;
             virtual bool exec(const String&) = 0;
-            virtual DBSingleValueResult executeSingleValueQuery(const String& query,
-                                                                String& resultHolder) = 0;
-            virtual DBSingleColResult executeSingleColQuery(const String& q,
-                                                            std::vector<String>& result) = 0;
+            virtual void executeSingleValueQuery(const String& query,
+                                                 String& resultHolder) = 0;
+            virtual void executeSingleColQuery(const String& q,
+                                               std::vector<String>& result) = 0;
+			virtual void executeSingleRowQuery(const String& q,
+			                                   std::map<String, String>& result) = 0;
         };
     }
 }

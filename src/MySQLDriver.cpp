@@ -242,17 +242,16 @@ namespace TOC
 				throw DBException(CSTRING("undefined DB failure!"));
 			}
 		}
-		
-		DB::DBSingleValueResult
+
+		void
 		MySQLDriver::
 		executeSingleValueQuery(const String& query,
 		                        String& resultHolder)
 		{
 			store(query)[0][0].to_string(resultHolder);
-			return DB::DBSingleValueResult(resultHolder);
 		}
-		
-		DB::DBSingleColResult
+
+		void
 		MySQLDriver::
 		executeSingleColQuery(const String& q,
 		                      std::vector<String>& resultHolder)
@@ -262,10 +261,16 @@ namespace TOC
 			{
 				resultHolder.push_back(row[0].c_str());
 			}
-			
-			return DB::DBSingleColResult(resultHolder);
 		}
-		
+
+		void
+		MySQLDriver::
+		executeSingleRowQuery(const String& q,
+		                      std::map<String, String>& result)
+		{
+			
+		}
+
 		void
 		MySQLDriver::
 		handleMYSQLerrno(int32_t error,

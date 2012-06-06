@@ -41,10 +41,12 @@ namespace TOC
 			virtual void commit() override;
 			virtual void rollback() override;
 			virtual bool exec(const String&) override;
-			virtual DBSingleValueResult executeSingleValueQuery(const String& query,
-			                                                    String& resultHolder) override;
-			virtual DBSingleColResult executeSingleColQuery(const String& q,
-			                                                std::vector<String>& result) override;
+			virtual void executeSingleValueQuery(const String& query,
+			                                     String& resultHolder) override;
+			virtual void executeSingleColQuery(const String& q,
+			                                   std::vector<String>& result) override;
+			virtual void executeSingleRowQuery(const String& q,
+			                                   std::map<String, String>& result) override;
 			static DBDriver* newDriver();
 
 		private:

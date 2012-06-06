@@ -30,7 +30,6 @@
 
 #include <toc/tocdb/DBDriver.h>
 #include <toc/tocdb/DBExceptions.h>
-#include <toc/tocdb/DBResult.h>
 #include <toc/tocdb/DBTable.h>
 
 namespace TOC
@@ -213,24 +212,34 @@ namespace TOC
 			logger.log<LOGGINGTYPE::DEBUG>(q);
 			try
 			{
-				DBSingleValueResult dbresult = driver->executeSingleValueQuery(q,
-				                                                               result);
+				driver->executeSingleValueQuery(q,
+				                                result);
 			}
 			catch (DBException &e)
 			{
 				logger.log<LOGGINGTYPE::ERROR>(e.what());
+				throw e;
 			}
 		}
 		
 		void
 		DBImpl::
 		executeSingleRowQuery(const String& q,
-		                      std::map<String, String>&)
+		                      std::map<String, String>& result)
 		{
 			if (driver.get() == NULL)
 				initDriver();
 			logger.log<LOGGINGTYPE::DEBUG>(q);
-			throw MethodNotImplementedException();
+			try
+			{
+				driver->executeSingleRowQuery(q,
+				                              result);
+			}
+			catch (DBException &e)
+			{
+				logger.log<LOGGINGTYPE::ERROR>(e.what());
+				throw e;
+			}
 		}
 		
 		void
@@ -243,12 +252,13 @@ namespace TOC
 			logger.log<LOGGINGTYPE::DEBUG>(q);
 			try
 			{
-				DBSingleColResult dbresult = driver->executeSingleColQuery(q,
-				                                                           result);
+				driver->executeSingleColQuery(q,
+				                              result);
 			}
 			catch (DBException &e)
 			{
 				logger.log<LOGGINGTYPE::ERROR>(e.what());
+				throw e;
 			}
 		}
 		

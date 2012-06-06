@@ -67,7 +67,9 @@ namespace TOC
 		SQLiteQueryBuilder::
 		buildIDSelectQuery()
 		{
-			return "";
+			std::stringstream ss;
+			ss << "SELECT * FROM " << entityclass() << " WHERE ID='" << id() << "';";
+			return ss.str();
 		}
 
 		String
@@ -124,9 +126,12 @@ namespace TOC
 
 		String
 		SQLiteQueryBuilder::
-		buildSingleValueInsertQuery(const String&)
+		buildSingleValueInsertQuery(const String& v)
 		{
-			return "";
+			std::stringstream ss;
+			ss << "UPDATE OR REPLACE " << entityclass() << " SET " << attribute()
+			   << "='" << v << "' WHERE ID='" << id() << "';";
+			return ss.str();
 		}
 
 		String

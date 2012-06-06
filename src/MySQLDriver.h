@@ -72,11 +72,11 @@ namespace TOC
 			bool
 			exec(const String&);
 			
-			DBSingleValueResult
+			void
 			executeSingleValueQuery(const String& query,
 			                        String& resultHolder);
 			
-			DBSingleColResult
+			void
 			executeSingleColQuery(const String& q,
 			                      std::vector<String>& result);
 			
@@ -85,6 +85,10 @@ namespace TOC
 			handleMYSQLerrno(int32_t,
 			                 const char* message);
 			
+			void
+			executeSingleRowQuery(const String& q,
+			                      std::map<String, String>& result);
+
 			static
 			DBDriver*
 			newDriver();

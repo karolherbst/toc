@@ -139,7 +139,7 @@ namespace TOC
 			return ret == SQLITE_OK;
 		}
 
-		DBSingleValueResult
+		void
 		SQLiteDriver::
 		executeSingleValueQuery(const String& query,
 		                        String& resultHolder)
@@ -166,10 +166,9 @@ namespace TOC
 			ret = sqlite3_step(stmt);
 			handleError(ret, query);
 			sqlite3_finalize(stmt);
-			return DBSingleValueResult(resultHolder);
 		}
 
-		DBSingleColResult
+		void
 		SQLiteDriver::
 		executeSingleColQuery(const String& q,
 		                      std::vector<String>& result)
@@ -200,7 +199,36 @@ namespace TOC
 			}
 			handleError(ret, q);
 			sqlite3_finalize(stmt);
-			return DBSingleColResult(result);
+		}
+
+		void
+		SQLiteDriver::
+		executeSingleRowQuery(const String& q,
+		                      std::map<String, String>& result)
+		{
+			char *error;
+			const char *tail;
+			struct sqlite3_stmt *stmt;
+
+			int ret = sqlite3_prepare_v2(this->driver,
+			                             q.c_str(),
+			                             q.size(),
+			                             &stmt,
+			                             &tail);
+			this->handleError<MalformedQueryException>(ret, q);
+			ret = sqlite3_step(stmt);
+			if (ret == SQLITE_OK)
+				throw EmptyResultException();
+			else if (ret != SQLITE_ROW)
+				this->handleError(ret, q);
+
+			for (int i = 0; i < sqlite3_column_count(stmt); i++)
+				result[sqlite3_column_name(stmt, i)] = this->convertSQLiteTypeToString(stmt,
+				                                                                       i,
+				                                                                       sqlite3_column_type(stmt, i));
+			ret = sqlite3_step(stmt);
+			handleError(ret, q);
+			sqlite3_finalize(stmt);
 		}
 
 		DBDriver*

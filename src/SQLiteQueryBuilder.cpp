@@ -110,7 +110,6 @@ namespace TOC
 						ss << "', '" << p.second;
 					}
 				}
-				
 				ss << "');";
 			}
 			return ss.str();
@@ -129,7 +128,9 @@ namespace TOC
 		buildSingleValueInsertQuery(const String& v)
 		{
 			std::stringstream ss;
-			ss << "UPDATE OR REPLACE " << entityclass() << " SET " << attribute()
+			ss << "INSERT OR IGNORE INTO " << entityclass() << " (ID) VALUES ('"
+			   << id() << "'); "
+			   << "UPDATE " << entityclass() << " SET " << attribute()
 			   << "='" << v << "' WHERE ID='" << id() << "';";
 			return ss.str();
 		}

@@ -74,8 +74,8 @@ BOOST_AUTO_TEST_CASE( QueryBuilder )
 		db.commit();
 
 		std::map<String, String> result2;
-//		db.executeSingleRowQuery(qb.buildIDSelectQuery(), result2);
-//		BOOST_REQUIRE_EQUAL(result.at("name1"), "name1");
+		db.executeSingleRowQuery(qb.buildIDSelectQuery(), result2);
+		BOOST_REQUIRE_EQUAL(result2.at("name"), "name1");
 	}
 	catch (DBException &e){}
 }

@@ -122,20 +122,22 @@ namespace TOC
 		SQLiteDriver::
 		exec(const String& query)
 		{
-			const char *tail;
+			const char *tail = query.c_str();
 			struct sqlite3_stmt *stmt;
+			int ret = SQLITE_OK;
 
-			int ret = sqlite3_prepare_v2(this->driver,
-			                             query.c_str(),
-			                             query.size(),
-			                             &stmt,
-			                             &tail);
-			handleError<MalformedQueryException>(ret, query);
-			ret = sqlite3_step(stmt);
-			if (ret != SQLITE_DONE)
-				throw QueryWasMissUsedException("In DBDriver::exec only query without return values are alowed!");
-			handleError(ret, query);
-			sqlite3_finalize(stmt);
+			while (strcmp(tail, "") != 0)
+			{
+				ret = sqlite3_prepare_v2(this->driver,
+				                         tail,
+				                         query.size(),
+				                         &stmt,
+				                         &tail);
+				handleError<MalformedQueryException>(ret, query);
+				ret = sqlite3_step(stmt);
+				sqlite3_finalize(stmt);
+				handleError(ret, query);
+			}
 			return ret == SQLITE_OK;
 		}
 

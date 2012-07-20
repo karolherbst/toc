@@ -29,7 +29,6 @@ namespace TOC
 		public:
 			virtual String buildCreateEntityClassQuery() override;
 			virtual String buildSingleAttributeSelectQuery() override;
-			virtual String buildIDSelectQuery() override;
 			virtual String buildIdInsertQuery(std::map<String, String>&) override;
 			virtual String buildRelationEntityClassQuery(const String&,
 			                                             const String&) override;

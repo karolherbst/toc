@@ -35,20 +35,12 @@ namespace TOC
             String buildCreateEntityClassQuery();
             String buildSingleAttributeSelectQuery();
             
-            // selects
-            String buildIDSelectQuery();
-            
             // inserts
             String buildSingleValueInsertQuery(const String&);
 
 			static AbstractQueryBuilder* newQueryBuilder();
 		protected:
 			virtual String replaceType(const String& type) override;
-        private:
-            template<class T>
-            void buildOrderPart(T& ss);
-            template<class T>
-            void buildWherePart(T& ss);
         };
     }
 }

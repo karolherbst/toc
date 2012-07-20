@@ -65,15 +65,6 @@ namespace TOC
 
 		String
 		SQLiteQueryBuilder::
-		buildIDSelectQuery()
-		{
-			std::stringstream ss;
-			ss << "SELECT * FROM " << entityclass() << " WHERE ID='" << id() << "';";
-			return ss.str();
-		}
-
-		String
-		SQLiteQueryBuilder::
 		buildIdInsertQuery(std::map<String, String>& values)
 		{
 			std::stringstream ss;

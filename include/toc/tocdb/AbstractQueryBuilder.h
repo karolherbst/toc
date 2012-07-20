@@ -233,6 +233,7 @@ namespace TOC
              * @since   0.1
              */
             virtual String buildIDSelectQuery() = 0;
+			virtual String buildSingleRowSelectQuery() = 0;
             
             /**
              * use this method if you wanna fetch a value from one entity only

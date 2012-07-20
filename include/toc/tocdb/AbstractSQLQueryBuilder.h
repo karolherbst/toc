@@ -47,7 +47,6 @@ namespace TOC
             virtual String buildCreateEntityClassQuery() = 0;
             virtual String buildRelationEntityClassQuery(const String& t1,
                                                          const String& t2) = 0;
-            virtual String buildIDSelectQuery() = 0;
             virtual String buildSingleAttributeSelectQuery() = 0;
             virtual String buildSingleValueInsertQuery(const String& attribute) = 0;
             virtual String buildIdInsertQuery(std::map<String, String>&) = 0;
@@ -55,6 +54,8 @@ namespace TOC
 			/*
 			 * implemented methods
 			 */
+            virtual String buildIDSelectQuery() override;
+			virtual String buildSingleRowSelectQuery() override;
             virtual String startTransaction() override;
             virtual String commitTransaction() override;
             virtual String rollbackTransaction() override;
@@ -66,11 +67,57 @@ namespace TOC
 		protected:
 			virtual String replaceASCnDESC(ORDER o);
 			virtual String replaceType(const String& type) = 0;
+
+            template<class T>
+            void buildOrderPart(T& ss);
+            template<class T>
+            void buildWherePart(T& ss);
 		private:
 			String _entityclass;
 			String _attribute;
 			uint64_t _id;
         };
+
+		template<class T>
+		void
+		AbstractSQLQueryBuilder::
+		buildWherePart(T& ss)
+		{
+			if (keys.size() > 0 && keys.size() == values.size())
+			{
+				ss << " WHERE ";
+				ss << keys.front() << "='" << values.front() << "'";
+				keys.pop();
+				values.pop();
+				for (size_t i = keys.size(); i > 0; i--)
+				{
+					ss << " AND " << keys.front() << "='" << values.front()
+					<< "'";
+					keys.pop();
+					values.pop();
+				}
+			}
+		}
+
+		template<class T>
+		void
+		AbstractSQLQueryBuilder::
+		buildOrderPart(T& ss)
+		{
+			if (orders.size() > 0)
+			{
+				ss << " ORDER BY " << orders.front().first << ' '
+				<< replaceASCnDESC(orders.front().second);
+				orders.pop();
+				for (size_t i = orders.size(); i > 0; i--)
+				{
+					ss << ", " << orders.front().first << ' '
+					<< replaceASCnDESC(orders.front().second);
+					orders.pop();
+				}
+			}
+		}
+
     }
 }
 

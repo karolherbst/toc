@@ -87,6 +87,27 @@ namespace TOC
             return ss.str();
         }
 
+		String
+		AbstractSQLQueryBuilder::
+		buildSingleRowSelectQuery()
+		{
+			std::stringstream ss;
+			ss << "SELECT * FROM " << entityclass() << " WHERE ID='" << id() << "';";
+			return ss.str();
+		}
+
+		String
+		AbstractSQLQueryBuilder::
+		buildIDSelectQuery()
+		{
+			std::stringstream ss;
+			ss << "SELECT ID FROM " << entityclass();
+			buildWherePart(ss);
+			buildOrderPart(ss);
+			ss << ';';
+			return ss.str();
+		}
+
 		const uint64_t
         AbstractSQLQueryBuilder::
 		id() const

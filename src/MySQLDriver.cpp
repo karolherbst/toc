@@ -268,7 +268,13 @@ namespace TOC
 		executeSingleRowQuery(const String& q,
 		                      std::map<String, String>& result)
 		{
-			
+			mysqlpp::Row row = store(q)[0];
+			const mysqlpp::FieldNames& fields = *row.field_list().list;
+
+			mysqlpp::FieldNames::const_iterator fIt = fields.begin();
+			mysqlpp::Row::const_iterator rIt = row.begin();
+			for (; fIt != fields.end() && rIt != row.end(); fIt++, rIt++)
+				result[*fIt] = (*rIt).data();
 		}
 
 		void

@@ -59,7 +59,7 @@ BOOST_AUTO_TEST_CASE( QueryBuilder )
 		qb.entityclass("test");
 		qb.attribute("");
 		qb.id(1);
-		db.executeSingleRowQuery(qb.buildIDSelectQuery() , result);
+		db.executeSingleRowQuery(qb.buildSingleRowSelectQuery() , result);
 		BOOST_REQUIRE_EQUAL(result.at("ID"), "1");
 		BOOST_REQUIRE_EQUAL(result.at("name"), "herbst");
 		BOOST_REQUIRE_EQUAL(result.at("age"), "22");
@@ -74,7 +74,7 @@ BOOST_AUTO_TEST_CASE( QueryBuilder )
 		db.commit();
 
 		std::map<String, String> result2;
-		db.executeSingleRowQuery(qb.buildIDSelectQuery(), result2);
+		db.executeSingleRowQuery(qb.buildSingleRowSelectQuery(), result2);
 		BOOST_REQUIRE_EQUAL(result2.at("name"), "name1");
 	}
 	catch (DBException &e){}

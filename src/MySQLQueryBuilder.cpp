@@ -73,18 +73,6 @@ namespace TOC
 		
 		String
 		MySQLQueryBuilder::
-		buildIDSelectQuery()
-		{
-			std::stringstream ss;
-			ss << "SELECT ID FROM " << entityclass();
-			buildWherePart(ss);
-			buildOrderPart(ss);
-			ss << ';';
-			return ss.str();
-		}
-		
-		String
-		MySQLQueryBuilder::
 		buildSingleAttributeSelectQuery()
 		{
 			std::stringstream ss;
@@ -166,46 +154,6 @@ namespace TOC
 				ss << ';';
 			}
 			return ss.str();
-		}
-		
-		template<class T>
-		void
-		MySQLQueryBuilder::
-		buildWherePart(T& ss)
-		{
-			if (keys.size() > 0 && keys.size() == values.size())
-			{
-				ss << " WHERE ";
-				ss << keys.front() << "='" << values.front() << "'";
-				keys.pop();
-				values.pop();
-				for (size_t i = keys.size(); i > 0; i--)
-				{
-					ss << " AND " << keys.front() << "='" << values.front()
-					<< "'";
-					keys.pop();
-					values.pop();
-				}
-			}
-		}
-		
-		template<class T>
-		void
-		MySQLQueryBuilder::
-		buildOrderPart(T& ss)
-		{
-			if (orders.size() > 0)
-			{
-				ss << " ORDER BY " << orders.front().first << ' '
-				<< replaceASCnDESC(orders.front().second);
-				orders.pop();
-				for (size_t i = orders.size(); i > 0; i--)
-				{
-					ss << ", " << orders.front().first << ' '
-					<< replaceASCnDESC(orders.front().second);
-					orders.pop();
-				}
-			}
 		}
 
 		AbstractQueryBuilder*

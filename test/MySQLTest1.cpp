@@ -8,4 +8,4 @@ db.setUserPassword("toc_test");
 
 #include "MySQLQueryBuilder.h"
 
-#include "DBTestTemplate.tpp"
+#include "DBTestTemplate.hpp"

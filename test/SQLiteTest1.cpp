@@ -5,4 +5,4 @@
 
 #include "SQLiteQueryBuilder.h"
 
-#include "DBTestTemplate.tpp"
+#include "DBTestTemplate.hpp"

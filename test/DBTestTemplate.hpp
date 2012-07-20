@@ -76,6 +76,13 @@ BOOST_AUTO_TEST_CASE( QueryBuilder )
 		std::map<String, String> result2;
 		db.executeSingleRowQuery(qb.buildSingleRowSelectQuery(), result2);
 		BOOST_REQUIRE_EQUAL(result2.at("name"), "name1");
+
+		// search for a specific data type with logical primary key
+		qb.entityclass("test");
+		qb.addWherePair("name", "herbst");
+		String result3;
+		db.executeSingleValueQuery(qb.buildIDSelectQuery(), result3);
+		BOOST_REQUIRE_EQUAL(result3, "1");
 	}
 	catch (DBException &e){}
 }

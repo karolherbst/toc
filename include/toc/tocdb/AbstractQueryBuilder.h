@@ -185,6 +185,16 @@ namespace TOC
              * @since   0.1
              */
             virtual String buildCreateEntityClassQuery() = 0;
+
+			/**
+			 * creates a query to delete a simple entityclass
+			 *
+			 * @pre		a entityclass name is set
+			 * @return	a query, which deletes an entityclass
+			 *
+			 * @authoer	Karol Herbst
+			 * @since	0.2
+			 */
 			virtual String buildDeleteEntityClassQuery(bool ifExists = false) = 0;
             
             /**
@@ -224,15 +234,24 @@ namespace TOC
                                                   const String& type,
                                                   const int16_t size) = 0;
             
+			/**
+			 * creates a query, which will give the ID to the given where value map (logical primary key)
+			 *
+			 * @pre		a entityclass set, wherePairs are logical key
+			 *
+			 * @author	Karol Herbst
+			 * @since	0.1
+			 */
+            virtual String buildIDSelectQuery() = 0;
+
             /**
              * creates a query, which selects a whole entity
              *
              * @pre     a entityclass and a id is set
              *
              * @author  Karol Herbst
-             * @since   0.1
+             * @since   0.2
              */
-            virtual String buildIDSelectQuery() = 0;
 			virtual String buildSingleRowSelectQuery() = 0;
             
             /**
@@ -265,7 +284,17 @@ namespace TOC
              * @since   0.1
              */
             virtual String buildSingleValueInsertQuery(const String& attribute) = 0;
-            virtual String buildIdInsertQuery(std::map<String, String>&) = 0;
+
+			/**
+			 * creates a query, which will insert a whole entity
+			 *
+			 * @pre		entityclass is set
+			 * @param	valueMap	the key-value pairs of the entity
+			 *
+			 * @author	Karol Herbst
+			 * @since	0.2
+			 */
+            virtual String buildIdInsertQuery(std::map<String, String>& valueMap) = 0;
         protected:
             typedef std::pair<String, TOC::ORDER> OrderPair;
             

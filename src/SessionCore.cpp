@@ -47,14 +47,10 @@ namespace TOC
 		:	io_service_(io_service),
 			isInCommandLoop(false),
 			socket_(io_service),
-			output(_output)
-		{}
+			output(_output){}
 		
 		Session_Core::
-		~Session_Core()
-		{
-			
-		}
+		~Session_Core(){}
 		
 		Session_Core::
 		Session_Core(io_service& io_service,
@@ -70,8 +66,7 @@ namespace TOC
 			                      bind(&Session_Core::handle_connect,
 			                           this,
 			                           placeholders::error,
-			                           ++endpoint_iterator)
-				             );
+			                           ++endpoint_iterator));
 		}
 		
 		void
@@ -80,9 +75,7 @@ namespace TOC
 		               tcp::resolver::iterator endpoint_iterator)
 		{
 			if (!error)
-			{
 				start();
-			}
 			else if (endpoint_iterator != tcp::resolver::iterator())
 			{
 				socket_.close();
@@ -91,8 +84,7 @@ namespace TOC
 				                      bind(&Session_Core::handle_connect,
 				                           this,
 				                           placeholders::error,
-				                           ++endpoint_iterator)
-					             );
+				                           ++endpoint_iterator));
 			}
 		}
 		
@@ -119,7 +111,7 @@ namespace TOC
 		
 		void
 		Session_Core::
-		writeToAll(const Char* msg,
+		writeToAll(const char* msg,
 		           uint16_t length)
 		{
 			writeToAllExceptThis(msg,
@@ -129,7 +121,7 @@ namespace TOC
 		
 		void
 		Session_Core::
-		writeToAll(const String& msg)
+		writeToAll(const std::string& msg)
 		{
 			writeToAllExceptThis(msg,
 			                     0);
@@ -145,7 +137,7 @@ namespace TOC
 		
 		void
 		Session_Core::
-		writeToAllExceptThis(const Char* msg,
+		writeToAllExceptThis(const char* msg,
 		                     uint16_t length,
 		                     Session_Core* _this)
 		{
@@ -161,7 +153,7 @@ namespace TOC
 		
 		void
 		Session_Core::
-		writeToAllExceptThis(const String& msg,
+		writeToAllExceptThis(const std::string& msg,
 		                     Session_Core* _this)
 		{
 			for (std::set<Session_Core*>::iterator it = getSetOfOtherSessions().begin();
@@ -189,7 +181,7 @@ namespace TOC
 		
 		void
 		Session_Core::
-		write(const Char* msg,
+		write(const char* msg,
 		      uint16_t length)
 		{
 			ChatMessage cm(msg,
@@ -199,7 +191,7 @@ namespace TOC
 		
 		void
 		Session_Core::
-		write(const String& msg)
+		write(const std::string& msg)
 		{
 			ChatMessage cm(msg);
 			do_write(cm);
@@ -215,7 +207,7 @@ namespace TOC
 		
 		Session_Core&
 		Session_Core::
-		operator<<(const String& msg)
+		operator<<(const std::string& msg)
 		{
 			write(msg);
 			return *this;
@@ -238,7 +230,7 @@ namespace TOC
 			
 			if (!writeInProgress)
 			{
-				StringStream ss;
+				std::stringstream ss;
 				ss << ">> " << msg.body();
 				logger.log<LOGGINGTYPE::DEBUG>(ss.str() );
 				asio::async_write(socket_,
@@ -302,7 +294,7 @@ namespace TOC
 		
 		void
 		Session_Core::
-		commandLoop(Char* buffer,
+		commandLoop(char* buffer,
 		            const system::error_code& error,
 		            size_t /*bytes_transferred*/)
 		{
@@ -331,9 +323,9 @@ namespace TOC
 			delete this;
 		}
 		
-		String&
+		std::string&
 		Session_Core::
-		operator[](String& key)
+		operator[](std::string& key)
 		{
 			return _values[key];
 		}

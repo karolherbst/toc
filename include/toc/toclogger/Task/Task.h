@@ -25,7 +25,10 @@ class Task
 {
 public:
     template <typename StringType>
-    static void run(StringType str);
+    static
+    void
+    run(StringType str);
 };
 
 #endif //LIB_TOCLOGGER_TASK
+

@@ -28,38 +28,42 @@
 
 namespace TOC
 {
-    namespace core
-    {
-        class SignalHandlerImpl
-        {
-            
-        public:
-            
-            template <int Signal>
-            void registerHandler(void (*)(int));
-            
-        protected:
-            
-        private:
-            
-            template <int Signal, typename Handler>
-            void handlerWrapper(Handler handler);
-            
-        };
-        
-        typedef Loki::SingletonHolder<SignalHandlerImpl> SignalHandler;
-#define signalHandler SignalHandler::Instance()
-        
-        template <int Signal>
-        void SignalHandlerImpl::registerHandler(void (*handler)(int)){
-            signal(Signal, handler);
-        }
-        
-        template <int Signal, typename Handler>
-        void SignalHandlerImpl::handlerWrapper(Handler handler){
-            handler(Signal);
-        }
-    }
+	namespace core
+	{
+		class SignalHandlerImpl
+		{
+		public:
+			template <int Signal>
+			void
+			registerHandler(void (*)(int));
+
+		private:
+			template <int Signal,
+			          typename Handler>
+			void
+			handlerWrapper(Handler handler);
+		};
+
+		typedef Loki::SingletonHolder<SignalHandlerImpl> SignalHandler;
+		#define signalHandler SignalHandler::Instance()
+
+		template <int Signal>
+		void
+		SignalHandlerImpl::registerHandler(void (*handler)(int))
+		{
+			signal(Signal,
+			       handler);
+		}
+
+		template <int Signal,
+		          typename Handler>
+		void
+		SignalHandlerImpl::handlerWrapper(Handler handler)
+		{
+			handler(Signal);
+		}
+	}
 }
 
 #endif //LIB_TOCCORE_SIGNALHANDLER
+

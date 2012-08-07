@@ -27,56 +27,65 @@
 
 namespace TOC
 {
-    namespace core
-    {
-        template <class Class, class ArgType>
-        class Dispatcher
-        {
-        public:
-            Dispatcher();
-            typedef void (Class::*FuncPointer)(ArgType*);
-            
-        protected:
-            void addFuncPointer(FuncPointer, uint8_t);
-            void dispatch(uint16_t, ArgType*);
-            
-        private:
-            FuncPointer* methods;
-        };
-        
-        template <class C,
-        class A>
-        Dispatcher<C, A>::
-        Dispatcher()
-        :   methods(new FuncPointer[1])
-        {
-            
-        }
-        
-        template <class C,
-        class A>
-        void
-        Dispatcher<C, A>::
-        addFuncPointer(FuncPointer func, uint8_t index)
-        {
-            static size_t size = 1;
-            if (index >= size)
-            {
-                size *= 2;
-                methods = (FuncPointer*) realloc(methods, size * sizeof(func));
-            }
-            methods[index] = func;
-        }
-        
-        template <class C,
-        class A>
-        void
-        Dispatcher<C, A>::
-        dispatch(uint16_t index, A* arg)
-        {
-            boost::bind(methods[index], static_cast<C*>(this), arg)();
-        }
-    }
+	namespace core
+	{
+		template <typename Class,
+		          typename ArgType>
+		class Dispatcher
+		{
+		public:
+			Dispatcher();
+			typedef void (Class::*FuncPointer)(ArgType*);
+
+		protected:
+			void
+			addFuncPointer(FuncPointer,
+			               uint8_t);
+
+			void
+			dispatch(uint16_t,
+			         ArgType*);
+
+		private:
+			FuncPointer* methods;
+		};
+
+		template <class C,
+		          class A>
+		Dispatcher<C, A>::
+		Dispatcher()
+		:	methods(new FuncPointer[1]){}
+
+		template <typename C,
+		          typename A>
+		void
+		Dispatcher<C, A>::
+		addFuncPointer(FuncPointer func,
+		               uint8_t index)
+		{
+			static size_t size = 1;
+			if (index >= size)
+			{
+				size *= 2;
+				methods = (FuncPointer*) realloc(methods,
+				                                 size * sizeof(func));
+			}
+			methods[index] = func;
+		}
+
+		template <typename C,
+		          typename A>
+		void
+		Dispatcher<C, A>::
+		dispatch(uint16_t index,
+		         A* arg)
+		{
+			boost::bind(methods[index],
+			            static_cast<C*>(this),
+			            arg)();
+		}
+	}
 }
 
 #endif //LIB_TOCCORE_DISPATCHER
+

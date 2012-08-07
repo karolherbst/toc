@@ -21,34 +21,7 @@
 #ifndef LIB_TOC_STRING
 #define LIB_TOC_STRING 1
 
-// we use the standard string implementation
-#include <iostream>
 #include <string>
-#include <sstream>
-
-#define USE_UNICODE 0
-
-#if USE_UNICODE
-	#define COUT              	std::wcout
-	#define CIN               	std::wcin
-	#define CSTRING(s)        	L##s
-	#define CCHAR(c)          	L##c
-
-	typedef std::wstring      	String;
-	typedef wchar_t	          	Char;
-	typedef std::wostream     	OStream;
-	typedef std::wstringstream	StringStream;
-#else
-	#define COUT              	std::cout
-	#define CIN               	std::cin
-	#define CSTRING(str)      	str
-	#define CCHAR(c)          	c
-
-	typedef std::string       	String;
-	typedef char              	Char;
-	typedef std::ostream      	OStream;
-	typedef std::stringstream 	StringStream;
-#endif
 
 // lexical cast should be used overall
 #include <boost/lexical_cast.hpp>
@@ -67,9 +40,10 @@ using namespace boost::algorithm;
  * @param   str the space seperated String
  * @param   c   the container
  */
-template <class C>
-void storeArgumentsIn(const String& str,
-                      C& c);
+template <class Container>
+void
+storeArgumentsIn(const std::string& str,
+                 Container& c);
 
 /**
  * this function returns a substring til the given char
@@ -80,9 +54,9 @@ void storeArgumentsIn(const String& str,
  * @param   str the input string
  * @param   c   the char to seperate str
  */
-String
-getStringUntilChar(const String& str,
-                   const Char c);
+std::string
+getStringUntilChar(const std::string& str,
+                   const char c);
 
 /**
  * this function returns a substring after the given char
@@ -94,54 +68,55 @@ getStringUntilChar(const String& str,
  * @param   c   the char to seperate str
  * @param   s   the size to start
  */
-String
-getStringAfterChar(const String& str,
-                   const Char c,
-                   String::size_type s = 0);
+std::string
+getStringAfterChar(const std::string& str,
+                   const char c,
+                   std::string::size_type s = 0);
 
 template <class C>
 std::ostream&
-operator<<(std::ostream &,
-		   const std::list<C> &);
+operator<<(std::ostream&,
+           const std::list<C>&);
 
 template <class C>
-void storeArgumentsIn(const String& str,
-                      C& c)
+void
+storeArgumentsIn(const std::string& str,
+                 C& c)
 {
-	String _tmp = str;
+	std::string _tmp = str;
 	trim(_tmp);
-	
-	c.push_back(getStringUntilChar(_tmp, CCHAR(' ')));
-	
-	if (str.find(CCHAR(' ')) == String::npos)
+
+	c.push_back(getStringUntilChar(_tmp, ' '));
+
+	if (str.find(' ') == std::string::npos)
 		return;
-	
-	_tmp = getStringAfterChar(_tmp, CCHAR(' ')) + CCHAR(' '); // tweak
-	
+
+	_tmp = getStringAfterChar(_tmp, ' ') + ' '; // tweak
+
 	while (_tmp.size() > 0)
 	{
-		if (_tmp == CSTRING(" "))
+		if (_tmp == " ")
 			return;
-		
-		Char searchFor = CCHAR(' ');
+
+		char searchFor = ' ';
 		trim_left(_tmp);
-		
-		if (_tmp.operator[](0) == CCHAR('"'))
-			searchFor = CCHAR('"');
-		
-		if (searchFor == CCHAR(' '))
+
+		if (_tmp.operator[](0) == '"')
+			searchFor = '"';
+
+		if (searchFor == ' ')
 		{
-			String foundString = getStringUntilChar(_tmp,
-			                                        searchFor);
+			std::string foundString = getStringUntilChar(_tmp,
+			                                             searchFor);
 			c.push_back(foundString);
 			_tmp = getStringAfterChar(_tmp,
 			                          searchFor);
 		}
 		else
 		{
-			String foundString = getStringUntilChar(getStringAfterChar(_tmp,
-			                                                           searchFor),
-			                                        searchFor);
+			std::string foundString = getStringUntilChar(getStringAfterChar(_tmp,
+			                                                                searchFor),
+			                                             searchFor);
 			c.push_back(foundString);
 			_tmp = getStringAfterChar(getStringAfterChar(_tmp,
 			                                             searchFor),
@@ -152,8 +127,8 @@ void storeArgumentsIn(const String& str,
 
 template <class C>
 std::ostream&
-operator<<(std::ostream & os,
-           const std::list<C> &list)
+operator<<(std::ostream& os,
+           const std::list<C>& list)
 {
 	os << "List<";
 	if (list.begin() != list.end())
@@ -161,10 +136,11 @@ operator<<(std::ostream & os,
 	std::for_each(++list.begin(),
 	              list.end(),
 	              [&os](const C &e)
-	              {
-	              	os << ", " << e;
-	              });
+	{
+		os << ", " << e;
+	});
 	return os << '>';
 }
 
 #endif //LIB_TOC_STRING
+

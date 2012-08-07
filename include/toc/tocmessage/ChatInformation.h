@@ -220,3 +220,4 @@ namespace TOC
 }
 
 #endif //LIB_TOC_MESSAGE_CHATINFORMATION
+

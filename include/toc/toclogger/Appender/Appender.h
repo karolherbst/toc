@@ -25,9 +25,12 @@ template <const char* Name>
 class Appender
 {
 public:
-    template <typename StringType, typename StringType2>
-    StringType
-    createOutputString(StringType str, StringType2 level);
+	template <typename StringType1,
+	          typename StringType2>
+	std::string
+	createOutputString(StringType1 str,
+	                   StringType2 level);
 };
 
 #endif //LIB_TOCLOGGER_APPENDER
+

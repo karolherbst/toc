@@ -27,63 +27,103 @@
 #include <toc/toccore/Macros.h>
 #include <toc/tocstring/TocString.h>
 
-#include <toc/boost/extension/impl/decl.hpp>
-#ifndef DLL_TOC_CORE
-#ifdef MAKE_TOC_CORE
-#define DLL_TOC_CORE BOOST_EXTENSION_EXPORT_DECL
-#else
-#define DLL_TOC_CORE BOOST_EXTENSION_IMPORT_DECL
-#endif
-#endif
-
 namespace TOC
 {
-    namespace core
-    {
-        interface DLL_TOC_CORE IVersion : public boost::totally_ordered<IVersion>
-        {
-            ABSTRACT(uint16_t rel());
-            ABSTRACT(uint16_t maj());
-            ABSTRACT(uint16_t min());
-            ABSTRACT(uint16_t bui());
-            ABSTRACT(void rel(uint16_t));
-            ABSTRACT(void maj(uint16_t));
-            ABSTRACT(void min(uint16_t));
-            ABSTRACT(void bui(uint16_t));
-            ABSTRACT(IVersion& operator++(int i));
-            ABSTRACT(IVersion& operator--(int d));
-            
-            bool operator<(const IVersion&) const;
-            bool operator==(const IVersion&) const;
-            void operator=(const uint16_t[4]);
-        };
-        
-        OStream &
-        operator<<(OStream &ostr,
-                   TOC::core::IVersion &v);
-        
-        class DLL_TOC_CORE Version : public IVersion
-        {
-            uint16_t _rel;
-            uint16_t _maj;
-            uint16_t _min;
-            uint16_t _bui;
-        public:
-            Version(uint16_t rel,
-                    uint16_t maj,
-                    uint16_t min,
-                    uint16_t bui);
-            Version(const uint16_t[4]);
-            
-            GETTERSETTER (uint16_t, _rel, rel)
-            GETTERSETTER (uint16_t, _maj, maj)
-            GETTERSETTER (uint16_t, _min, min)
-            GETTERSETTER (uint16_t, _bui, bui)
-            
-            IVersion& operator++(int i);
-            IVersion& operator--(int d);
-        };
-    }
+	namespace core
+	{
+		class IVersion : public boost::totally_ordered<IVersion>
+		{
+		public:
+			virtual
+			uint16_t
+			rel() = 0;
+			
+			virtual
+			uint16_t
+			maj() = 0;
+			
+			virtual
+			uint16_t
+			min() = 0;
+			
+			virtual
+			uint16_t
+			bui() = 0;
+			
+			virtual
+			void
+			rel(uint16_t) = 0;
+			
+			virtual
+			void
+			maj(uint16_t) = 0;
+			
+			virtual
+			void
+			min(uint16_t) = 0;
+			
+			virtual
+			void
+			bui(uint16_t) = 0;
+			
+			virtual
+			IVersion&
+			operator++(int i) = 0;
+			
+			virtual
+			IVersion&
+			operator--(int d) = 0;
+			
+			bool
+			operator<(const IVersion&) const;
+			
+			bool
+			operator==(const IVersion&) const;
+			
+			void
+			operator=(const uint16_t[4]);
+		};
+		
+		std::ostream&
+		operator<<(std::ostream& ostr,
+		           IVersion& v);
+		
+		class Version : public IVersion
+		{
+		private:
+			uint16_t
+			_rel;
+			
+			uint16_t
+			_maj;
+			
+			uint16_t
+			_min;
+			
+			uint16_t
+			_bui;
+
+		public:
+			Version(uint16_t rel,
+			        uint16_t maj,
+			        uint16_t min,
+			        uint16_t bui);
+
+			Version(const uint16_t[4]);
+
+			GETTERSETTER(uint16_t, _rel, rel)
+			GETTERSETTER(uint16_t, _maj, maj)
+			GETTERSETTER(uint16_t, _min, min)
+			GETTERSETTER(uint16_t, _bui, bui)
+
+			IVersion&
+			operator++(int i) override;
+
+			IVersion&
+			operator--(int d) override;
+		};
+	}
 }
 
 #endif //LIB_TOCCORE_VERSION
+

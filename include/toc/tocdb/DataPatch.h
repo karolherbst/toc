@@ -21,44 +21,66 @@
 #define LIB_TOCDB_DATAPATCH 1
 
 #include <map>
+
 #include <toc/tocstring/TocString.h>
 
 namespace TOC
 {
-    namespace DB
-    {
-        struct AbstractDataPatch
-        {
-            virtual void save() = 0;
-            virtual ~AbstractDataPatch();
-        };
-        
-        struct SingleValuePatch : AbstractDataPatch
-        {
-            SingleValuePatch(const String& table,
-                             uint64_t row,
-                             const String& att,
-                             const String& value);
-            String table;
-            uint64_t row;
-            String att;
-            String value;
-            
-            void save();
-        };
-        
-        struct SingleRowPatch : AbstractDataPatch
-        {
-            typedef std::map<String, String> Map;
-            
-            SingleRowPatch(const String& table,
-                           const Map&);
-            
-            void save();
-        private:
-            String table;
-            Map m;
-        };
-    }
+	namespace DB
+	{
+		class AbstractDataPatch
+		{
+		public:
+			virtual
+			void
+			save() = 0;
+			
+			virtual
+			~AbstractDataPatch();
+		};
+		
+		class SingleValuePatch : AbstractDataPatch
+		{
+		public:
+			SingleValuePatch(const std::string& table,
+			                 uint64_t row,
+			                 const std::string& att,
+			                 const std::string& value);
+			
+			std::string
+			table;
+			
+			uint64_t
+			row;
+			
+			std::string
+			att;
+			
+			std::string
+			value;
+			
+			void save();
+		};
+		
+		class SingleRowPatch : public AbstractDataPatch
+		{
+		public:
+			typedef std::map<std::string,
+			                 std::string>
+			        Map;
+			
+			SingleRowPatch(const std::string& table,
+						   const Map&);
+			
+			void
+			save();
+			
+		private:
+			std::string table;
+			Map m;
+		};
+	}
 }
+
 #endif //LIB_TOCDB_DATAPATCH
+

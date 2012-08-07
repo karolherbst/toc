@@ -26,43 +26,51 @@ namespace TOC
 {
 	namespace core
 	{
-		CoreOutput& CoreOutput::operator<<( void (*funcPointer)(CoreOutput&) )
+		CoreOutput&
+		CoreOutput::operator<<( void (*funcPointer)(CoreOutput&) )
 		{
 			funcPointer(*this);
 			return *this;
 		}
 		
-		void endline(CoreOutput& output)
+		void
+		endline(CoreOutput& output)
 		{
 			output.endline().flush();
 		}
 		
-		extern void flush(CoreOutput& output)
+		extern
+		void
+		flush(CoreOutput& output)
 		{
 			output.flush();
 		}
 		
-		CoreOutput& StdOutput::operator<<(const String& str)
+		CoreOutput&
+		StdOutput::operator<<(const std::string& str)
 		{
-			COUT << str;
+			std::cout << str;
 			return *this;
 		}
 		
-		CoreOutput& StdOutput::operator<<(const Char* str)
+		CoreOutput&
+		StdOutput::operator<<(const char* str)
 		{
-			COUT << str;
+			std::cout << str;
 			return *this;
 		}
 		
-		CoreOutput& StdOutput::endline()
+		CoreOutput&
+		StdOutput::endline()
 		{
-			COUT << std::endl;
+			std::cout << std::endl;
 			return *this;
 		}
 		
-		CoreOutput& StdOutput::flush()
+		CoreOutput&
+		StdOutput::flush()
 		{
-			COUT.flush();
+			std::cout.flush();
 			return *this;
 		}
 		

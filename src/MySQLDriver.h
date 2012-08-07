@@ -19,6 +19,7 @@
 */
 
 #include <mysql++/mysql++.h>
+
 #include <toc/tocdb/DBDriver.h>
 #include <toc/tocstring/TocString.h>
 
@@ -32,22 +33,61 @@ namespace TOC
 			MySQLDriver();
 			~MySQLDriver();
 
-			virtual void databaseName(String) override;
-            virtual String databaseName() override;
-            virtual void userName(String) override;
-            virtual String userName() override;
-            virtual void userPassword(String) override;
-            virtual String userPassword() override;
-            virtual void serverURL(String) override;
-            virtual String serverURL() override;
-            virtual void serverPort(uint16_t) override;
-            virtual uint16_t serverPort() override;
+			virtual
+			void
+			databaseName(std::string) override;
+            
+			virtual
+			std::string
+			databaseName() override;
+            
+			virtual
+			void
+			userName(std::string) override;
+            
+			virtual
+			std::string
+			userName() override;
+            
+			virtual
+			void
+			userPassword(std::string) override;
+            
+			virtual
+			std::string
+			userPassword() override;
+            
+			virtual
+			void
+			serverURL(std::string) override;
+            
+			virtual
+			std::string
+			serverURL() override;
+            
+			virtual
+			void
+			serverPort(uint16_t) override;
+			
+            virtual
+            uint16_t
+            serverPort() override;
+            
 		private:
-			String dbname;
-			String uname;
-			String pw;
-			String url;
-			uint16_t port;
+			std::string
+			dbname;
+			
+			std::string
+			uname;
+			
+			std::string
+			pw;
+			
+			std::string
+			url;
+			
+			uint16_t
+			port;
 
 		public:
 			void
@@ -70,15 +110,15 @@ namespace TOC
 			rollback();
 			
 			bool
-			exec(const String&);
+			exec(const std::string&);
 			
 			void
-			executeSingleValueQuery(const String& query,
-			                        String& resultHolder);
+			executeSingleValueQuery(const std::string& query,
+			                        std::string& resultHolder);
 			
 			void
-			executeSingleColQuery(const String& q,
-			                      std::vector<String>& result);
+			executeSingleColQuery(const std::string& q,
+			                      std::vector<std::string>& result);
 			
 			// not in interface:
 			void
@@ -86,21 +126,24 @@ namespace TOC
 			                 const char* message);
 			
 			void
-			executeSingleRowQuery(const String& q,
-			                      std::map<String, String>& result);
+			executeSingleRowQuery(const std::string& q,
+			                      std::map<std::string,
+			                               std::string>& result);
 
 			static
 			DBDriver*
 			newDriver();
+			
 		private:
 			mysqlpp::Connection*
 			conn;
 			
 			mysqlpp::SimpleResult
-			execute(const String&);
+			execute(const std::string&);
 			
 			mysqlpp::StoreQueryResult
-			store(const String&);
+			store(const std::string&);
 		};
 	}
 }
+

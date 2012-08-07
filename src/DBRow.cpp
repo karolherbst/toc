@@ -38,7 +38,7 @@ namespace TOC
 		
 		DBValue
 		DBRow::
-		operator[](const String& att)
+		operator[](const std::string& att)
 		{
 			qb.attribute(att);
 			return DBValue(qb);

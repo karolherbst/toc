@@ -25,13 +25,12 @@ namespace TOC
 	namespace DB
 	{
 		AbstractQueryBuilder::
-		~AbstractQueryBuilder()
-		{}
+		~AbstractQueryBuilder(){}
 		
 		void
 		AbstractQueryBuilder::
-		addWherePair(const String& key,
-		             const String& value)
+		addWherePair(const std::string& key,
+		             const std::string& value)
 		{
 			keys.push(key);
 			values.push(value);
@@ -39,7 +38,7 @@ namespace TOC
 		
 		void
 		AbstractQueryBuilder::
-		addOrderPair(const String& key,
+		addOrderPair(const std::string& key,
 		             TOC::ORDER order)
 		{
 			orders.push(OrderPair(key,

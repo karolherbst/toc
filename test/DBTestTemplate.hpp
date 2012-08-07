@@ -33,14 +33,14 @@ BOOST_AUTO_TEST_CASE( QueryBuilder )
 
 		// build a table
 		qb.attribute("name");
-		db.executeQuery(qb.buildAddAttributeQuery(String("karol"), TOC::DBString, 32));
+		db.executeQuery(qb.buildAddAttributeQuery(std::string("karol"), TOC::DBString, 32));
 		qb.attribute("age");
-		db.executeQuery(qb.buildAddAttributeQuery(String("0"), TOC::DBInt, 10));
+		db.executeQuery(qb.buildAddAttributeQuery(std::string("0"), TOC::DBInt, 10));
 		qb.attribute("gender");
-		db.executeQuery(qb.buildAddAttributeQuery(String("M"), TOC::DBString, 1));
+		db.executeQuery(qb.buildAddAttributeQuery(std::string("M"), TOC::DBString, 1));
 
 		// create a row
-		std::map<String, String> values;
+		std::map<std::string, std::string> values;
 		values["ID"] = "1";
 		values["name"] = "herbst";
 		values["age"] = "21";
@@ -55,7 +55,7 @@ BOOST_AUTO_TEST_CASE( QueryBuilder )
 		db.commit();
 
 		// now we want to check some values stored in the database;
-		std::map<String, String> result;
+		std::map<std::string, std::string> result;
 		qb.entityclass("test");
 		qb.attribute("");
 		qb.id(1);
@@ -73,14 +73,14 @@ BOOST_AUTO_TEST_CASE( QueryBuilder )
 		db.executeQuery(qb.buildSingleValueInsertQuery("name1"));
 		db.commit();
 
-		std::map<String, String> result2;
+		std::map<std::string, std::string> result2;
 		db.executeSingleRowQuery(qb.buildSingleRowSelectQuery(), result2);
 		BOOST_REQUIRE_EQUAL(result2.at("name"), "name1");
 
 		// search for a specific data type with logical primary key
 		qb.entityclass("test");
 		qb.addWherePair("name", "herbst");
-		String result3;
+		std::string result3;
 		db.executeSingleValueQuery(qb.buildIDSelectQuery(), result3);
 		BOOST_REQUIRE_EQUAL(result3, "1");
 	}

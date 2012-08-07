@@ -21,61 +21,147 @@
 #ifndef LIB_TOCDB_DB_DBDRIVER
 #define LIB_TOCDB_DB_DBDRIVER 1
 
-#include <boost/noncopyable.hpp>
-#include <stdint.h>
-#include <toc/tocstring/TocString.h>
 #include <map>
+#include <stdint.h>
 #include <vector>
 
-#include <toc/boost/extension/impl/decl.hpp>
-#ifndef DLL_TOC_DB
-#ifdef MAKE_TOC_DB
-#define DLL_TOC_DB BOOST_EXTENSION_EXPORT_DECL
-#else
-#define DLL_TOC_DB BOOST_EXTENSION_IMPORT_DECL
-#endif
-#endif
+#include <boost/noncopyable.hpp>
+
+#include <toc/tocstring/TocString.h>
+
 
 namespace TOC
 {
-    namespace DB
-    {
-        class DLL_TOC_DB DBDriver : boost::noncopyable
-        {
-        public:
-            inline virtual ~DBDriver(){};
-            
-            inline virtual void databaseName(String){};
-            inline virtual String databaseName(){return String();};
-            inline virtual void userName(String){};
-            inline virtual String userName(){return String();};
-            inline virtual void userPassword(String){};
-            inline virtual String userPassword(){return String();};
-            inline virtual void serverURL(String){};
-            inline virtual String serverURL(){return String();};
-            inline virtual void serverPort(uint16_t){};
-            inline virtual uint16_t serverPort(){return 0;};
-            
-            virtual void close() = 0;
-            /*
-             * return true if auth was successfull
-             * return false if connected without authentication
-             * throws CoreException if authentication fails
-             */
-            virtual bool auth() = 0;
-            
-            virtual void startTransaction() = 0;
-            virtual void commit() = 0;
-            virtual void rollback() = 0;
-            virtual bool exec(const String&) = 0;
-            virtual void executeSingleValueQuery(const String& query,
-                                                 String& resultHolder) = 0;
-            virtual void executeSingleColQuery(const String& q,
-                                               std::vector<String>& result) = 0;
-			virtual void executeSingleRowQuery(const String& q,
-			                                   std::map<String, String>& result) = 0;
-        };
-    }
+	namespace DB
+	{
+		class DBDriver : boost::noncopyable
+		{
+		public:
+			inline virtual
+			~DBDriver(){};
+			
+			inline virtual
+			void
+			databaseName(std::string){};
+			
+			inline virtual
+			std::string
+			databaseName();
+			
+			inline virtual
+			void
+			userName(std::string){};
+			
+			inline virtual
+			std::string
+			userName();
+			
+			inline virtual
+			void
+			userPassword(std::string){};
+			
+			inline virtual
+			std::string
+			userPassword();
+			
+			inline virtual
+			void
+			serverURL(std::string){};
+			
+			inline virtual
+			std::string
+			serverURL();
+			
+			inline virtual
+			void
+			serverPort(uint16_t){};
+			
+			inline virtual
+			uint16_t
+			serverPort();
+			
+			virtual
+			void
+			close() = 0;
+			
+			/*
+			 * return true if auth was successfull
+			 * return false if connected without authentication
+			 * throws CoreException if authentication fails
+			 */
+			virtual
+			bool
+			auth() = 0;
+			
+			virtual
+			void
+			startTransaction() = 0;
+			
+			virtual
+			void
+			commit() = 0;
+			
+			virtual
+			void
+			rollback() = 0;
+			
+			virtual
+			bool
+			exec(const std::string&) = 0;
+			
+			virtual
+			void
+			executeSingleValueQuery(const std::string& query,
+			                        std::string& resultHolder) = 0;
+			
+			virtual
+			void
+			executeSingleColQuery(const std::string& q,
+			                      std::vector<std::string>& result) = 0;
+			
+			virtual
+			void
+			executeSingleRowQuery(const std::string& q,
+			                      std::map<std::string,
+			                               std::string>& result) = 0;
+		};
+		
+		std::string
+		DBDriver::
+		databaseName()
+		{
+			return std::string();
+		}
+		
+		std::string
+		DBDriver::
+		userName()
+		{
+			return std::string();
+		}
+		
+		std::string
+		DBDriver::
+		userPassword()
+		{
+			return std::string();
+		}
+		
+		std::string
+		DBDriver::
+		serverURL()
+		{
+			return std::string();
+		}
+		
+		uint16_t
+		DBDriver::
+		serverPort()
+		{
+			return 0;
+		}
+	}
 }
 
 #endif //LIB_TOCDB_DB_DBDRIVER
+

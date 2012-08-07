@@ -37,27 +37,38 @@
 
 namespace TOC
 {
-    using message::ChatMessage;
-    namespace core
-    {
-        COREEXCEPTION_SUBCLASS(ControllerException,
-                               CSTRING("controller exception!"));
-        /*
-         *
-         */
-        class DLL_TOC_CORE ControllerCore
-        {
-        public:
-            GENERIC (~ControllerCore());
-            
-            template <class SessionType>
-            void requestCommand(const ChatMessage&, SessionType*){};
-        protected:
-            template <class StepType, class SessionType>
-            void dispatchCommandStep(StepType*, SessionType*){};
-            String commandNotFoundMessage(const String&, CoreException&);
-        };
-    }
+	using message::ChatMessage;
+	namespace core
+	{
+		COREEXCEPTION_SUBCLASS(ControllerException,
+		                       "controller exception!");
+		/*
+		 *
+		 */
+		class DLL_TOC_CORE ControllerCore
+		{
+		public:
+			virtual
+			~ControllerCore(){};
+
+			template <class SessionType>
+			void
+			requestCommand(const ChatMessage&,
+			               SessionType*){};
+
+		protected:
+			template <class StepType,
+			          class SessionType>
+			void
+			dispatchCommandStep(StepType*,
+			                    SessionType*){};
+			
+			std::string
+			commandNotFoundMessage(const std::string&,
+			                       CoreException&);
+		};
+	}
 }
 
 #endif //LIB_TOCCORE_CONTROLLERCORE
+

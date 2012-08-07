@@ -25,24 +25,23 @@
 
 namespace TOC
 {
-    template <class Task>
-    class SingleThreadedProcessor
-    {
-    public:
-        template <class ST>
-        void
-        add(const ST &str);
-    };
+	template <class Task>
+	class SingleThreadedProcessor
+	{
+	public:
+		template <class StringType>
+		void add(const StringType& str);
+	};
 
-    template <class Task>
-    template <class ST>
-    void
-    SingleThreadedProcessor<Task>::
-    add(const ST &str)
-    {
-        Task::run(str);
-    }
+	template <class Task>
+	template <class ST>
+	void
+	SingleThreadedProcessor<Task>::
+	add(const ST& str)
+	{
+		Task::run(str);
+	}
 }
 
-
 #endif //LIB_TOCLOGGER_SINGLETHREADEDPROCESSOR
+

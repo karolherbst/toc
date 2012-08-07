@@ -35,68 +35,71 @@
 
 namespace TOC
 {
-    namespace core
-    {
-        /**
-         * little Exception class providing a constructor for string arguments
-         *
-         * @class   CoreException
-         * @author  Karol Herbst
-         * @since   0.1
-         */
-        class DLL_TOC_EXCEPTION CoreException : public std::exception
-        {
-        public:
-            /**
-             * default constructor
-             *
-             * @author  Karol Herbst
-             * @since   0.1
-             */
-            CoreException() throw();
-            
-            /**
-             * string class based constructor
-             *
-             * @author  Karol Herbst
-             * @since   0.1
-             * @param   message the message for the new created exception
-             */
-			template <typename ST>
-            CoreException(const ST &message) throw();
-            
-            /**
-             * default destructor
-             *
-             * @author  Karol Herbst
-             * @since   0.1
-             */
-            virtual ~CoreException() throw() override;
-            
-            /**
-             * method to return error message
-             *
-             * @author  Karol Herbst
-             * @since   0.1
-             * @return  message from this exception
-             */
-            virtual const char* what() const throw() override;
+	namespace core
+	{
+		/**
+		 * little Exception class providing a constructor for string arguments
+		 *
+		 * @class   CoreException
+		 * @author  Karol Herbst
+		 * @since   0.1
+		 */
+		class DLL_TOC_EXCEPTION CoreException : public std::exception
+		{
+		public:
+			/**
+			 * default constructor
+			 *
+			 * @author  Karol Herbst
+			 * @since   0.1
+			 */
+			CoreException() throw();
 
-			String getMessage() const;
+			/**
+			 * string class based constructor
+			 *
+			 * @author  Karol Herbst
+			 * @since   0.1
+			 * @param   message the message for the new created exception
+			 */
+			template <typename StringType>
+			CoreException(const StringType& message) throw();
+
+			/**
+			 * default destructor
+			 *
+			 * @author  Karol Herbst
+			 * @since   0.1
+			 */
+			virtual
+			~CoreException() throw() override;
+
+			/**
+			 * method to return error message
+			 *
+			 * @author  Karol Herbst
+			 * @since   0.1
+			 * @return  message from this exception
+			 */
+			virtual
+			const char*
+			what() const throw() override;
+
+			std::string
+			getMessage() const;
 		protected:
-			String name;
+			std::string name;
 
-        private:
-            const String message;
-        };
+		private:
+			const std::string message;
+		};
 
 		template <typename ST>
 		CoreException::
-		CoreException(const ST &_message) throw()
+		CoreException(const ST& _message) throw()
 		:	name("CoreException"),
-		message(_message)
-		{}
-    }
+			message(_message){}
+	}
 }
 
 /**
@@ -106,16 +109,16 @@ namespace TOC
  * @since   0.1
  * @param   parentclass the parent exception classname
  * @param   childclass  the new exception class name
- * @param  str         the default message
+ * @param  str the default message
  */
 #define SUBCLASS_OF_COREEXCEPTION_SUBCLASS(parentclass, childclass, str) \
-struct childclass : public parentclass                                   \
-{                                                                        \
-    childclass()                                                         \
-    :   childclass(str){}                                                \
-	template <typename ST>                                               \
-    childclass(const ST &message)                                        \
-    :   parentclass(message){this->name = #childclass;}                  \
+struct childclass : public parentclass \
+{ \
+	childclass() \
+	:	childclass(str){} \
+	template <typename ST> \
+	childclass(const ST &message) \
+	:	parentclass(message){this->name = #childclass;} \
 }
 
 /**
@@ -124,7 +127,7 @@ struct childclass : public parentclass                                   \
  * @author  Karol Herbst
  * @since   0.1
  * @param   classname   the name of the new exception class
- * @param   string      default error message
+ * @param   string  default error message
  */
 #define COREEXCEPTION_SUBCLASS(classname, string) SUBCLASS_OF_COREEXCEPTION_SUBCLASS(TOC::core::CoreException, classname, string)
 

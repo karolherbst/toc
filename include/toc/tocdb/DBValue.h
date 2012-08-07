@@ -23,48 +23,32 @@
 
 #include <toc/tocstring/TocString.h>
 
-#include <toc/boost/extension/impl/decl.hpp>
-#ifndef DLL_TOC_DB
-#ifdef MAKE_TOC_DB
-#define DLL_TOC_DB BOOST_EXTENSION_EXPORT_DECL
-#else
-#define DLL_TOC_DB BOOST_EXTENSION_IMPORT_DECL
-#endif
-#endif
-
 namespace TOC
 {
-    namespace DB
-    {
-        class AbstractQueryBuilder;
-        
-        class DLL_TOC_DB DBValue
-        {
-        public:
-            DBValue(AbstractQueryBuilder&);
-            
-            // convertable to all
-            // template <class T>
-            // operator T() const;
-            
-            DBValue& operator=(const String& value);
-            
-            friend OStream&
-            operator<<(OStream& ostr,
-                       const DBValue& m);
-        private:
-            String convert() const;
-            AbstractQueryBuilder& qb;
-        };
-        
-        /*template <class T>
-        DBValue::
-        operator T() const
-        {
-            return lexical_cast<T>(convert());
-        }*/
-        
-    }
+	namespace DB
+	{
+		class AbstractQueryBuilder;
+		
+		class DBValue
+		{
+		public:
+			DBValue(AbstractQueryBuilder&);
+			
+			DBValue&
+			operator=(const std::string& value);
+			
+			friend std::ostream&
+			operator<<(std::ostream& ostr,
+			           const DBValue& m);
+		private:
+			std::string
+			convert() const;
+			
+			AbstractQueryBuilder&
+			qb;
+		};		
+	}
 }
 
 #endif //LIB_TOCDB_DB_DBVALUE
+

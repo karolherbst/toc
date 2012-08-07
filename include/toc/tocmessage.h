@@ -25,3 +25,4 @@
 #include <toc/tocmessage/ChatInformation.h>
 
 #endif //LIB_TOC_MESSAGE_INCLUDE
+

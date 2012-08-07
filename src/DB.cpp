@@ -37,15 +37,14 @@ namespace TOC
 	using core::CoreException;
 	namespace DB
 	{
-		const static String DB_CONNECT_FAILED		= CSTRING("Connection to Database failed! Reason: %r%");
-		const static String DB_CONNECT_SUCCESS		= CSTRING("Connected to Database!");
-		const static String DB_FATAL_ERROR		= CSTRING("Database failure, we are stopping here");
-		const static String QUERY_EXECUTE_FAILED	= CSTRING("Failed to execute query: %query%");
+		const static std::string DB_CONNECT_FAILED = "Connection to Database failed! Reason: %r%";
+		const static std::string DB_CONNECT_SUCCESS = "Connected to Database!";
+		const static std::string DB_FATAL_ERROR = "Database failure, we are stopping here";
+		const static std::string QUERY_EXECUTE_FAILED = "Failed to execute query: %query%";
 		
 		DBImpl::
 		DBImpl()
-		:   driver(NULL)
-		{}
+		:	driver(NULL){}
 		
 		DBImpl::
 		~DBImpl()
@@ -69,11 +68,11 @@ namespace TOC
 		
 		void
 		DBImpl::
-		setConnectionInfo(String& server,
+		setConnectionInfo(std::string& server,
 		                  uint32_t port,
-		                  String& user,
-		                  String& pw,
-		                  String& db)
+		                  std::string& user,
+		                  std::string& pw,
+		                  std::string& db)
 		{
 			setServerURL(server);
 			setServerPort(port);
@@ -102,7 +101,7 @@ namespace TOC
 				logger.log<LOGGINGTYPE::ERROR>(e.what());
 				throw AuthenticationFailedException();
 			}
-			logger.log<LOGGINGTYPE::INFO>(DB_CONNECT_SUCCESS + CSTRING(" tid:"));
+			logger.log<LOGGINGTYPE::INFO>(DB_CONNECT_SUCCESS + " tid:");
 		}
 		
 		void
@@ -120,7 +119,7 @@ namespace TOC
 		
 		DBTable
 		DBImpl::
-		operator[](const String& str)
+		operator[](const std::string& str)
 		{
 			if (driver.get() == NULL)
 				initDriver();
@@ -177,7 +176,7 @@ namespace TOC
 		
 		void
 		DBImpl::
-		executeQuery(const String& q)
+		executeQuery(const std::string& q)
 		{
 			if (driver.get() == NULL)
 				initDriver();
@@ -195,7 +194,7 @@ namespace TOC
 		
 		void
 		DBImpl::
-		executeBoolQuery(const String& q,
+		executeBoolQuery(const std::string& q,
 		                 bool&)
 		{
 			logger.log<LOGGINGTYPE::DEBUG>(q);
@@ -204,8 +203,8 @@ namespace TOC
 		
 		void
 		DBImpl::
-		executeSingleValueQuery(const String& q,
-		                        String& result)
+		executeSingleValueQuery(const std::string& q,
+		                        std::string& result)
 		{
 			if (driver.get() == NULL)
 				initDriver();
@@ -224,8 +223,9 @@ namespace TOC
 		
 		void
 		DBImpl::
-		executeSingleRowQuery(const String& q,
-		                      std::map<String, String>& result)
+		executeSingleRowQuery(const std::string& q,
+		                      std::map<std::string,
+		                               std::string>& result)
 		{
 			if (driver.get() == NULL)
 				initDriver();
@@ -244,8 +244,8 @@ namespace TOC
 		
 		void
 		DBImpl::
-		executeSingleColQuery(const String& q,
-		                      std::vector<String>& result)
+		executeSingleColQuery(const std::string& q,
+		                      std::vector<std::string>& result)
 		{
 			if (driver.get() == NULL)
 				initDriver();
@@ -264,8 +264,9 @@ namespace TOC
 		
 		void
 		DBImpl::
-		executeMultiRowQuery(const String& q,
-		                     std::vector< std::map<String, String> >&)
+		executeMultiRowQuery(const std::string& q,
+		                     std::vector<std::map<std::string,
+		                                          std::string>>&)
 		{
 			if (driver.get() == NULL)
 				initDriver();

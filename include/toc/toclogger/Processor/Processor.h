@@ -25,9 +25,9 @@ template <class Task>
 class Processor
 {
 public:
-    template <class StringType>
-    void
-    add(StringType str);
+	template <class StringType>
+	void add(StringType str);
 };
 
 #endif //LIB_TOCLOGGER_PROCESSOR
+

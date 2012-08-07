@@ -25,8 +25,8 @@
 
 namespace TOC
 {
-    namespace DB
-    {
+	namespace DB
+	{
 		/*
 		 * AbstractSQLQueryBuilder is just a abstract class to make it easier implementing QueryBuilder for SQL
 		 * base dbms. all pure methods are listed here just for documentation, so you know what you have to
@@ -34,91 +34,164 @@ namespace TOC
 		 *
 		 * @see TOC::DB::AbstractQueryBuilder
 		 */
-        class DLL_TOC_DB AbstractSQLQueryBuilder : public AbstractQueryBuilder
-        {
-        public:
-			virtual const String entityclass() const override;
-			virtual void entityclass(const String & entityclass) override;
-			virtual const String attribute() const override;
-			virtual void attribute(const String & attribute) override;
-			virtual const uint64_t id() const override;
-			virtual void id(const uint64_t & id) override;
+		class AbstractSQLQueryBuilder : public AbstractQueryBuilder
+		{
+		public:
+			virtual
+			const std::string
+			entityclass() const override;
+			
+			virtual
+			void
+			entityclass(const std::string& entityclass) override;
+			
+			virtual
+			const std::string
+			attribute() const override;
+			
+			virtual
+			void
+			attribute(const std::string& attribute) override;
+			
+			virtual
+			const uint64_t
+			id() const override;
+			
+			virtual
+			void
+			id(const uint64_t& id) override;
 
-            virtual String buildCreateEntityClassQuery() = 0;
-            virtual String buildRelationEntityClassQuery(const String& t1,
-                                                         const String& t2) = 0;
-            virtual String buildSingleAttributeSelectQuery() = 0;
-            virtual String buildSingleValueInsertQuery(const String& attribute) = 0;
-            virtual String buildIdInsertQuery(std::map<String, String>&) = 0;
-
-			/*
-			 * implemented methods
-			 */
-            virtual String buildIDSelectQuery() override;
-			virtual String buildSingleRowSelectQuery() override;
-            virtual String startTransaction() override;
-            virtual String commitTransaction() override;
-            virtual String rollbackTransaction() override;
-            virtual String buildSingleValueSelectQuery() override;
-			virtual String buildDeleteEntityClassQuery(bool ifExists = false) override;
-            virtual String buildAddAttributeQuery(const String& defaultValue,
-                                                  const String& type,
-                                                  const int16_t size) override;
+			virtual
+			std::string
+			buildCreateEntityClassQuery() = 0;
+			
+			virtual
+			std::string
+			buildRelationEntityClassQuery(const std::string& t1,
+			                              const std::string& t2) = 0;
+			
+			virtual
+			std::string
+			buildSingleAttributeSelectQuery() = 0;
+			
+			virtual
+			std::string
+			buildSingleValueInsertQuery(const std::string& attribute) = 0;
+			
+			virtual
+			std::string
+			buildIdInsertQuery(std::map<std::string,
+			                            std::string>&) = 0;
+			
+			virtual
+			std::string
+			buildIDSelectQuery() override;
+			
+			virtual
+			std::string
+			buildSingleRowSelectQuery() override;
+			
+			virtual
+			std::string
+			startTransaction() override;
+			
+			virtual
+			std::string
+			commitTransaction() override;
+			
+			virtual
+			std::string
+			rollbackTransaction() override;
+			
+			virtual
+			std::string
+			buildSingleValueSelectQuery() override;
+			
+			virtual
+			std::string
+			buildDeleteEntityClassQuery(bool ifExists = false) override;
+			
+			virtual
+			std::string
+			buildAddAttributeQuery(const std::string& defaultValue,
+			                       const std::string& type,
+			                       const int16_t size) override;
 		protected:
-			virtual String replaceASCnDESC(ORDER o);
-			virtual String replaceType(const String& type) = 0;
+			virtual
+			std::string
+			replaceASCnDESC(ORDER o);
+			
+			virtual
+			std::string
+			replaceType(const std::string& type) = 0;
 
-            template<class T>
-            void buildOrderPart(T& ss);
-            template<class T>
-            void buildWherePart(T& ss);
+			template<typename T>
+			void buildOrderPart(T& ss);
+			
+			template<typename T>
+			void buildWherePart(T& ss);
 		private:
-			String _entityclass;
-			String _attribute;
-			uint64_t _id;
-        };
+			std::string
+			_entityclass;
+			
+			std::string
+			_attribute;
+			
+			uint64_t
+			_id;
+		};
 
-		template<class T>
+		template<typename T>
 		void
 		AbstractSQLQueryBuilder::
 		buildWherePart(T& ss)
 		{
-			if (keys.size() > 0 && keys.size() == values.size())
+			if (keys.size() > 0
+			 && keys.size() == values.size())
 			{
-				ss << " WHERE ";
-				ss << keys.front() << "='" << values.front() << "'";
+				ss << " WHERE "
+				   << keys.front()
+				   << "='"
+				   << values.front()
+				   << "'";
 				keys.pop();
 				values.pop();
 				for (size_t i = keys.size(); i > 0; i--)
 				{
-					ss << " AND " << keys.front() << "='" << values.front()
-					<< "'";
+					ss << " AND "
+					   << keys.front()
+					   << "='"
+					   << values.front()
+					   << "'";
 					keys.pop();
 					values.pop();
 				}
 			}
 		}
 
-		template<class T>
+		template<typename T>
 		void
 		AbstractSQLQueryBuilder::
 		buildOrderPart(T& ss)
 		{
 			if (orders.size() > 0)
 			{
-				ss << " ORDER BY " << orders.front().first << ' '
-				<< replaceASCnDESC(orders.front().second);
+				ss << " ORDER BY "
+				   << orders.front().first
+				   << ' '
+				   << replaceASCnDESC(orders.front().second);
 				orders.pop();
 				for (size_t i = orders.size(); i > 0; i--)
 				{
-					ss << ", " << orders.front().first << ' '
-					<< replaceASCnDESC(orders.front().second);
+					ss << ", "
+					   << orders.front().first
+					   << ' '
+					   << replaceASCnDESC(orders.front().second);
 					orders.pop();
 				}
 			}
 		}
-
-    }
+	}
 }
 
 #endif //LIB_TOCDB_ABSTRACTQUERYBUILDER

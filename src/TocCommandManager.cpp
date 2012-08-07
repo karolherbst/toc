@@ -26,25 +26,25 @@ namespace TOC
 {
 	namespace core
 	{
-		TocCommandManager commandManager;
+		TocCommandManager
+		commandManager;
 		
 		TocCommandManager::
 		TocCommandManager()
 		:	input(stdInput),
-			output(stdOutput)
-		{}
+			output(stdOutput){}
 		
 		void
 		TocCommandManager::
 		requestCommandToSession(Session_Core* session,
-		                        String command)
+		                        std::string command)
 		{
 			session->write(command);
 		}
 		
 		void
 		TocCommandManager::
-		requestCommand(String command)
+		requestCommand(std::string command)
 		{
 			// delete all spaces at the front and back
 			trim(command);
@@ -52,40 +52,38 @@ namespace TOC
 			// we wanna connect to a channel
 			if (command.operator[](0) == '/')
 			{
-				String channelName = command.substr(0,
-				                                    command.find(' '));
+				std::string channelName = command.substr(0,
+				                                         command.find(' '));
 				erase_first(command,
 				            channelName);
 				trim(command);
 				
-				if (setActualChannel(channelName.substr(1)) )
-				{
+				if (setActualChannel(channelName.substr(1)))
 					if (command.size() <= 0)
-					{
-						output << CSTRING("New Channel selected: ") << channelName.substr(1) << endline;
-					} else {
+						output << "New Channel selected: "
+						       << channelName.substr(1)
+						       << endline;
+					else
 						requestCommandToSession(actualChannel,
 						                        command);
-					}
-				} else {
-					output << CSTRING("such a channel doesnt exist") << endline;
-				}
-			} else {
+				else
+					output << "such a channel doesnt exist"
+					       << endline;
+			}
+			else
 				if (actualChannel)
-				{
 					requestCommandToSession(actualChannel,
 					                        command);
-				} else {
-					output << CSTRING("no channel selected") << endline;
-				}
-			}
+				else
+					output << "no channel selected"
+					       << endline;
 		}
 		
 		void
 		TocCommandManager::
 		openCommandInput()
 		{
-			Char line[512];
+			char line[512];
 			
 			while (input.getline(line,
 			                     512))
@@ -95,17 +93,16 @@ namespace TOC
 		void
 		TocCommandManager::
 		registerChannel(Session_Core* session,
-		                String str)
+		                std::string str)
 		{
-			channels.insert(std::pair<String,
-			                Session_Core*>(str,
-			                               session)
-			               );
+			channels.insert(std::pair<std::string,
+			                          Session_Core*>(str,
+			                                         session));
 		}
 		
 		bool
 		TocCommandManager::
-		setActualChannel(String channel)
+		setActualChannel(std::string channel)
 		{
 			if(channels[channel])
 			{

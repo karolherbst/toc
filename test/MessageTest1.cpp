@@ -8,11 +8,11 @@ using TOC::message::ChatMessage;
 
 BOOST_AUTO_TEST_CASE( test1 )
 {
-	const String testMessage = CSTRING("hallo");
+	const std::string testMessage = "hallo";
 	ChatMessage cm1(testMessage);
 	
 	// simulate sending
-	const Char* data = cm1.data();
+	const char* data = cm1.data();
 	ChatMessage cm2(data);
 	
 //	BOOST_REQUIRE_EQUAL(cm2.body(), cm1.body());

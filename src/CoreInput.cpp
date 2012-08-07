@@ -27,15 +27,14 @@ namespace TOC
 	namespace core
 	{
 		CoreInput::
-		~CoreInput()
-		{}
+		~CoreInput(){}
 		
 		bool
 		StdInput::
-		getline(Char* __s,
+		getline(char* __s,
 		        int32_t __n)
 		{
-			return CIN.getline(__s,__n);
+			return std::cin.getline(__s,__n);
 		}
 		
 		StdInput stdInput;

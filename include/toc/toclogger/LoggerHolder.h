@@ -45,7 +45,9 @@ namespace TOC
 		getLogger();*/
 
 	private:
-		static std::map <String, any> loggers;
+		static
+		std::map<std::string, any>
+		loggers;
 	};
 
 	TOC_LOGGER_TEMPLATE_ARG(A, B, C, Name, Logger)
@@ -66,5 +68,4 @@ namespace TOC
 }
 
 #endif //LIB_TOC_LOGGER_LOGGERHOLDER
-
 

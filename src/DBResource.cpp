@@ -18,16 +18,14 @@
 *
 */
 
-#include <toc/tocdb/DBResource.h>
-
-#include <toc/boost/extension/shared_library.hpp>
 #include <boost/foreach.hpp>
 #include <boost/function.hpp>
 
+#include <toc/boost/extension/shared_library.hpp>
 #include <toc/tocdb/DBDriver.h>
 #include <toc/tocdb/DBExceptions.h>
-
 #include <toc/tocdb/DBMS.h>
+#include <toc/tocdb/DBResource.h>
 
 //MySQL Driver
 #include "MySQLDriver.h"
@@ -65,11 +63,11 @@ namespace TOC
 			return loadedDrivers.at(_pd)._abstractQueryBuilderFunc();
 		}
 
-		std::list<String>
+		std::list<std::string>
 		DBResourceImpl::
 		availableDrivers() const
 		{
-			std::list<String> result;
+			std::list<std::string> result;
 
 			BOOST_FOREACH(const DriverPair &p, loadedDrivers)
 			{

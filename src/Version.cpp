@@ -74,14 +74,14 @@ namespace TOC
 			bui(arr[3]);
 		}
 		
-		OStream &
-		operator<<(OStream &ostr,
-		           TOC::core::IVersion &v)
+		std::ostream&
+		operator<<(std::ostream& ostr,
+		           TOC::core::IVersion& v)
 		{
-			return (ostr << lexical_cast<String>(v.rel()) << '.'
-			             << lexical_cast<String>(v.maj()) << '.'
-			             << lexical_cast<String>(v.min()) << ':'
-			             << lexical_cast<String>(v.bui()));
+			return (ostr << lexical_cast<std::string>(v.rel()) << '.'
+			             << lexical_cast<std::string>(v.maj()) << '.'
+			             << lexical_cast<std::string>(v.min()) << ':'
+			             << lexical_cast<std::string>(v.bui()));
 		}
 		
 		Version::
@@ -89,19 +89,17 @@ namespace TOC
 		        uint16_t maj,
 		        uint16_t min,
 		        uint16_t bui)
-		:   _rel(rel),
-		    _maj(maj),
-		    _min(min),
-		    _bui(bui)
-		{}
+		:	_rel(rel),
+			_maj(maj),
+			_min(min),
+			_bui(bui){}
 		
 		Version::
 		Version(const uint16_t arr[4])
 		:	Version(arr[0],
 			        arr[1],
 			        arr[2],
-			        arr[3])
-		{}
+			        arr[3]){}
 		
 		IVersion&
 		Version::
@@ -118,3 +116,4 @@ namespace TOC
 		}
 	}
 }
+

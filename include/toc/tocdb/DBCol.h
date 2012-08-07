@@ -21,57 +21,62 @@
 #ifndef LIB_TOCDB_DB_DBCOL
 #define LIB_TOCDB_DB_DBCOL 1
 
+#include <vector>
+
 #include <toc/tocdb/DBTypes.h>
 #include <toc/tocdb/StandardTypes.h>
 #include <toc/tocstring/TocString.h>
-#include <vector>
-
-#include <toc/boost/extension/impl/decl.hpp>
-#ifndef DLL_TOC_DB
-#ifdef MAKE_TOC_DB
-#define DLL_TOC_DB BOOST_EXTENSION_EXPORT_DECL
-#else
-#define DLL_TOC_DB BOOST_EXTENSION_IMPORT_DECL
-#endif
-#endif
 
 namespace TOC
 {
-    namespace DB
-    {
-        class AbstractQueryBuilder;
-        class DBValue;
-        
-        class DLL_TOC_DB DBCol
-        {
-        public:
-            DBCol(const String& col,
-                  AbstractQueryBuilder&);
-            
-            DBValue operator[](uint64_t id);
-            
-            DBCol& create(const String& defaultValue = NULLSTRING,
-                          const String& type = DBString,
-                          const int16_t size = 10);
-            
-            // query building
-            DBCol& where(const String& att,
-                         const String value);
-            DBCol& order(const String& att,
-                         ORDER order);
-            
-            // search over value
-            uint64_t search(const String& value);
-            // store values in vec
-            DBCol& operator>>(std::vector<String>& vec);
-            
-        private:
-            String orderAtt;
-            ORDER orderKind;
-            
-            AbstractQueryBuilder& qb;
-        };
-    }
+	namespace DB
+	{
+		class AbstractQueryBuilder;
+		class DBValue;
+		
+		class DBCol
+		{
+		public:
+			DBCol(const std::string& col,
+			      AbstractQueryBuilder&);
+			
+			DBValue
+			operator[](uint64_t id);
+			
+			DBCol&
+			create(const std::string& defaultValue = NULLSTRING,
+			       const std::string& type = DBString,
+			       const int16_t size = 10);
+			
+			// query building
+			DBCol&
+			where(const std::string& att,
+			      const std::string value);
+			
+			DBCol&
+			order(const std::string& att,
+			      ORDER order);
+			
+			// search over value
+			uint64_t
+			search(const std::string& value);
+			
+			// store values in vec
+			DBCol&
+			operator>>(std::vector<std::string>& vec);
+			
+		private:
+			std::string
+			orderAtt;
+			
+			ORDER
+			orderKind;
+			
+			AbstractQueryBuilder&
+			qb;
+		};
+	}
 }
 
 #endif //LIB_TOCDB_DB_DBCOL
+

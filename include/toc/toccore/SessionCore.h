@@ -42,164 +42,230 @@ CREATE_LOGGER_NAME_CLASS_DEF(SessionLog);
 
 namespace TOC
 {
-    using message::ChatMessage;
-    namespace core
-    {
-        typedef std::deque<ChatMessage> MessageQueue;
-        
-        class DLL_TOC_CORE Session_Core
-        {
-        private:
-            MessageQueue messageQueue;
-            CREATE_LOGGER(logger, SessionLog);
-            
-            void do_write(ChatMessage&);
-            void handleWrite(const boost::system::error_code&);
-            
-            boost::asio::io_service& io_service_;
-            
-            virtual std::set<Session_Core*>& getSetOfOtherSessions() = 0;
-            
-            void commandLoop(Char* buffer,
-                             const boost::system::error_code&,
-                             size_t bytes_transferred);
-            
-            template <typename Method, typename Object>
-            void asyncReadHeaderWrapper(Char* buffer,
-                                        Object*,
-                                        Method,
-                                        const boost::system::error_code&,
-                                        size_t bytes_transferred);
-            
-            template <typename Method, typename Object>
-            void asyncReadBodyWrapper(Char* buffer,
-                                      Object*,
-                                      Method,
-                                      const boost::system::error_code&,
-                                      size_t bytes_transferred);
-            
-            bool isInCommandLoop;
-            
-            std::map<String, String> _values;
-            
-        protected:
-            void do_close();
-            // for Servers
-            Session_Core(boost::asio::io_service& io_service,
-                         CoreOutput& output);
-            
-            enum _TMP_CONSTANTS
-            {
-                max_length = 512
-            };
-            
-            boost::asio::ip::tcp::socket socket_;
-            
-            void makePublic();
-            void unmakePublic();
-            
-            void disconnect();
-            virtual void atDisconnect() = 0;
-            
-            virtual void requestCommand(const ChatMessage&) = 0;
-            
-            CoreOutput& output;
-            
-            template <typename Clazz, typename Method>
-            void asyncRead(Method method);
-            
-        public:
-            // for Client
-            Session_Core(boost::asio::io_service&,
-                         boost::asio::ip::tcp::resolver::iterator endpoint_iterator,
-                         CoreOutput&);
-            virtual ~Session_Core();
-            void handle_connect(const boost::system::error_code&,
-                                boost::asio::ip::tcp::resolver::iterator endpoint_iterator);
-            // for Client end
-            
-            virtual void start() = 0;
-            void close();
-            
-            boost::asio::ip::tcp::socket& socket();
-            
-            void writeToAll(const Char* msg, uint16_t length);
-            void writeToAll(const String&);
-            void writeToAll(const ChatMessage&);
-            void writeToAllExceptThis(const Char* msg, uint16_t length, Session_Core* _this);
-            void writeToAllExceptThis(const String&, Session_Core* _this);
-            void writeToAllExceptThis(const ChatMessage&, Session_Core* _this);
-            
-            void write(const Char* msg, uint16_t length);
-            void write(const String&);
-            void write(const ChatMessage&);
-            
-            Session_Core& operator<<(const String&);
-            Session_Core& operator<<(const ChatMessage&);
-            
-            void enterCommandLoop();
-            
-            String& operator[](String& key);
-            
-        };
-        
-        template <typename Method, typename Object>
-        void
-        Session_Core::
-        asyncReadHeaderWrapper(Char* buffer,
-                               Object*,
-                               Method method,
-                               const boost::system::error_code&,
-                               size_t /*bytes_transferred*/)
-        {
-            uint32_t size = ChatMessage::timestampLength +
-            ChatMessage::bodyLengthFromHeader(buffer);
-            
-            socket_.async_receive(boost::asio::buffer(&buffer[ChatMessage::headerLength],
-                                                      size),
-                                  boost::bind(&Session_Core::asyncReadBodyWrapper<Method, Object>,
-                                              this,
-                                              buffer,
-                                              static_cast<Object*>(this),
-                                              method,
-                                              boost::asio::placeholders::error,
-                                              boost::asio::placeholders::bytes_transferred));
-        }
-        
-        template <typename Method, typename Object>
-        void
-        Session_Core::
-        asyncReadBodyWrapper(Char* buffer,
-                             Object* object,
-                             Method method,
-                             const boost::system::error_code& error,
-                             size_t bytes_transferred){
-            boost::bind(method,
-                        object,
-                        buffer,
-                        error,
-                        bytes_transferred)();
-            delete[] buffer;
-        }
-        
-        template <typename Clazz, typename Method>
-        void
-        Session_Core::
-        asyncRead(Method method){
-            // optimize allocation of buffer
-            // should we use 2 buffers?
-            Char* buffer = new Char[max_length];
-            socket_.async_receive(boost::asio::buffer(buffer,
-                                                      ChatMessage::headerLength),
-                                  boost::bind(&Session_Core::asyncReadHeaderWrapper<Method, Clazz>,
-                                              this,
-                                              buffer,
-                                              static_cast<Clazz*>(this),
-                                              method,
-                                              boost::asio::placeholders::error,
-                                              boost::asio::placeholders::bytes_transferred));
-        }
-    }
+	using message::ChatMessage;
+	namespace core
+	{
+		typedef std::deque<ChatMessage> MessageQueue;
+
+		class DLL_TOC_CORE Session_Core
+		{
+		private:
+			MessageQueue messageQueue;
+			CREATE_LOGGER(logger, SessionLog);
+
+			void
+			do_write(ChatMessage&);
+
+			void
+			handleWrite(const boost::system::error_code&);
+
+			boost::asio::io_service& io_service_;
+
+			virtual
+			std::set<Session_Core*>&
+			getSetOfOtherSessions() = 0;
+
+			void commandLoop(char* buffer,
+			                 const boost::system::error_code&,
+			                 size_t bytes_transferred);
+
+			template <typename Method,
+			          typename Object>
+			void
+			asyncReadHeaderWrapper(char* buffer,
+			                       Object*,
+			                       Method,
+			                       const boost::system::error_code&,
+			                       size_t bytes_transferred);
+
+			template <typename Method, typename Object>
+			void asyncReadBodyWrapper(char* buffer,
+			                          Object*,
+			                          Method,
+			                          const boost::system::error_code&,
+			                          size_t bytes_transferred);
+
+			bool isInCommandLoop;
+
+			std::map<std::string,
+			         std::string>
+			_values;
+
+		protected:
+			void
+			do_close();
+
+			// for Servers
+			Session_Core(boost::asio::io_service& io_service,
+			             CoreOutput& output);
+
+			enum _TMP_CONSTANTS
+			{
+				max_length = 512
+			};
+
+			boost::asio::ip::tcp::socket
+			socket_;
+
+			void
+			makePublic();
+
+			void
+			unmakePublic();
+
+			void
+			disconnect();
+
+			virtual
+			void
+			atDisconnect() = 0;
+
+			virtual
+			void
+			requestCommand(const ChatMessage&) = 0;
+
+			CoreOutput&
+			output;
+
+			template <typename Clazz,
+			          typename Method>
+			void
+			asyncRead(Method method);
+
+		public:
+			// for Client
+			Session_Core(boost::asio::io_service&,
+			             boost::asio::ip::tcp::resolver::iterator endpoint_iterator,
+			             CoreOutput&);
+
+			virtual
+			~Session_Core();
+
+			void
+			handle_connect(const boost::system::error_code&,
+			               boost::asio::ip::tcp::resolver::iterator endpoint_iterator);
+
+			// for Client end
+			virtual
+			void
+			start() = 0;
+
+			void
+			close();
+
+			boost::asio::ip::tcp::socket&
+			socket();
+
+			void
+			writeToAll(const char* msg,
+			           uint16_t length);
+
+			void
+			writeToAll(const std::string&);
+
+			void
+			writeToAll(const ChatMessage&);
+
+			void
+			writeToAllExceptThis(const char* msg,
+			                     uint16_t length,
+			                     Session_Core* _this);
+
+			void
+			writeToAllExceptThis(const std::string&,
+			                     Session_Core* _this);
+
+			void
+			writeToAllExceptThis(const ChatMessage&,
+			                     Session_Core* _this);
+
+			void
+			write(const char* msg,
+			      uint16_t length);
+
+			void
+			write(const std::string&);
+
+			void
+			write(const ChatMessage&);
+
+			Session_Core&
+			operator<<(const std::string&);
+
+			Session_Core&
+			operator<<(const ChatMessage&);
+
+			void
+			enterCommandLoop();
+
+			std::string&
+			operator[](std::string& key);
+		};
+
+		template <typename M,
+		          typename O>
+		void
+		Session_Core::
+		asyncReadHeaderWrapper(char* buffer,
+		                       O*,
+		                       M method,
+		                       const boost::system::error_code&,
+		                       size_t /*bytes_transferred*/)
+		{
+			uint32_t size = ChatMessage::timestampLength
+			              + ChatMessage::bodyLengthFromHeader(buffer);
+
+			socket_.async_receive(boost::asio::buffer(&buffer[ChatMessage::headerLength],
+			                                          size),
+			                      boost::bind(&Session_Core::asyncReadBodyWrapper<M, O>,
+			                                  this,
+			                                  buffer,
+			                                  static_cast<O*>(this),
+			                                  method,
+			                                  boost::asio::placeholders::error,
+			                                  boost::asio::placeholders::bytes_transferred));
+		}
+
+		template <typename Method,
+		          typename Object>
+		void
+		Session_Core::
+		asyncReadBodyWrapper(char* buffer,
+		                     Object* object,
+		                     Method method,
+		                     const boost::system::error_code& error,
+		                     size_t bytes_transferred)
+		{
+			boost::bind(method,
+			            object,
+			            buffer,
+			            error,
+			            bytes_transferred)();
+			delete[] buffer;
+		}
+
+		template <typename Clazz,
+		          typename Method>
+		void
+		Session_Core::
+		asyncRead(Method method)
+		{
+			// optimize allocation of buffer
+			// should we use 2 buffers?
+			char* buffer = new char[max_length];
+			socket_.async_receive(boost::asio::buffer(buffer,
+			                      ChatMessage::headerLength),
+			                      boost::bind(&Session_Core::asyncReadHeaderWrapper<Method,
+			                                                                        Clazz>,
+			                                  this,
+			                                  buffer,
+			                                  static_cast<Clazz*>(this),
+			                                  method,
+			                                  boost::asio::placeholders::error,
+			                                  boost::asio::placeholders::bytes_transferred));
+		}
+	}
 }
 
 #endif //LIB_TOCCORE_SESSIONCORE
+

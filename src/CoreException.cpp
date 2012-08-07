@@ -24,16 +24,14 @@ namespace TOC
 {
 	namespace core
 	{
-		static const String DEFAULT_ERROR_STRING = CSTRING("A critical Failure occured!");
+		static const std::string DEFAULT_ERROR_STRING = "A critical Failure occured!";
 
 		CoreException::
 		CoreException() throw()
-		:	CoreException(DEFAULT_ERROR_STRING)
-		{}
+		:	CoreException(DEFAULT_ERROR_STRING){}
 
 		CoreException::
-		~CoreException() throw()
-		{}
+		~CoreException() throw(){}
 
 		const char*
 		CoreException::
@@ -42,7 +40,7 @@ namespace TOC
 			return static_cast<const char*>(this->getMessage().c_str());
 		}
 
-		String
+		std::string
 		CoreException::
 		getMessage() const
 		{
@@ -50,3 +48,4 @@ namespace TOC
 		}
 	}
 }
+

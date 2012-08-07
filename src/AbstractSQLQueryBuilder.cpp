@@ -24,45 +24,50 @@ namespace TOC
 {
 	namespace DB
 	{
-		String
+		std::string
 		AbstractSQLQueryBuilder::
 		replaceASCnDESC(ORDER o)
         {
             return o == ORDER::ASC ? "ASC" : "DESC";
         }
 
-        String
+        std::string
 		AbstractSQLQueryBuilder::
         startTransaction()
         {
             return "START TRANSACTION;";
         }
          
-        String
+        std::string
 		AbstractSQLQueryBuilder::
         commitTransaction()
         {
             return "COMMIT;";
         }
          
-        String
+        std::string
 		AbstractSQLQueryBuilder::
         rollbackTransaction()
         {
             return "ROLLBACK;";
         }
 
-		String
+		std::string
         AbstractSQLQueryBuilder::
         buildSingleValueSelectQuery()
         {
             std::stringstream ss;
-            ss << "SELECT " << attribute() << " FROM " << entityclass() << " WHERE ID='"
-               << id() << "';";
+            ss << "SELECT "
+               << attribute()
+               << " FROM "
+               << entityclass()
+               << " WHERE ID='"
+               << id()
+               << "';";
             return ss.str();
         }
 
-		String
+		std::string
         AbstractSQLQueryBuilder::
 		buildDeleteEntityClassQuery(bool ifExists)
 		{
@@ -74,29 +79,41 @@ namespace TOC
 			return ss.str();
 		}
 
-		String
+		std::string
         AbstractSQLQueryBuilder::
-        buildAddAttributeQuery(const String& defaultValue,
-                               const String& type,
+        buildAddAttributeQuery(const std::string& defaultValue,
+                               const std::string& type,
                                const int16_t size)
         {
             std::stringstream ss;
-            ss << "ALTER TABLE " << entityclass() << " ADD COLUMN " << attribute()
-               << replaceType(type) << '(' << size << ") " << "DEFAULT '"
-               << defaultValue << "';";
+            ss << "ALTER TABLE "
+               << entityclass()
+               << " ADD COLUMN "
+               << attribute()
+               << replaceType(type)
+               << '('
+               << size
+               << ") "
+               << "DEFAULT '"
+               << defaultValue
+               << "';";
             return ss.str();
         }
 
-		String
+		std::string
 		AbstractSQLQueryBuilder::
 		buildSingleRowSelectQuery()
 		{
 			std::stringstream ss;
-			ss << "SELECT * FROM " << entityclass() << " WHERE ID='" << id() << "';";
+			ss << "SELECT * FROM "
+			   << entityclass()
+			   << " WHERE ID='"
+			   << id()
+			   << "';";
 			return ss.str();
 		}
 
-		String
+		std::string
 		AbstractSQLQueryBuilder::
 		buildIDSelectQuery()
 		{
@@ -122,7 +139,7 @@ namespace TOC
 			this->_id = i;
 		}
 
-		const String
+		const std::string
         AbstractSQLQueryBuilder::
 		attribute() const
 		{
@@ -131,12 +148,12 @@ namespace TOC
 
 		void
         AbstractSQLQueryBuilder::
-		attribute(const String &s)
+		attribute(const std::string &s)
 		{
 			this->_attribute = s;
 		}
 
-		const String
+		const std::string
         AbstractSQLQueryBuilder::
 		entityclass() const
 		{
@@ -145,7 +162,7 @@ namespace TOC
 
 		void
         AbstractSQLQueryBuilder::
-		entityclass(const String& s)
+		entityclass(const std::string& s)
 		{
 			this->_entityclass = s;
 		}

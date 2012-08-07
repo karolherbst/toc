@@ -26,12 +26,12 @@ namespace TOC
 	{
 		namespace DBMS
 		{
-			const String DB2 = "DB2";
-			const String MariaDB = "MariaDB";
-			const String MySQL = "MySQL";
-			const String Oracle = "Oracle";
-			const String PostgreSQL = "PostgreSQL";
-			const String SQLite = "SQLite";
+			const std::string DB2 = "DB2";
+			const std::string MariaDB = "MariaDB";
+			const std::string MySQL = "MySQL";
+			const std::string Oracle = "Oracle";
+			const std::string PostgreSQL = "PostgreSQL";
+			const std::string SQLite = "SQLite";
 		}
 	}
 }

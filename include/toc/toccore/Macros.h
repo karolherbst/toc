@@ -27,3 +27,4 @@
 #define GETTERSETTER(type, int, ext) \
     GETTER(type, int, ext) \
     SETTER(type, int, ext)
+

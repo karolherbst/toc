@@ -5,22 +5,22 @@
 
 BOOST_AUTO_TEST_CASE( STRINGGetStringUntilChar )
 {
-    const String testCommandString(CSTRING("/hey wouho \"you are evil!\" now!"));
+    const std::string testCommandString("/hey wouho \"you are evil!\" now!");
 //    BOOST_REQUIRE_EQUAL(getStringUntilChar(testCommandString,
 //                                           CCHAR(' ')), CSTRING("/hey"));
 }
 
 BOOST_AUTO_TEST_CASE( STRINGGetStringAfterChar )
 {
-    const String testCommandString(CSTRING("/hey wouho \"you are evil!\" now!"));
+    const std::string testCommandString("/hey wouho \"you are evil!\" now!");
 //    BOOST_REQUIRE_EQUAL(getStringAfterChar(testCommandString,
 //                                           CCHAR('y')), CSTRING(" wouho \"you are evil!\" now!"));
 }
 
 BOOST_AUTO_TEST_CASE( STRINGGetArguments )
 {
-    const String testCommandString(CSTRING("/hey wouho \"you are evil!\" now!"));
-    std::vector<String> args;
+    const std::string testCommandString("/hey wouho \"you are evil!\" now!");
+    std::vector<std::string> args;
 
     storeArgumentsIn(testCommandString,
                      args);

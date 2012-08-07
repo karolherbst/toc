@@ -28,53 +28,61 @@
 #ifndef LIB_TOCCORE_CORETRANSACTION
 #define LIB_TOCCORE_CORETRANSACTION 1
 
-#include <boost/thread/tss.hpp>
 #include <queue>
-#include <toc/tocexception/CoreException.h>
 
-#include <toc/boost/extension/impl/decl.hpp>
-#ifndef DLL_TOC_DB
-#ifdef MAKE_TOC_DB
-#define DLL_TOC_DB BOOST_EXTENSION_EXPORT_DECL
-#else
-#define DLL_TOC_DB BOOST_EXTENSION_IMPORT_DECL
-#endif
-#endif
+#include <boost/thread/tss.hpp>
+
+#include <toc/tocexception/CoreException.h>
 
 namespace TOC
 {
-    namespace DB
-    {
-        COREEXCEPTION_SUBCLASS(TransactionException,
-                               CSTRING("critical failure occured within transaction"));
-        SUBCLASS_OF_COREEXCEPTION_SUBCLASS(TransactionException,
-                                           TransactionAlreadyExistsException,
-                                           CSTRING("a Transaction already exists in this context!"));
-        SUBCLASS_OF_COREEXCEPTION_SUBCLASS(TransactionException,
-                                           BrokenTransactionContextException,
-                                           CSTRING("this transaction context is broken!"));
-        SUBCLASS_OF_COREEXCEPTION_SUBCLASS(TransactionException,
-                                           NoTransactionException,
-                                           CSTRING("there wasn't a valid transaction context!"));
-        struct AbstractDataPatch;
-        
-        class DLL_TOC_DB CoreTransaction
-        {
-        public:
-            CoreTransaction();
-            ~CoreTransaction();
-            
-            void save();
-            void static addDataPatch(AbstractDataPatch*);
-            
-            bool static isThereAContext();
-            
-        private:
-            static boost::thread_specific_ptr<CoreTransaction> tsp;
-            
-            std::queue<AbstractDataPatch*> queue;
-        };
-    }
+	namespace DB
+	{
+		COREEXCEPTION_SUBCLASS(TransactionException,
+		                       "critical failure occured within transaction");
+		
+		SUBCLASS_OF_COREEXCEPTION_SUBCLASS(TransactionException,
+		                                   TransactionAlreadyExistsException,
+		                                   "a Transaction already exists in this context!");
+		
+		SUBCLASS_OF_COREEXCEPTION_SUBCLASS(TransactionException,
+		                                   BrokenTransactionContextException,
+		                                   "this transaction context is broken!");
+		
+		SUBCLASS_OF_COREEXCEPTION_SUBCLASS(TransactionException,
+		                                   NoTransactionException,
+		                                   "there wasn't a valid transaction context!");
+		
+		class AbstractDataPatch;
+		
+		class CoreTransaction
+		{
+		public:
+			CoreTransaction();
+			
+			~CoreTransaction();
+			
+			void
+			save();
+			
+			static
+			void 
+			addDataPatch(AbstractDataPatch*);
+			
+			static
+			bool
+			isThereAContext();
+			
+		private:
+			static
+			boost::thread_specific_ptr<CoreTransaction>
+			tsp;
+			
+			std::queue<AbstractDataPatch*>
+			queue;
+		};
+	}
 }
 
 #endif //SERVER_CORE_CORETRANSACTION
+

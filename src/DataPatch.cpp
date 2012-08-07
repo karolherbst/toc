@@ -29,18 +29,17 @@ namespace TOC
 	namespace DB
 	{
 		AbstractDataPatch::
-		~AbstractDataPatch()
-		{}
+		~AbstractDataPatch(){}
 		
 		SingleValuePatch::
-		SingleValuePatch(const String& _table,
+		SingleValuePatch(const std::string& _table,
 		                 uint64_t _row,
-		                 const String& _att,
-		                 const String& _value)
+		                 const std::string& _att,
+		                 const std::string& _value)
 		:	table(_table),
-		row(_row),
-		att(_att),
-		value(_value){}
+			row(_row),
+			att(_att),
+			value(_value){}
 		
 		void
 		SingleValuePatch::
@@ -50,11 +49,10 @@ namespace TOC
 		}
 		
 		SingleRowPatch::
-		SingleRowPatch(const String& _table,
+		SingleRowPatch(const std::string& _table,
 		               const Map& _m)
-		:   table(_table),
-		m(_m)
-		{}
+		:	table(_table),
+			m(_m){}
 		
 		void
 		SingleRowPatch::
@@ -64,3 +62,4 @@ namespace TOC
 		}
 	}
 }
+

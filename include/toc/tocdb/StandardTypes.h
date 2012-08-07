@@ -24,28 +24,19 @@
 #include <toc/tocstring/TocString.h>
 #include <boost/lexical_cast.hpp>
 
-#include <toc/boost/extension/impl/decl.hpp>
-#ifndef DLL_TOC_DB
-#ifdef MAKE_TOC_DB
-#define DLL_TOC_DB BOOST_EXTENSION_EXPORT_DECL
-#else
-#define DLL_TOC_DB BOOST_EXTENSION_IMPORT_DECL
-#endif
-#endif
-
 #define createAttType(classname) \
-struct DLL_TOC_DB classname \
+struct classname \
 { \
-static const String name; \
-static const String type; \
-static const String defaultValue; \
+static const std::string name; \
+static const std::string type; \
+static const std::string defaultValue; \
 static const uint16_t size; \
 }
 
 #define createAttTypeSymbols(classname, _name, _type, _default, _size) \
-const String classname::name = _name; \
-const String classname::type = _type; \
-const String classname::defaultValue = boost::lexical_cast<String>(_default); \
+const std::string classname::name = _name; \
+const std::string classname::type = _type; \
+const std::string classname::defaultValue = boost::lexical_cast<std::string>(_default); \
 const uint16_t classname::size = _size
 
 #define createListTypeSymbols(parentclass, childclass) \
@@ -62,41 +53,68 @@ TOC::DB::ListAtt<parentclass, childclass>::type = TOC::DBInt; \
 TOC::DB::ListAtt<parentclass, childclass>::defaultValue = "0"; \
 TOC::DB::ListAtt<parentclass, childclass>::size = _size
 
-extern const String DLL_TOC_DB NULLSTRING;
-class DLL_TOC_DB NULLTYPE{};
+extern
+const std::string
+NULLSTRING;
+
+class NULLTYPE{};
 
 namespace TOC
 {
-    namespace DB
-    {
-        template <typename Parent, typename Child>
-        struct ListAtt
-        {
-            static String name;
-            static String type;
-            static String defaultValue;
-            static uint16_t size;
-        };
-    }
-    
-    /// DBTypes:
-    extern const String DLL_TOC_DB DBString;
-    extern const String DLL_TOC_DB DBInt;
-    extern const String DLL_TOC_DB DBFloat;
-    extern const String DLL_TOC_DB DBText;
-    
-    createAttType(NameAtt);
-    createAttType(MailAtt);
-    createAttType(PasswordAtt);
-    createAttType(SessionTypeAtt);
-    createAttType(ArgCountAtt);
-    createAttType(ArgAtt);
-    createAttType(ActionAtt);
-    createAttType(MajVersionAtt);
-    createAttType(MinVersionAtt);
-    createAttType(RelVersionAtt);
-    createAttType(BuildVersionAtt);
-    createAttType(TextAtt);
+	namespace DB
+	{
+		template <typename Parent,
+		          typename Child>
+		class ListAtt
+		{
+		public:
+			static
+			std::string
+			name;
+			
+			static
+			std::string
+			type;
+			
+			static
+			std::string
+			defaultValue;
+			
+			static
+			uint16_t
+			size;
+		};
+	}
+	
+	extern
+	const std::string
+	DBString;
+	
+	extern
+	const std::string
+	DBInt;
+	
+	extern
+	const std::string
+	DBFloat;
+	
+	extern
+	const std::string
+	DBText;
+	
+	createAttType(NameAtt);
+	createAttType(MailAtt);
+	createAttType(PasswordAtt);
+	createAttType(SessionTypeAtt);
+	createAttType(ArgCountAtt);
+	createAttType(ArgAtt);
+	createAttType(ActionAtt);
+	createAttType(MajVersionAtt);
+	createAttType(MinVersionAtt);
+	createAttType(RelVersionAtt);
+	createAttType(BuildVersionAtt);
+	createAttType(TextAtt);
 }
 
 #endif //LIB_TOCDB_STANDARTTYPES
+

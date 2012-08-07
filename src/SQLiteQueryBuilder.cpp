@@ -30,9 +30,9 @@ namespace TOC
 {
 	namespace DB
 	{
-		String
+		std::string
 		SQLiteQueryBuilder::
-        replaceType(const String& type)
+        replaceType(const std::string& type)
    	    {
        	    if (type == DBInt)
            	    return " INT";
@@ -45,32 +45,34 @@ namespace TOC
        	    return "";
         }
 
-		String
+		std::string
 		SQLiteQueryBuilder::
 		buildCreateEntityClassQuery()
 		{
 			std::stringstream ss;
-			ss << "CREATE TABLE " << entityclass()
+			ss << "CREATE TABLE "
+			   << entityclass()
 				// we use INTEGER here, because it will be an alias for the internal rowid used by sqlite
 			   << " (ID INTEGER NOT NULL PRIMARY KEY ASC AUTOINCREMENT);";
 			return ss.str();
 		}
 
-		String
+		std::string
 		SQLiteQueryBuilder::
 		buildSingleAttributeSelectQuery()
 		{
 			return "";
 		}
 
-		String
+		std::string
 		SQLiteQueryBuilder::
-		buildIdInsertQuery(std::map<String, String>& values)
+		buildIdInsertQuery(std::map<std::string,
+		                            std::string>& values)
 		{
 			std::stringstream ss;
 			if (values.size() > 0)
 			{
-				typedef std::pair<String, String> Pair;
+				typedef std::pair<std::string, std::string> Pair;
 				ss << "INSERT OR REPLACE INTO " << entityclass() << " (" << values.begin()->first;
 				
 				if (values.size() > 1)
@@ -106,27 +108,38 @@ namespace TOC
 			return ss.str();
 		}
 
-		String
+		std::string
 		SQLiteQueryBuilder::
-		buildRelationEntityClassQuery(const String&,
-		                                     const String&)
+		buildRelationEntityClassQuery(const std::string&,
+		                              const std::string&)
 		{
+			throw MethodNotImplementedException();
 			return "";
 		}
 
-		String
+		std::string
 		SQLiteQueryBuilder::
-		buildSingleValueInsertQuery(const String& v)
+		buildSingleValueInsertQuery(const std::string& v)
 		{
 			std::stringstream ss;
-			ss << "INSERT OR IGNORE INTO " << entityclass() << " (ID) VALUES ('"
-			   << id() << "'); "
-			   << "UPDATE " << entityclass() << " SET " << attribute()
-			   << "='" << v << "' WHERE ID='" << id() << "';";
+			ss << "INSERT OR IGNORE INTO "
+			   << entityclass()
+			   << " (ID) VALUES ('"
+			   << id()
+			   << "'); "
+			   << "UPDATE "
+			   << entityclass()
+			   << " SET "
+			   << attribute()
+			   << "='"
+			   << v
+			   << "' WHERE ID='"
+			   << id()
+			   << "';";
 			return ss.str();
 		}
 
-		String
+		std::string
 		SQLiteQueryBuilder::
 		startTransaction()
 		{

@@ -29,15 +29,36 @@ namespace TOC
 	{
 		namespace DBMS
 		{
-			extern const String DB2;
-			extern const String MariaDB;
-			extern const String MongoDB;
-			extern const String MySQL;
-			extern const String Oracle;
-			extern const String PostgreSQL;
-			extern const String SQLite;
+			extern
+			const std::string
+			DB2;
+			
+			extern
+			const std::string
+			MariaDB;
+			
+			extern
+			const std::string
+			MongoDB;
+			
+			extern
+			const std::string
+			MySQL;
+			
+			extern
+			const std::string
+			Oracle;
+			
+			extern
+			const std::string
+			PostgreSQL;
+			
+			extern
+			const std::string
+			SQLite;
 		}
 	}
 }
 
 #endif //LIB_TOCDB_DBMS
+

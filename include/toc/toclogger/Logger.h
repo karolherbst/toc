@@ -44,21 +44,22 @@ namespace TOC
 	/**
 	 * Strings for log levels
 	 *
-	 * @author	Karol Herbst
-	 * @since	0.1
+	 * @authorKarol Herbst
+	 * @since0.1
 	 */
-	extern const String LOG_STRINGS[4];
+	extern
+	const std::string
+	LOG_STRINGS[4];
 
 	/**
 	 * enables for all loggers, false will be force
 	 *
-	 * @author	Karol Herbst
-	 * @since	0.2
+	 * @authorKarol Herbst
+	 * @since0.2
 	 */
-	extern       bool   globalEnables[4];
-
-	#define TEMPLATE_CLASS_DEF template <class Task, template <class> class Processor, template<const Char*> class Appender, const Char* LoggerInfo>
-	#define TEMPLATE_CLASS_ARG <Task, Processor, Appender, LoggerInfo>
+	extern
+	bool
+	globalEnables[4];
 
 	/**
 	 * simple logging class
@@ -67,7 +68,10 @@ namespace TOC
 	 * @author  Karol Herbst
 	 * @since   0.1
 	 */
-	TEMPLATE_CLASS_DEF
+	template <typename Task,
+	          template <typename> class Processor,
+	          template <const char*> class Appender,
+	          const char* LoggerInfo>
 	class TocLogger
 	{
 	public:
@@ -77,12 +81,16 @@ namespace TOC
 		 * @author  Karol Herbst
 		 * @since   0.1
 		 * @tparam  LOGGINGTYPE level of logging
-		 * @param   str		 the input string
+		 * @param   str the input string
 		 * @return  TOC::TocLogger
 		 */
-		template <LOGGINGTYPE, typename ST>
-		TocLogger TEMPLATE_CLASS_ARG &
-		log(const ST &str);
+		template <LOGGINGTYPE,
+		          typename StringType>
+		TocLogger<Task,
+		          Processor,
+		          Appender,
+		          LoggerInfo>&
+		log(const StringType& str);
 
 		/**
 		 * constructor with booleans for activating logger levels
@@ -103,55 +111,80 @@ namespace TOC
 		/**
 		 * default constructor with Debug=false and all others=true
 		 *
-		 * @author	Karol Herbst
-		 * @since	0.1
-		 * @return	TOC::TocLogger
+		 * @authorKarol Herbst
+		 * @since0.1
+		 * @returnTOC::TocLogger
 		 */
 		TocLogger();
 
 	private:
-		Appender<LoggerInfo> appender;
-		Processor<Task> processor;
-		bool enables[4];
+		Appender<LoggerInfo>
+		appender;
+		
+		Processor<Task>
+		processor;
+		
+		bool
+		enables[4];
 	};
 
-	TEMPLATE_CLASS_DEF
-	TocLogger TEMPLATE_CLASS_ARG::
+	template <typename Task,
+	          template <typename> class Processor,
+	          template <const char*> class Appender,
+	          const char* LoggerInfo>
+	TocLogger<Task,
+	          Processor,
+	          Appender,
+	          LoggerInfo>::
 	TocLogger(bool error,
 	          bool warn,
 	          bool info,
 	          bool debug)
 	{
-		enables[ (uint16_t) LOGGINGTYPE::ERROR ] = error;
-		enables[ (uint16_t) LOGGINGTYPE::WARN ] = warn;
-		enables[ (uint16_t) LOGGINGTYPE::INFO ] = info;
-		enables[ (uint16_t) LOGGINGTYPE::DEBUG ] = debug;
+		enables[(uint16_t)LOGGINGTYPE::ERROR] = error;
+		enables[(uint16_t)LOGGINGTYPE::WARN] = warn;
+		enables[(uint16_t)LOGGINGTYPE::INFO] = info;
+		enables[(uint16_t)LOGGINGTYPE::DEBUG] = debug;
 
 		TocLoggerHolder::registerLogger(*this);
 	}
 
-	TEMPLATE_CLASS_DEF
-	TocLogger TEMPLATE_CLASS_ARG::
+	template <typename Task,
+	          template <typename> class Processor,
+	          template <const char*> class Appender,
+	          const char* LoggerInfo>
+	TocLogger<Task,
+	          Processor,
+	          Appender,
+	          LoggerInfo>::
 	TocLogger()
 	:	TocLogger(true,
 		          true,
 		          true,
 		          true){}
 
-	TEMPLATE_CLASS_DEF
-	template<LOGGINGTYPE type, typename ST>
-	TocLogger TEMPLATE_CLASS_ARG &
-	TocLogger TEMPLATE_CLASS_ARG::
-	log( const ST &str )
+	template <typename Task,
+	          template <typename> class Processor,
+	          template <const char*> class Appender,
+	          const char* LoggerInfo>
+	template<LOGGINGTYPE type,
+	         typename StringType>
+	TocLogger<Task,
+	          Processor,
+	          Appender,
+	          LoggerInfo>&
+	TocLogger<Task,
+	          Processor,
+	          Appender,
+	          LoggerInfo>::
+	log(const StringType& str)
 	{
-		if ( globalEnables[ (uint16_t) type ] && enables[ (uint16_t) type] )
-		   processor.add( appender.createOutputString( str,
-		                                               LOG_STRINGS[ (uint16_t) type] ) );
+		if (globalEnables[(uint16_t)type] && enables[(uint16_t)type])
+			processor.add(appender.createOutputString(str,
+		                                              LOG_STRINGS[(uint16_t)type]));
 		return *this;
 	}
-
-	#undef TEMPLATE_CLASS_DEF
-	#undef TEMPLATE_CLASS_ARG
 };
 
 #endif //LIB_TOC_LOGGER_LOGGER
+

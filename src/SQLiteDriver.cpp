@@ -28,11 +28,11 @@ namespace TOC
 {
 	namespace DB
 	{
-		template <class Exception>
+		template <typename Exception>
 		void
 		SQLiteDriver::
         handleError(uint16_t code,
-                    const String &sql)
+                    const std::string& sql)
         {
             switch (code)
             {
@@ -40,10 +40,14 @@ namespace TOC
 			case SQLITE_DONE:
                 break;
             default:
-                StringStream ss;
-                ss << sqlite3_errmsg(this->driver) << " (error: " << code
-                   << ", extended error: " << sqlite3_extended_errcode(this->driver)
-                   << ") in SQL statement: " << sql;
+                std::stringstream ss;
+                ss << sqlite3_errmsg(this->driver)
+                   << " (error: "
+                   << code
+                   << ", extended error: "
+                   << sqlite3_extended_errcode(this->driver)
+                   << ") in SQL statement: "
+                   << sql;
                 throw Exception(ss.str());
             }
         }
@@ -63,17 +67,17 @@ namespace TOC
 		SQLiteDriver::
 		~SQLiteDriver()
 		{
-			close();
+			this->close();
 		}
 
 		void
 		SQLiteDriver::
-		databaseName(String s)
+		databaseName(std::string s)
 		{
 			this->dbname = s;
 		}
 
-		String
+		std::string
 		SQLiteDriver::
 		databaseName()
 		{
@@ -120,7 +124,7 @@ namespace TOC
 
 		bool
 		SQLiteDriver::
-		exec(const String& query)
+		exec(const std::string& query)
 		{
 			const char *tail = query.c_str();
 			struct sqlite3_stmt *stmt;
@@ -133,18 +137,20 @@ namespace TOC
 				                         query.size(),
 				                         &stmt,
 				                         &tail);
-				handleError<MalformedQueryException>(ret, query);
+				this->handleError<MalformedQueryException>(ret,
+				                                           query);
 				ret = sqlite3_step(stmt);
 				sqlite3_finalize(stmt);
-				handleError(ret, query);
+				handleError(ret,
+				            query);
 			}
 			return ret == SQLITE_OK;
 		}
 
 		void
 		SQLiteDriver::
-		executeSingleValueQuery(const String& query,
-		                        String& resultHolder)
+		executeSingleValueQuery(const std::string& query,
+		                        std::string& resultHolder)
 		{
 			const char *tail;
 			struct sqlite3_stmt *stmt;
@@ -154,7 +160,8 @@ namespace TOC
 			                             query.size(),
 			                             &stmt,
 			                             &tail);
-			this->handleError<MalformedQueryException>(ret, query);
+			this->handleError<MalformedQueryException>(ret,
+			                                           query);
 			ret = sqlite3_step(stmt);
 			if (ret == SQLITE_OK)
 				throw EmptyResultException();
@@ -163,17 +170,18 @@ namespace TOC
 
 			resultHolder = this->convertSQLiteTypeToString(stmt,
 			                                               0,
-			                                               sqlite3_column_type(stmt, 0)
-			                                              );
+			                                               sqlite3_column_type(stmt,
+			                                                                   0));
 			ret = sqlite3_step(stmt);
-			handleError(ret, query);
+			this->handleError(ret,
+			                  query);
 			sqlite3_finalize(stmt);
 		}
 
 		void
 		SQLiteDriver::
-		executeSingleColQuery(const String& q,
-		                      std::vector<String>& result)
+		executeSingleColQuery(const std::string& q,
+		                      std::vector<std::string>& result)
 		{
 			char *error;
 			const char *tail;
@@ -184,29 +192,34 @@ namespace TOC
 			                             q.size(),
 			                             &stmt,
 			                             &tail);
-			this->handleError<MalformedQueryException>(ret, q);
+			this->handleError<MalformedQueryException>(ret,
+			                                           q);
 			ret = sqlite3_step(stmt);
 			if (ret == SQLITE_OK)
 				throw EmptyResultException();
 			else if (ret != SQLITE_ROW)
-				this->handleError(ret, q);
+				this->handleError(ret,
+				                  q);
 
-			int type = sqlite3_column_type(stmt, 0);
-			while ( ret == SQLITE_ROW )
+			int type = sqlite3_column_type(stmt,
+			                               0);
+			while (ret == SQLITE_ROW)
 			{
 				result.push_back(this->convertSQLiteTypeToString(stmt,
 				                                                 0,
 				                                                 type));
 				ret = sqlite3_step(stmt);
 			}
-			handleError(ret, q);
+			this->handleError(ret,
+			                  q);
 			sqlite3_finalize(stmt);
 		}
 
 		void
 		SQLiteDriver::
-		executeSingleRowQuery(const String& q,
-		                      std::map<String, String>& result)
+		executeSingleRowQuery(const std::string& q,
+		                      std::map<std::string,
+		                               std::string>& result)
 		{
 			char *error;
 			const char *tail;
@@ -217,19 +230,23 @@ namespace TOC
 			                             q.size(),
 			                             &stmt,
 			                             &tail);
-			this->handleError<MalformedQueryException>(ret, q);
+			this->handleError<MalformedQueryException>(ret,
+			                                           q);
 			ret = sqlite3_step(stmt);
 			if (ret == SQLITE_OK)
 				throw EmptyResultException();
 			else if (ret != SQLITE_ROW)
-				this->handleError(ret, q);
+				this->handleError(ret,
+				                  q);
 
 			for (int i = 0; i < sqlite3_column_count(stmt); i++)
 				result[sqlite3_column_name(stmt, i)] = this->convertSQLiteTypeToString(stmt,
 				                                                                       i,
-				                                                                       sqlite3_column_type(stmt, i));
+				                                                                       sqlite3_column_type(stmt,
+				                                                                                           i));
 			ret = sqlite3_step(stmt);
-			handleError(ret, q);
+			this->handleError(ret,
+			                  q);
 			sqlite3_finalize(stmt);
 		}
 
@@ -240,14 +257,14 @@ namespace TOC
 			return new SQLiteDriver();
 		}
 
-		String
+		std::string
 		SQLiteDriver::
 		sqliteFileName()
 		{
 			return this->dbname + ".sqlite";
 		}
 
-		String
+		std::string
 		SQLiteDriver::
 		convertSQLiteTypeToString(struct sqlite3_stmt *stmt,
 		                          int index,
@@ -256,16 +273,20 @@ namespace TOC
 			switch (type)
 			{
 			case SQLITE_INTEGER:
-				return lexical_cast<String>(sqlite3_column_int64(stmt, index));
+				return lexical_cast<std::string>(sqlite3_column_int64(stmt,
+				                                                      index));
 				break;
 			case SQLITE_FLOAT:
-				return lexical_cast<String>(sqlite3_column_double(stmt, index));
+				return lexical_cast<std::string>(sqlite3_column_double(stmt,
+				                                                       index));
 				break;
 			case SQLITE_BLOB:
-				return lexical_cast<String>(sqlite3_column_bytes16(stmt, index));
+				return lexical_cast<std::string>(sqlite3_column_bytes16(stmt,
+				                                                        index));
 				break;
 			case SQLITE_TEXT:
-				return lexical_cast<String>(sqlite3_column_text(stmt, index));
+				return lexical_cast<std::string>(sqlite3_column_text(stmt,
+				                                                     index));
 				break;
 			case SQLITE_NULL:
 			default:
@@ -275,3 +296,4 @@ namespace TOC
 		}
 	}
 }
+

@@ -22,18 +22,19 @@
 
 namespace TOC
 {
-	String LOG_STRINGS[4] = {
-		CSTRING("ERROR"),
-		CSTRING("WARN"),
-		CSTRING("INFO"),
-		CSTRING("DEBUG")
+	std::string
+	LOG_STRINGS[4] = {
+		"ERROR",
+		"WARN",
+		"INFO",
+		"DEBUG",
 	};
 
 	bool globalEnables[4] = {
 		true,
 		true,
 		true,
-		true
+		true,
 	};
 }
 

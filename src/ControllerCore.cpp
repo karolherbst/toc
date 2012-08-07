@@ -26,13 +26,13 @@ namespace TOC
 {
 	namespace core
 	{
-		String
+		std::string
 		ControllerCore::
-		commandNotFoundMessage(const String& command,
+		commandNotFoundMessage(const std::string& command,
 		                       CoreException& e)
 		{
-			StringStream ss;
-			ss << CCHAR('"') << command << CSTRING("\" ") << e.what();
+			std::stringstream ss;
+			ss << '"' << command << "\" " << e.what();
 			return ss.str();
 		}
 	}

@@ -25,23 +25,31 @@
 
 namespace TOC
 {
-    namespace core
-    {
-        class CoreInput
-        {
-        public:
-            virtual ~CoreInput();
-            virtual bool getline(Char*, int32_t) = 0;
-        };
-        
-        class StdInput : public CoreInput
-        {
-        public:
-            bool getline(Char*, int32_t);
-        };
-        
-        extern StdInput stdInput;
-    }
+	namespace core
+	{
+		class CoreInput
+		{
+		public:
+			virtual
+			~CoreInput();
+			
+			virtual
+			bool
+			getline(char*,
+			        int32_t) = 0;
+		};
+
+		class StdInput : public CoreInput
+		{
+		public:
+			bool
+			getline(char*,
+			        int32_t) override;
+		};
+
+	extern StdInput stdInput;
+	}
 }
 
 #endif //LIB_TOCCORE_COREINPUT
+

@@ -34,41 +34,64 @@
 
 namespace TOC
 {
-    namespace core
-    {
-        class CoreOutput
-        {
-        public:
-            virtual ~CoreOutput(){};
-            
-            virtual CoreOutput& operator<<(const String& str) = 0;
-            virtual CoreOutput& operator<<(const Char* str) = 0;
-            virtual CoreOutput& endline() = 0;
-            
-            virtual CoreOutput& flush() = 0;
-            
-            DLL_TOC_CORE CoreOutput& operator<<( void (*funcPointer)(CoreOutput&) );
-        };
-        
-        // Modificationfunctions
-        
-        extern void DLL_TOC_CORE endline(CoreOutput&);
-        extern void DLL_TOC_CORE flush(CoreOutput&);
-        
-        // StandartOutput
-        
-        class DLL_TOC_CORE StdOutput : public CoreOutput
-        {
-        public:
-            CoreOutput& operator<<(const String& str);
-            CoreOutput& operator<<(const Char* str);
-            CoreOutput& endline();
-            
-            CoreOutput& flush();
-        };
-        
-        extern StdOutput DLL_TOC_CORE stdOutput;
-    }
+	namespace core
+	{
+		class CoreOutput
+		{
+		public:
+			virtual
+			~CoreOutput(){};
+
+			virtual
+			CoreOutput&
+			operator<<(const std::string& str) = 0;
+
+			virtual
+			CoreOutput&
+			operator<<(const char* str) = 0;
+
+			virtual
+			CoreOutput&
+			endline() = 0;
+
+			virtual
+			CoreOutput&
+			flush() = 0;
+
+			DLL_TOC_CORE
+			CoreOutput&
+			operator<<( void (*funcPointer)(CoreOutput&) );
+		};
+
+		// Modificationfunctions
+		extern
+		void
+		DLL_TOC_CORE endline(CoreOutput&);
+
+		extern
+		void
+		DLL_TOC_CORE flush(CoreOutput&);
+
+		// StandartOutput
+		class DLL_TOC_CORE StdOutput : public CoreOutput
+		{
+		public:
+			CoreOutput&
+			operator<<(const std::string& str) override;
+
+			CoreOutput&
+			operator<<(const char* str) override;
+
+			CoreOutput&
+			endline() override;
+
+			CoreOutput&
+			flush() override;
+		};
+
+		extern StdOutput DLL_TOC_CORE stdOutput;
+	}
 }
 
 #endif //LIB_TOCCORE_COREOUTPUT
+

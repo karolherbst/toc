@@ -26,87 +26,87 @@
 
 namespace TOC
 {
-    #define TEMPLATE_CLASS_DEF template <class Task>
-    #define TEMPLATE_CLASS_ARG <Task>
+	template <typename Task>
+	class MultiThreadedProcessor
+	{
+	public:
+		template <class StringType>
+		void
+		add(StringType str);
 
-    TEMPLATE_CLASS_DEF
-    class MultiThreadedProcessor
-    {
-    public:
-        template <class StringType>
-        void
-        add(StringType str);
+		MultiThreadedProcessor();
+		~MultiThreadedProcessor();
 
-        MultiThreadedProcessor();
-        ~MultiThreadedProcessor();
+	private:
+		boost::thread
+		log_thread;
+		
+		mutable boost::mutex
+		log_mutex;
+		
+		boost::condition_variable
+		log_cond;
+		
+		std::queue<std::string>
+		msgs;
 
-    private:
-        boost::thread log_thread;
-        mutable boost::mutex log_mutex;
-        boost::condition_variable log_cond;
-        std::queue<String> msgs;
+		void thread_execute();
+	};
 
-        void thread_execute();
-    };
+	template <typename Task>
+	MultiThreadedProcessor <Task>::
+	MultiThreadedProcessor()
+	:	log_thread(boost::bind(&MultiThreadedProcessor::thread_execute,
+		                       this)){}
 
-    TEMPLATE_CLASS_DEF
-    MultiThreadedProcessor TEMPLATE_CLASS_ARG::
-    MultiThreadedProcessor()
-    :   log_thread( boost::bind( &MultiThreadedProcessor::thread_execute, this) )
-    {}
+	template <typename Task>
+	MultiThreadedProcessor <Task>::
+	~MultiThreadedProcessor()
+	{
+		log_thread.interrupt();
+		log_thread.join();
+	}
 
-    TEMPLATE_CLASS_DEF
-    MultiThreadedProcessor TEMPLATE_CLASS_ARG::
-    ~MultiThreadedProcessor()
-    {
-        log_thread.interrupt();
-        log_thread.join();
-    }
+	template <typename Task>
+	template <class StringType>
+	void
+	MultiThreadedProcessor <Task>::
+	add(StringType str)
+	{
+		if(!msgs.empty())
+			msgs.push(str);
+		else
+		{
+			boost::mutex::scoped_lock lock(log_mutex);
+			msgs.push(str);
+			lock.unlock();
+			log_cond.notify_one();
+		}
+	}
 
-    TEMPLATE_CLASS_DEF
-    template <class StringType>
-    void
-    MultiThreadedProcessor TEMPLATE_CLASS_ARG::
-    add(StringType str)
-    {
-        if(!msgs.empty())
-            msgs.push(str);
-        else
-        {
-            boost::mutex::scoped_lock lock(log_mutex);
-            msgs.push(str);
-            lock.unlock();
-            log_cond.notify_one();
-        }
-    }
+	template <typename Task>
+	void
+	MultiThreadedProcessor <Task>::
+	thread_execute()
+	{
+		while(true)
+		{
+			boost::mutex::scoped_lock lock(log_mutex);
+			while(msgs.empty())
+			{
+				log_cond.wait(lock);
+			}
 
-    TEMPLATE_CLASS_DEF
-    void
-    MultiThreadedProcessor TEMPLATE_CLASS_ARG::
-    thread_execute()
-    {
-        while(true)
-        {
-            boost::mutex::scoped_lock lock(log_mutex);
-            while(msgs.empty())
-            {
-                log_cond.wait(lock);
-            }
+			std::string value = msgs.front();
+			msgs.pop();
+			lock.unlock();
+			Task::run(value);
 
-            String value = msgs.front();
-            msgs.pop();
-            lock.unlock();
-            Task::run(value);
-
-            if(msgs.empty())
-                boost::this_thread::interruption_point();
-        }
-    }
-
-
-    #undef TEMPLATE_CLASS_DEF
-    #undef TEMPLATE_CLASS_ARG
+			if(msgs.empty())
+				boost::this_thread::interruption_point();
+		}
+	}
 }
 
-
 #endif //LIB_TOCLOGGER_THREADEDPROCESSOR
+

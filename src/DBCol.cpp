@@ -29,7 +29,7 @@ namespace TOC
 	namespace DB
 	{
 		DBCol::
-		DBCol(const String& col,
+		DBCol(const std::string& col,
 		      AbstractQueryBuilder& _qb)
 		:	qb(_qb)
 		{
@@ -46,8 +46,8 @@ namespace TOC
 		
 		DBCol&
 		DBCol::
-		create(const String& defaultValue,
-		       const String& type,
+		create(const std::string& defaultValue,
+		       const std::string& type,
 		       const int16_t size)
 		{
 			DB::Instance().executeQuery(qb.buildAddAttributeQuery(defaultValue,
@@ -58,7 +58,7 @@ namespace TOC
 		
 		DBCol&
 		DBCol::
-		operator>>(std::vector<String>& vec)
+		operator>>(std::vector<std::string>& vec)
 		{
 			DB::Instance().executeSingleColQuery(qb.buildSingleAttributeSelectQuery(),
 			                                     vec);
@@ -67,9 +67,9 @@ namespace TOC
 		
 		uint64_t
 		DBCol::
-		search(const String& value)
+		search(const std::string& value)
 		{
-			String result;
+			std::string result;
 			qb.addWherePair(qb.attribute(),
 			                value);
 			DB::Instance().executeSingleValueQuery(qb.buildIDSelectQuery(),
@@ -79,8 +79,8 @@ namespace TOC
 		
 		DBCol&
 		DBCol::
-		where(const String& att,
-		      const String value)
+		where(const std::string& att,
+		      const std::string value)
 		{
 			qb.addWherePair(att, value);
 			return *this;
@@ -88,7 +88,7 @@ namespace TOC
 		
 		DBCol&
 		DBCol::
-		order(const String& att,
+		order(const std::string& att,
 		      ORDER order)
 		{
 			qb.addOrderPair(att, order);

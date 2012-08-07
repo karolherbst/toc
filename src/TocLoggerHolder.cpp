@@ -22,7 +22,7 @@
 
 namespace TOC
 {
-	std::map <String, any>
+	std::map <std::string, any>
 	TocLoggerHolder::
 	loggers;
 }

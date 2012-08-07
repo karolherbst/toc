@@ -25,25 +25,30 @@
 
 namespace TOC
 {
-    template <const Char* Name>
-    class SimpleAppender
-    {
-    public:
-        template <typename ST1, typename ST2>
-        String
-        createOutputString(const ST1 &str, const ST2 &level);
-    };
+	template <const char* Name>
+	class SimpleAppender
+	{
+	public:
+		template <typename StringType1,
+		          typename StringType2>
+		std::string
+		createOutputString(const StringType1& str,
+		                   const StringType2& level);
+	};
 
-    template <const Char* Name>
-    template <typename ST1, typename ST2>
-    String
-    SimpleAppender<Name>::
-    createOutputString(const ST1 &str, const ST2 &level)
-    {
-        StringStream ss;
-        ss << '<' << level << "> (" << Name << "): " << str;
-        return ss.str();;
-    }
+	template <const char* Name>
+	template <typename ST1,
+	          typename ST2>
+	std::string
+	SimpleAppender<Name>::
+	createOutputString(const ST1& str,
+	                   const ST2& level)
+	{
+		std::stringstream ss;
+		ss << '<' << level << "> (" << Name << "): " << str;
+		return ss.str();;
+	}
 }
 
 #endif //LIB_TOCLOGGER_SIMPLEAPPENDER
+

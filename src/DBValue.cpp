@@ -31,11 +31,11 @@ namespace TOC
 		:	qb(_qb)
 		{}
 		
-		String
+		std::string
 		DBValue::
 		convert() const
 		{
-			String result;
+			std::string result;
 			DB::Instance().executeSingleValueQuery(qb.buildSingleValueSelectQuery(),
 			                                       result);
 			return result;
@@ -43,17 +43,18 @@ namespace TOC
 		
 		DBValue&
 		DBValue::
-		operator=(const String& value)
+		operator=(const std::string& value)
 		{
 			DB::Instance().executeQuery(qb.buildSingleValueInsertQuery(value));
 			return *this;
 		}
 		
-		OStream&
-		operator<<(OStream& ostr,
+		std::ostream&
+		operator<<(std::ostream& ostr,
 		           const DBValue& m)
 		{
 			return ostr << m.convert();
 		}
 	}
 }
+

@@ -29,9 +29,9 @@ namespace TOC
 {
 	namespace DB
 	{
-		String
+		std::string
 		MySQLQueryBuilder::
-		replaceType(const String& type)
+		replaceType(const std::string& type)
 		{
 			if (type == DBInt)
 				return " INT";
@@ -44,113 +44,160 @@ namespace TOC
 			return " VARCHAR";
 		}
 
-		String
+		std::string
 		MySQLQueryBuilder::
 		buildCreateEntityClassQuery()
 		{
 			std::stringstream ss;
-			ss << "CREATE TABLE " << entityclass()
+			ss << "CREATE TABLE "
+			   << entityclass()
 			   << " (ID INTEGER UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY ) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 			return ss.str();
 		}
 		
-		String
+		std::string
 		MySQLQueryBuilder::
-		buildRelationEntityClassQuery(const String& t1,
-		                              const String& t2)
+		buildRelationEntityClassQuery(const std::string& t1,
+		                              const std::string& t2)
 		{
 			std::stringstream ss;
-			ss << "CREATE TABLE " << entityclass() << " ("
-			   << t1 << " INT UNSIGNED NOT NULL, "
-			   << t2 << " INT UNSIGNED NOT NULL, PRIMARY KEY ("
-			   << t1 << ", " << t2 << "), CONSTRAINT "
-			   << t1 << " FOREIGN KEY (" << t1 << ") REFERENCES "
-			   << t1 << " (ID) ON DELETE CASCADE ON UPDATE CASCADE, CONSTRAINT "
-			   << t2 << " FOREIGN KEY (" << t2 << ") REFERENCES " << t2
+			ss << "CREATE TABLE "
+			   << entityclass()
+			   << " ("
+			   << t1
+			   << " INT UNSIGNED NOT NULL, "
+			   << t2
+			   << " INT UNSIGNED NOT NULL, PRIMARY KEY ("
+			   << t1
+			   << ", "
+			   << t2
+			   << "), CONSTRAINT "
+			   << t1
+			   << " FOREIGN KEY ("
+			   << t1
+			   << ") REFERENCES "
+			   << t1
+			   << " (ID) ON DELETE CASCADE ON UPDATE CASCADE, CONSTRAINT "
+			   << t2
+			   << " FOREIGN KEY ("
+			   << t2
+			   << ") REFERENCES "
+			   << t2
 			   << " (ID) ON DELETE RESTRICT ON UPDATE CASCADE) ENGINE=InnoDB DEFAULT CHARSET=utf8;";
 			return ss.str();
 		}
 		
-		String
+		std::string
 		MySQLQueryBuilder::
 		buildSingleAttributeSelectQuery()
 		{
 			std::stringstream ss;
-			ss << "SELECT " << attribute() << " FROM " << entityclass();
+			ss << "SELECT "
+			   << attribute()
+			   << " FROM "
+			   << entityclass();
 			buildWherePart(ss);
 			buildOrderPart(ss);
 			ss << ';';
 			return ss.str();
 		}
 		
-		String
+		std::string
 		MySQLQueryBuilder::
-		buildSingleValueInsertQuery(const String& v)
+		buildSingleValueInsertQuery(const std::string& v)
 		{
 			std::stringstream ss;
-			ss << "INSERT INTO " << entityclass() << " (ID, " << attribute()
-			   << ") VALUES ('" << id() << "', '" << v << "') ON DUPLICATE KEY UPDATE "
-			   << attribute() << "='" << v << "';";
+			ss << "INSERT INTO "
+			   << entityclass()
+			   << " (ID, "
+			   << attribute()
+			   << ") VALUES ('"
+			   << id()
+			   << "', '"
+			   << v
+			   << "') ON DUPLICATE KEY UPDATE "
+			   << attribute()
+			   << "='"
+			   << v
+			   << "';";
 			return ss.str();
 		}
 		
-		String
+		std::string
 		MySQLQueryBuilder::
-		buildIdInsertQuery(std::map<String, String>& values)
+		buildIdInsertQuery(std::map<std::string,
+		                            std::string>& values)
 		{
 			std::stringstream ss;
 			if (values.size() > 0)
 			{
-				typedef std::pair<String, String> Pair;
-				ss << "INSERT INTO " << entityclass() << " (" << values.begin()->first;
+				typedef std::pair<std::string,
+				                  std::string>
+				        Pair;
+				
+				ss << "INSERT INTO "
+				   << entityclass()
+				   << " ("
+				   << values.begin()->first;
 				
 				if (values.size() > 1)
 				{
 					bool tmp = true;
-					foreach(const Pair& p, values)
+					foreach(const Pair& p,
+					        values)
 					{
 						if (tmp)
 						{
 							tmp = false;
 							continue;
 						}
-						ss << ", " << p.first;
+						ss << ", "
+						   << p.first;
 					}
 				}
-				ss << ") VALUES ('" << values.begin()->second;
+				ss << ") VALUES ('"
+				   << values.begin()->second;
 				
 				if (values.size() > 1)
 				{
 					bool tmp = true;
-					foreach(const Pair& p, values)
+					foreach(const Pair& p,
+					        values)
 					{
 						if (tmp)
 						{
 							tmp = false;
 							continue;
 						}
-						ss << "', '" << p.second;
+						ss << "', '"
+						   << p.second;
 					}
 				}
 				
-				ss << "') ON DUPLICATE KEY UPDATE ";
-				
-				ss << values.begin()->first << "='" << values.begin()->second << '\'';
+				ss << "') ON DUPLICATE KEY UPDATE "
+				   << values.begin()->first
+				   << "='"
+				   << values.begin()->second
+				   << '\'';
 				
 				if (values.size() > 1)
 				{
 					bool tmp = true;
-					foreach(const Pair& p, values)
+					foreach(const Pair& p,
+					        values)
 					{
 						if (tmp)
 						{
 							tmp = false;
 							continue;
 						}
-						ss << ", " << p.first << "='" << p.second << '\'';
+						ss << ", "
+						   << p.first
+						   << "='"
+						   << p.second
+						   << '\'';
 					}
 				}
-				
 				ss << ';';
 			}
 			return ss.str();

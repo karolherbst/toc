@@ -27,18 +27,38 @@ namespace TOC
 		class SQLiteQueryBuilder : public AbstractSQLQueryBuilder
 		{
 		public:
-			virtual String buildCreateEntityClassQuery() override;
-			virtual String buildSingleAttributeSelectQuery() override;
-			virtual String buildIdInsertQuery(std::map<String, String>&) override;
-			virtual String buildRelationEntityClassQuery(const String&,
-			                                             const String&) override;
-			virtual String buildSingleValueInsertQuery(const String&) override;
+			virtual
+			std::string
+			buildCreateEntityClassQuery() override;
+			
+			virtual
+			std::string
+			buildSingleAttributeSelectQuery() override;
+			
+			virtual
+			std::string
+			buildIdInsertQuery(std::map<std::string,
+			                            std::string>&) override;
+			
+			virtual
+			std::string
+			buildRelationEntityClassQuery(const std::string&,
+			                              const std::string&) override;
+			
+			virtual
+			std::string
+			buildSingleValueInsertQuery(const std::string&) override;
 
-			virtual String startTransaction() override;
+			virtual
+			std::string
+			startTransaction() override;
 
 			static AbstractQueryBuilder* newQueryBuilder();
+			
 		protected:
-			virtual String replaceType(const String& type) override;
+			virtual
+			std::string
+			replaceType(const std::string& type) override;
 		};
 	}
 }

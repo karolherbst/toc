@@ -21,137 +21,179 @@
 #ifndef LIB_TOCDB_DB
 #define LIB_TOCDB_DB 1
 
+#include <map>
+
 #include <boost/thread/tss.hpp>
 #include <loki/Singleton.h>
-#include <map>
+
 #include <toc/tocdb/DBResource.h>
 #include <toc/toclogger.h>
 #include <toc/tocstring/TocString.h>
 
 CREATE_LOGGER_NAME_CLASS_DEF(DBLog);
 
-#include <toc/boost/extension/impl/decl.hpp>
-#ifndef DLL_TOC_DB
-#ifdef MAKE_TOC_DB
-#define DLL_TOC_DB BOOST_EXTENSION_EXPORT_DECL
-#else
-#define DLL_TOC_DB BOOST_EXTENSION_IMPORT_DECL
-#endif
-#endif
-
 namespace boost
 {
-    namespace extensions
-    {
-        class shared_library;
-    }
+	namespace extensions
+	{
+		class shared_library;
+	}
 }
 
 namespace TOC
 {
-    namespace DB
-    {
-        class AbstractQueryBuilder;
-        class DBDriver;
-        class DBTable;
-        
-        class DLL_TOC_DB DBImpl
-        {
-            friend class DBTable;
-            friend class DBCol;
-            friend class DBRow;
-            friend class DBValue;
-            friend class DBDriver;
-        public:
-            DBImpl();
-            ~DBImpl();
-            
-            void initDriver();
-            
-            void setConnectionInfo(String& server,
-                                   uint32_t port,
-                                   String& user,
-                                   String& pw,
-                                   String& db);
+	namespace DB
+	{
+		class AbstractQueryBuilder;
+		class DBDriver;
+		class DBTable;
+		
+		class DBImpl
+		{
+			friend class DBTable;
+			friend class DBCol;
+			friend class DBRow;
+			friend class DBValue;
+			friend class DBDriver;
+		public:
+			DBImpl();
+			~DBImpl();
+			
+			void initDriver();
+			
+			void setConnectionInfo(std::string& server,
+								   uint32_t port,
+								   std::string& user,
+								   std::string& pw,
+								   std::string& db);
 
-			template <typename ST>
-            void setDatabaseName(const ST&);
+			template <typename StringType>
+			void
+			setDatabaseName(const StringType&);
 
-			template <typename ST>
-            void setUserName(const ST&);
+			template <typename StringType>
+			void
+			setUserName(const StringType&);
 
-			template <typename ST>
-            void setUserPassword(const ST&);
+			template <typename StringType>
+			void
+			setUserPassword(const StringType&);
 
-			template <typename ST>
-            void setServerURL(const ST&);
+			template <typename StringType>
+			void
+			setServerURL(const StringType&);
 
-            void setServerPort(uint32_t);
-            
-            // db accessing
-            DBTable operator[](const String&);
-            
-            void createTransaction();
-            void commit();
-            void rollback();
-            
-            void executeQuery(const String&);
-            void executeBoolQuery(const String&, bool&);
-            void executeSingleValueQuery(const String&, String&);
-            void executeSingleRowQuery(const String&, std::map<String, String>&);
-            void executeSingleColQuery(const String&, std::vector<String>&);
-            void executeMultiRowQuery(const String&, std::vector< std::map<String, String> >&);
-        private:
-            void Open();
-            void close();
-            
-            String db, user, pw, url;
-            uint32_t port;
-            
-            CREATE_LOGGER(logger, DBLog);
-            boost::thread_specific_ptr<DBDriver> driver;
-        };
-        
-        typedef Loki::SingletonHolder<DBImpl> DB;
-        
-        // TOC::DB::Instance() is simpler than TOC::DB::DB::Instance()
-        inline DBImpl& Instance()
-        {
-            return TOC::DB::DB::Instance();
-        }
+			void
+			setServerPort(uint32_t);
+			
+			// db accessing
+			DBTable
+			operator[](const std::string&);
+			
+			void
+			createTransaction();
+			
+			void
+			commit();
+			
+			void
+			rollback();
+			
+			void
+			executeQuery(const std::string&);
+			
+			void
+			executeBoolQuery(const std::string&,
+			                 bool&);
+			
+			void
+			executeSingleValueQuery(const std::string&,
+			                        std::string&);
+			
+			void
+			executeSingleRowQuery(const std::string&,
+			                      std::map<std::string,
+			                               std::string>&);
+			
+			void
+			executeSingleColQuery(const std::string&,
+			                      std::vector<std::string>&);
+			
+			void
+			executeMultiRowQuery(const std::string&,
+			                     std::vector<std::map<std::string,
+			                                          std::string>>&);
+			
+		private:
+			void
+			Open();
+			
+			void
+			close();
+			
+			std::string
+			db;
+			
+			std::string
+			user;
+			
+			std::string
+			pw;
+			
+			std::string
+			url;
+			
+			uint32_t
+			port;
+			
+			CREATE_LOGGER(logger,
+			              DBLog);
+			
+			boost::thread_specific_ptr<DBDriver>
+			driver;
+		};
+		
+		typedef Loki::SingletonHolder<DBImpl> DB;
+		
+		// TOC::DB::Instance() is simpler than TOC::DB::DB::Instance()
+		inline DBImpl& Instance()
+		{
+			return TOC::DB::DB::Instance();
+		}
 
-		template <typename ST>
+		template <typename StringType>
 		void
-        DBImpl::
-        setDatabaseName(const ST& _db)
-        {
-            db = _db;
-        }
+		DBImpl::
+		setDatabaseName(const StringType& _db)
+		{
+			this->db = _db;
+		}
 
-		template <typename ST>
-        void
-        DBImpl::
-        setUserName(const ST& name)
-        {
-            user = name;
-        }
+		template <typename StringType>
+		void
+		DBImpl::
+		setUserName(const StringType& name)
+		{
+			this->user = name;
+		}
 
-		template <typename ST>
-        void
-        DBImpl::
-        setUserPassword(const ST& _pw)
-        {
-            pw = _pw;
-        }
+		template <typename StringType>
+		void
+		DBImpl::
+		setUserPassword(const StringType& pw)
+		{
+			this->pw = pw;
+		}
 
-		template <typename ST>
-        void
-        DBImpl::
-        setServerURL(const ST& _url)
-        {
-            url = _url;
-        }
-    }
+		template <typename StringType>
+		void
+		DBImpl::
+		setServerURL(const StringType& url)
+		{
+			this->url = url;
+		}
+	}
 }
 
 #endif //LIB_TOCDB_DB
+

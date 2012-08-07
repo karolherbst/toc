@@ -18,20 +18,19 @@
 *
 */
 
-#include <toc/tocdb/DBTable.h>
-
+#include <toc/tocdb/AbstractQueryBuilder.h>
 #include <toc/tocdb/DB.h>
 #include <toc/tocdb/DBCol.h>
 #include <toc/tocdb/DBResource.h>
 #include <toc/tocdb/DBRow.h>
-#include <toc/tocdb/AbstractQueryBuilder.h>
+#include <toc/tocdb/DBTable.h>
 
 namespace TOC
 {
 	namespace DB
 	{
 		DBTable::
-		DBTable(const String table)
+		DBTable(const std::string table)
 		{
 			qb = DBResource::Instance().newQueryBuilder();
 			qb->entityclass(table);
@@ -45,7 +44,7 @@ namespace TOC
 		
 		DBCol
 		DBTable::
-		operator[](const String& col)
+		operator[](const std::string& col)
 		{
 			return DBCol(col,
 			             *qb);
@@ -69,9 +68,9 @@ namespace TOC
 		
 		DBTable
 		DBTable::
-		connectWith(const String& t)
+		connectWith(const std::string& t)
 		{
-			DBTable ret( qb->entityclass() + CCHAR('_') + t );
+			DBTable ret( qb->entityclass() + '_' + t );
 			DB::Instance().executeQuery(ret.qb->buildRelationEntityClassQuery(qb->entityclass(),
 			                                                                  t));
 			return ret;
@@ -79,10 +78,12 @@ namespace TOC
 		
 		DBTable&
 		DBTable::
-		insert(std::map<String, String>& values)
+		insert(std::map<std::string,
+		                std::string>& values)
 		{
 			DB::Instance().executeQuery(qb->buildIdInsertQuery(values));
 			return *this;
 		}
 	}
 }
+

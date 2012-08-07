@@ -8,9 +8,9 @@ using namespace TOC::core;
 COREEXCEPTION_SUBCLASS( TestException, "test test test");
 SUBCLASS_OF_COREEXCEPTION_SUBCLASS( TestException, ChildTestException, "test test test");
 
-#define THROW_AND_CATCH_AND_TEST( exception_type )        \
-try{throw exception_type();}catch(CoreException &e){      \
-BOOST_REQUIRE(e.getMessage().find( "" ) != String::npos); \
+#define THROW_AND_CATCH_AND_TEST( exception_type ) \
+try{throw exception_type();}catch(CoreException &e){ \
+BOOST_REQUIRE(e.getMessage().find( "" ) != std::string::npos); \
 BOOST_REQUIRE(e.getMessage() == e.what());}
 
 BOOST_AUTO_TEST_CASE( _CoreException )

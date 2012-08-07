@@ -22,123 +22,122 @@
 #define LIB_TOCCORE_SERVERCORE 1
 
 #include <boost/asio.hpp>
+#include <boost/bind.hpp>
 #include <boost/thread.hpp>
+
+#include <toc/toccore/SessionCore.h>
 
 namespace TOC
 {
-    namespace core
-    {
-        class Session_Core;
-        
-        template <class Session = bool>
-        class ServerCore
-        {
-        private:
-            boost::asio::io_service& io_service_;
-            boost::asio::ip::tcp::acceptor acceptor_;
-            
-            void handle_accept(Session_Core* newSession,
-                               const boost::system::error_code& error);
-            
-            Session* makeNewSession();
-            
-        public:
-            ServerCore(boost::asio::io_service& io_service,
+	namespace core
+	{
+		template <typename Session = bool>
+		class ServerCore
+		{
+		private:
+			boost::asio::io_service&
+			io_service_;
+
+			boost::asio::ip::tcp::acceptor
+			acceptor_;
+
+			void
+			handle_accept(Session_Core* newSession,
+                          const boost::system::error_code& error);
+
+			Session*
+			makeNewSession();
+
+		public:
+			ServerCore(boost::asio::io_service& io_service,
                        uint16_t port);
-            ~ServerCore();
-            
-            void run();
-            void stop();
-        };
-        
-#include <boost/bind.hpp>
-#include <toc/toccore/SessionCore.h>
-        
-        using boost::asio::ip::tcp;
-        
-        template <class Session>
-        ServerCore<Session>::
-        ServerCore(boost::asio::io_service& io_service,
+			
+			~ServerCore();
+
+			void
+			run();
+
+			void
+			stop();
+		};
+		
+		using boost::asio::ip::tcp;
+
+		template <typename S>
+		ServerCore<S>::
+		ServerCore(boost::asio::io_service& io_service,
                    uint16_t port)
-        :   io_service_(io_service),
-        acceptor_(io_service_,
-                  tcp::endpoint(tcp::v4(),
-                                port))
-        {
-            
-        }
-        
-        template <class Session>
-        ServerCore<Session>::
-        ~ServerCore()
-        {
-            
-        }
-        
-        template <class Session>
-        void
-        ServerCore<Session>::
-        handle_accept(Session_Core* newSession,
+		:	io_service_(io_service),
+			acceptor_(io_service_,
+		              tcp::endpoint(tcp::v4(),
+			                        port)){}
+
+		template <class S>
+		ServerCore<S>::
+		~ServerCore(){}
+
+		template <class S>
+		void
+		ServerCore<S>::
+		handle_accept(Session_Core* newSession,
                       const boost::system::error_code& error)
-        {
-            if (!error)
-            {
-                newSession->start();
-                newSession = makeNewSession();
-                acceptor_.async_accept(newSession->socket(),
+		{
+			if (!error)
+			{
+				newSession->start();
+				newSession = makeNewSession();
+				acceptor_.async_accept(newSession->socket(),
                                        boost::bind(&ServerCore::handle_accept,
-                                                   this,
-                                                   newSession,
-                                                   boost::asio::placeholders::error));
-            }
-            else
-            {
-                delete newSession;
-            }
-        }
-        
-        template <class Session>
-        void
-        ServerCore<Session>::
-        run()
-        {
-            try
-            {
-                Session* newSession = makeNewSession();
-                acceptor_.async_accept(newSession->socket(),
-                                       boost::bind(&ServerCore::handle_accept,
-                                                   this,
-                                                   newSession,
-                                                   boost::asio::placeholders::error));
-                io_service_.run();
-                //boost::this_thread::interruption_point();
-            }
-            catch (boost::thread_interrupted& e)
-            {
-                
-            }
-            catch (std::exception& e)
-            {
-                std::cout << e.what() << std::endl;
-            }
-        }
-        
-        template <class Session>
-        void
-        ServerCore<Session>::
-        stop()
-        {
-            //#warning close all sessions here
-        }
-        
-        template <class Session>
-        Session*
-        ServerCore<Session>::
-        makeNewSession()
-        {
-            return new Session(io_service_);
-        }
-    }
+				                                   this,
+				                                   newSession,
+				                       boost::asio::placeholders::error));
+			}
+			else
+			{
+				delete newSession;
+			}
+		}
+
+		template <class S>
+		void
+		ServerCore<S>::
+		run()
+		{
+			try
+			{
+				S* newSession = makeNewSession();
+				acceptor_.async_accept(newSession->socket(),
+				                       boost::bind(&ServerCore::handle_accept,
+				                                   this,
+				                                   newSession,
+				                                   boost::asio::placeholders::error));
+				io_service_.run();
+				//boost::this_thread::interruption_point();
+			}
+			catch (boost::thread_interrupted& e){}
+			catch (std::exception& e)
+			{
+				std::cout << e.what() << std::endl;
+			}
+		}
+
+		template <class S>
+		void
+		ServerCore<S>::
+		stop()
+		{
+			//#warning close all sessions here
+		}
+
+		template <class S>
+		Session*
+		ServerCore<S>::
+		makeNewSession()
+		{
+			return new Session(io_service_);
+		}
+	}
 }
 
 #endif //LIB_TOCCORE_SERVERCORE
+

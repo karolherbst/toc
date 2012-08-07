@@ -55,7 +55,7 @@ namespace TOC
 			 *
 			 * @param   cm  ChatMessage Object to copy
 			 */
-			ChatMessage(const ChatMessage & cm);
+			ChatMessage(const ChatMessage& cm);
 			
 			/**
 			 * receiving constructor
@@ -67,7 +67,7 @@ namespace TOC
 			 *
 			 * @param   data	raw data as binary array
 			 */
-			ChatMessage(const Char * data);
+			ChatMessage(const char* data);
 			
 			/**
 			 * sending constructor
@@ -79,7 +79,7 @@ namespace TOC
 			 *
 			 * @param   message the message to send as string object
 			 */
-			ChatMessage(const String & message);
+			ChatMessage(const std::string& message);
 			
 			/**
 			 * C-style sending constructor
@@ -93,7 +93,7 @@ namespace TOC
 			 *					  string or other raw data
 			 * @param   bodyLength  the length of body
 			 */
-			ChatMessage(const Char * body,
+			ChatMessage(const char* body,
 						uint16_t bodyLength);
 			
 			/**
@@ -106,7 +106,7 @@ namespace TOC
 			 * @author	Karol Herbst
 			 * @since	0.1.1
 			 */
-			ChatMessage(const Char * body,
+			ChatMessage(const char* body,
 			            uint16_t bodyLength,
 			            time_t time);
 			/**
@@ -123,7 +123,8 @@ namespace TOC
 			 * @author  Karol Herbst
 			 * @since   0.1
 			 */
-			private: struct HEADER_DATA
+		private:
+			struct HEADER_DATA
 			{
 				/**
 				 * specify the position of the message flags
@@ -131,24 +132,29 @@ namespace TOC
 				 * @author  Karol Herbst
 				 * @since   0.1
 				 */
-				static const uint16_t FLAG_POS;
+				static
+				const uint16_t
+				FLAG_POS;
+				
 				/**
 				 * specify the position of body length int value
 				 *
 				 * @author  Karol Herbst
 				 * @since   0.1
 				 */
-				static const uint16_t BODY_LENGTH_POS;
+				static
+				const uint16_t
+				BODY_LENGTH_POS;
 			};
 			
-			public:
+		public:
 			/**
 			 * enumeration for special flags
 			 *
 			 * @author  Karol Herbst
 			 * @since   0.1
 			 */
-			SCOPED_ENUM(MESSAGE_FLAGS, uint16_t)
+			enum class MEESAGE_FLAGS : uint16_t
 			{
 				/**
 				 * specify whether the raw data is binary or not
@@ -156,7 +162,7 @@ namespace TOC
 				 * @author  Karol Herbst
 				 * @since   0.1
 				 */
-				IS_BINARY	 = 0x0001,
+				IS_BINARY = 0x0001,
 				
 				/**
 				 * specify whether the raw data is compressed or not
@@ -179,7 +185,8 @@ namespace TOC
 			 * @since   0.1
 			 * @return  the internal raw data
 			 */
-			const Char *	data();
+			const char*
+			data();
 			
 			/**
 			 * the length of the header part
@@ -187,7 +194,9 @@ namespace TOC
 			 * @author  Karol Herbst
 			 * @since   0.1
 			 */
-			static const uint16_t headerLength;
+			static
+			const uint16_t
+			headerLength;
 			
 			/**
 			 * the length of the timestamp part
@@ -195,7 +204,9 @@ namespace TOC
 			 * @author  Karol Herbst
 			 * @since   0.1
 			 */
-			static const uint32_t timestampLength;
+			static
+			const uint32_t
+			timestampLength;
 			
 			/**
 			 * reads information about body length
@@ -206,21 +217,25 @@ namespace TOC
 			 * @param   headerOrRawData this can be a header part or the whole
 			 *						  raw data.
 			 */
-			static uint16_t bodyLengthFromHeader(const Char* headerOrRawData);
+			static
+			uint16_t
+			bodyLengthFromHeader(const char* headerOrRawData);
 			
 			/**
 			 * @author  Karol Herbst
 			 * @since   0.1
 			 * @return  length of the whole raw data
 			 */
-			uint16_t		length() const;
+			uint16_t 
+			length() const;
 			
 			/**
 			 * @author  Karol Herbst
 			 * @since   0.1
 			 * @return  the length of the body part
 			 */
-			uint16_t		bodyLength() const;
+			uint16_t
+			bodyLength() const;
 			
 			/**
 			 * @author  Karol Herbst
@@ -228,7 +243,8 @@ namespace TOC
 			 * @return  a string class copy of the body
 			 * @see	 ChatMessage::bodyBinary()
 			 */
-			String	 body() const;
+			std::string
+			body() const;
 			
 			/**
 			 * through these method you can access the raw body data
@@ -240,29 +256,40 @@ namespace TOC
 			 * @since   0.1
 			 * @return  thw C-string of the body
 			 */
-			const Char*	 bodyBinary() const;
+			const char*
+			bodyBinary() const;
 			
 			/**
 			 * @author  Karol Herbst
 			 * @since   0.1
 			 * @return  the timestamp stored in the raw data
 			 */
-			int64_t		 timestamp() const;
+			int64_t
+			timestamp() const;
 			
 		private:
-			Char* _body_() const;
+			char*
+			_body_() const;
 			
-			void setData(const Char*);
+			void
+			setData(const char*);
 			
-			void setData(const String& body);
-			void setData(const Char* body,
-			             uint16_t bodyLength);
-			void setData(const Char* body,
+			void
+			setData(const std::string& body);
+
+			void
+			setData(const char* body,
+			        uint16_t bodyLength);
+
+			void setData(const char* body,
 			             uint16_t bodyLength,
 			             time_t timestamp);
-			Char* __databuffer__;
+
+			char*
+			__databuffer__;
 		};
 	}
 }
 
 #endif // LIB_TOC_MESSAGE_CHATMESSAGE
+

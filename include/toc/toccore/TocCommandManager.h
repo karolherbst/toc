@@ -24,32 +24,50 @@
 
 namespace TOC
 {
-    namespace core
-    {
-        class CoreInput;
-        
-        class TocCommandManager
+	namespace core
+	{
+		class CoreInput;
+		
+		class TocCommandManager
 		{
-            
-        private:
-            std::map<String, Session_Core*> channels;
-            Session_Core* actualChannel;
-            CoreInput& input;
-            CoreOutput& output;
-            
-        protected:
-            void requestCommandToSession(Session_Core*, String command);
-            void requestCommand(String command);
-            
-        public:
-            TocCommandManager();
-            
-            bool setActualChannel(String);
-            void openCommandInput();
-            void registerChannel(Session_Core*, String);
-            
-        };
-        
-        extern TocCommandManager commandManager;
-    }
+		private:
+			std::map<std::string, Session_Core*>
+			channels;
+			
+			Session_Core*
+			actualChannel;
+			
+			CoreInput&
+			input;
+			
+			CoreOutput&
+			output;
+			
+		protected:
+			void
+			requestCommandToSession(Session_Core*,
+			                        std::string command);
+			
+			void
+			requestCommand(std::string command);
+			
+		public:
+			TocCommandManager();
+			
+			bool
+			setActualChannel(std::string);
+			
+			void
+			openCommandInput();
+			
+			void
+			registerChannel(Session_Core*,
+			                std::string);
+		};
+		
+		extern
+		TocCommandManager
+		commandManager;
+	}
 }
+

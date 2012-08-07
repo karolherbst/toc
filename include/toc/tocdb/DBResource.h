@@ -26,6 +26,7 @@
 
 #include <boost/function/function_fwd.hpp>
 #include <loki/Singleton.h>
+
 #include <toc/boost/extension/impl/decl.hpp>
 #include <toc/boost/extension/shared_library.hpp>
 #include <toc/tocdb/AbstractQueryBuilder.h>
@@ -33,92 +34,109 @@
 #include <toc/tocdb/DBExceptions.h>
 #include <toc/tocstring.h>
 
-#ifndef DLL_TOC_DB
-#ifdef MAKE_TOC_DB
-#define DLL_TOC_DB BOOST_EXTENSION_EXPORT_DECL
-#else
-#define DLL_TOC_DB BOOST_EXTENSION_IMPORT_DECL
-#endif
-#endif
-
 namespace TOC
 {
-    namespace DB
-    {
-        using boost::extensions::shared_library;
-        using boost::function;
+	namespace DB
+	{
+		using boost::extensions::shared_library;
+		using boost::function;
 
-        class DLL_TOC_DB DBResourceImpl
-        {
-        public:
+		class DBResourceImpl
+		{
+		public:
 			DBResourceImpl();
 
-            template <typename ST>
-            void registerDriver(const ST &name,
-                                function<DBDriver * (void)>,
-                                function<AbstractQueryBuilder * (void)>);
+			template <typename StringType>
+			void
+			registerDriver(const StringType &name,
+			               function<DBDriver* (void)>,
+			               function<AbstractQueryBuilder* (void)>);
+			
+			template <typename StringType1,
+			          typename StringType2>
+			void registerDriver(const StringType1 &name,
+			                    const StringType2 &path);
+			
+			template <typename StringType>
+			void
+			preferedDriver(const StringType&);
+			
+			std::string
+			preferedDriver() const;
+			
+			std::list<std::string>
+			availableDrivers() const;
+			
+			template <typename StringType>
+			bool
+			isLoaded(const StringType&) const;
+			
+			template <typename StringType>
+			bool
+			isBuiltIn(const StringType&) const;
+			
+			DBDriver*
+			newDriver() const;
+			
+			AbstractQueryBuilder*
+			newQueryBuilder() const;
 
-            template <typename ST1, typename ST2>
-            void registerDriver(const ST1 &name,
-			                    const ST2 &path);
+		private:
+			std::string _pd;
 
-			template <typename ST>
-            void preferedDriver(const ST&);
-            String preferedDriver() const;
-
-            std::list<String> availableDrivers() const;
-
-			template <typename ST>
-			bool isLoaded(const ST&) const;
-
-			template <typename ST>
-			bool isBuiltIn(const ST&) const;
-
-            DBDriver * newDriver() const;
-            AbstractQueryBuilder * newQueryBuilder() const;
-
-        private:
-			String _pd;
-
-			struct DriverEntry
+			class DriverEntry
 			{
-				shared_library *_dl;
-				function<DBDriver * (void)> _dbdriverBuilderFunc;
-				function<AbstractQueryBuilder * (void)> _abstractQueryBuilderFunc;
-
-				DriverEntry(shared_library *,
-				            function<DBDriver * (void)>,
-				            function<AbstractQueryBuilder * (void)>);
+			public:
+				shared_library*
+				_dl;
+				
+				function<DBDriver* (void)>
+				_dbdriverBuilderFunc;
+				
+				function<AbstractQueryBuilder* (void)>
+				_abstractQueryBuilderFunc;
+				
+				DriverEntry(shared_library*,
+				            function<DBDriver* (void)>,
+				            function<AbstractQueryBuilder* (void)>);
+				
 				~DriverEntry();
-
 			};
-			typedef std::pair<String, DriverEntry> DriverPair;
-			std::map<String, DriverEntry> loadedDrivers;
-        };
-		typedef Loki::SingletonHolder<DBResourceImpl> DBResource;
+			
+			typedef std::pair<std::string,
+			                  DriverEntry>
+			        DriverPair;
+			
+			std::map<std::string,
+			         DriverEntry>
+			         loadedDrivers;
+		};
+		
+		typedef Loki::SingletonHolder<DBResourceImpl>
+		        DBResource;
 
-		template <typename ST>
+		template <typename StringType>
 		void
 		DBResourceImpl::
-		registerDriver(const ST &name,
-		               function<DBDriver * (void)> d_func,
-		               function<AbstractQueryBuilder * (void)> qb_func)
+		registerDriver(const StringType& name,
+		               function<DBDriver* (void)> d_func,
+		               function<AbstractQueryBuilder* (void)> qb_func)
 		{
 			loadedDrivers.insert(DriverPair(name,
 			                                DriverEntry(nullptr,
 			                                            d_func,
-			                                            qb_func)
-			                               )
-			                    );
+			                                            qb_func)));
 		}
 
-		template <typename ST1, typename ST2>
+		template <typename StringType1,
+		          typename StringType2>
 		void
 		DBResourceImpl::
-		registerDriver(const ST1 &name,
-		               const ST2 &path)
+		registerDriver(const StringType1 &name,
+					   const StringType2 &path)
 		{
-			shared_library *lib = new shared_library(path, true);
+			shared_library* lib = new shared_library(path,
+			                                         true);
 
 			if (!lib->open())
 			{
@@ -126,8 +144,8 @@ namespace TOC
 				throw DriverLibNotValid();
 			}
 
-			function<DBDriver * (void)> d_func = lib->get<DBDriver *>("newDriver");
-			function<AbstractQueryBuilder * (void)> qb_func = lib->get<AbstractQueryBuilder *>("newQueryBuilder");
+			function<DBDriver* (void)> d_func = lib->get<DBDriver*>("newDriver");
+			function<AbstractQueryBuilder* (void)> qb_func = lib->get<AbstractQueryBuilder*>("newQueryBuilder");
 
 			if (!d_func || !qb_func)
 			{
@@ -138,37 +156,37 @@ namespace TOC
 			loadedDrivers.insert(DriverPair(name,
 			                                DriverEntry(lib,
 			                                            d_func,
-			                                            qb_func)
-			                               )
-			                    );
+			                                            qb_func)));
 		}
 
-		template <typename ST>
+		template <typename StringType>
 		void
 		DBResourceImpl::
-		preferedDriver(const ST &name)
+		preferedDriver(const StringType &name)
 		{
 			if (isLoaded(name))
 				_pd = name;
 			else throw DriverNotLoaded();
 		}
 
-		template <typename ST>
+		template <typename StringType>
 		bool
 		DBResourceImpl::
-		isLoaded(const ST &name) const
+		isLoaded(const StringType &name) const
 		{
 			return loadedDrivers.count(name) != 0;
 		}
 
-		template <typename ST>
+		template <typename StringType>
 		bool
 		DBResourceImpl::
-		isBuiltIn(const ST &name) const
+		isBuiltIn(const StringType &name) const
 		{
-			return isLoaded(name) && loadedDrivers.at(name)._dl == nullptr;
+			return isLoaded(name)
+			    && loadedDrivers.at(name)._dl == nullptr;
 		}
-    }
+	}
 }
 
 #endif //LIB_TOCDB_DBRESOURCE
+

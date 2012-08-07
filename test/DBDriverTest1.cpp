@@ -10,11 +10,11 @@ using TOC::DB::AbstractQueryBuilder;
 using TOC::DB::DBDriver;
 
 static bool skip = false;
-static String notLoadedDriver = "sdakdjld3aijld";
+static std::string notLoadedDriver = "sdakdjld3aijld";
 
 BOOST_AUTO_TEST_CASE( CreateBuiltInDrivers )
 {
-	std::list<String> drivers = DBResource.availableDrivers();
+	std::list<std::string> drivers = DBResource.availableDrivers();
 	if ( drivers.size() == 0 ) {
 		std::cout << "No built-in drivers found. No Driver testing!" << std::endl;
 	}

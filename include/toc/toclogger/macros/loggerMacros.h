@@ -25,31 +25,32 @@
  *
  * @author  Karol Herbst
  * @since   0.1
- * @param   typename    name of the class, use sth like defaltLog
- * @param   str         printed name
+ * @param   typenamename of the class, use sth like defaltLog
+ * @param   str printed name
  */
-#define CREATE_LOGGER_NAME_CLASS_DEF(name) extern const Char name []
-#define CREATE_LOGGER_NAME_CLASS_IMPL(name, str) extern "C" const Char name [sizeof(str)] = str
+#define CREATE_LOGGER_NAME_CLASS_DEF(name) extern const char name []
+#define CREATE_LOGGER_NAME_CLASS_IMPL(name, str) extern "C" const char name [sizeof(str)] = str
 #define CREATE_LOGGER(name, nameClass) TOC::TocLogger<WriteToConsole, SingleThreadedProcessor, SimpleAppender, nameClass> name
 
-#define TOC_LOGGER_TEMPLATE_ARG(a, b, c, d, e)    \
-template <class a,                                \
-          template <class> class b,               \
-          template <const Char*> class c,         \
-          const Char* d,                          \
-          template <class,                        \
-                    template <class> class,       \
-                    template <const Char*> class, \
-                    const Char*>                  \
+#define TOC_LOGGER_TEMPLATE_ARG(a, b, c, d, e) \
+template <typename a, \
+          template <typename> class b, \
+          template <const char*> class c, \
+          const char* d, \
+          template <typename, \
+                    template <typename> class, \
+                    template <const char*> class, \
+                    const char*> \
           class e>
 
-#define TOC_LOGGER_TEMPLATE_ARG_NAME_FIRST(a, b, c, d, e)    \
-template <class b,                                           \
-          template <class> class c,                          \
-          template <const Char*> class d,                    \
-          const Char* a,                                     \
-          template <class,                                   \
-                    template <class> class,                  \
-                    template <const Char*> class,            \
-                    const Char*>                             \
+#define TOC_LOGGER_TEMPLATE_ARG_NAME_FIRST(a, b, c, d, e) \
+template <typename b, \
+          template <typename> class c, \
+          template <const char*> class d, \
+          const char* a, \
+          template <typename, \
+                    template <typename> class, \
+                    template <const Char*> class, \
+                    const char*> \
           class e>
+

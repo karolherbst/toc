@@ -24,3 +24,4 @@
 #include <toc/tocexception/CoreException.h>
 
 #endif //LIB_TOC_EXCEPTION_INCLUDE
+

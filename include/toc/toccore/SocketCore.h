@@ -34,31 +34,41 @@
 
 namespace boost
 {
-    class thread;
+	class thread;
 }
 
 namespace TOC
 {
-    namespace core
-    {
-        class DLL_TOC_CORE SocketCore
-        {
-        public:
-            SocketCore();
-            virtual ~SocketCore();
-            
-            virtual void stop();    
-            void join();
-            
-            static void stopAll();
-            
-        protected:
-            boost::thread* thread;
-            
-        private:
-            static std::set<SocketCore*> instances;
-        };
-    }
+	namespace core
+	{
+		class DLL_TOC_CORE SocketCore
+		{
+		public:
+			SocketCore();
+			
+			virtual
+			~SocketCore();
+
+			virtual
+			void
+			stop();
+
+			void
+			join();
+
+			static
+			void
+			stopAll();
+
+		protected:
+			boost::thread*
+			thread;
+
+		private:
+			static std::set<SocketCore*> instances;
+		};
+	}
 }
 
 #endif //LIB_TOCCORE_SOCKETCORE
+

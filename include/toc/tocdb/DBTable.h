@@ -22,54 +22,59 @@
 #define LIB_TOCDB_DB_DBQUERYINFORMATION 1
 
 #include <map>
-#include <toc/tocstring/TocString.h>
 #include <vector>
 
-#include <toc/boost/extension/impl/decl.hpp>
-#ifndef DLL_TOC_DB
-#ifdef MAKE_TOC_DB
-#define DLL_TOC_DB BOOST_EXTENSION_EXPORT_DECL
-#else
-#define DLL_TOC_DB BOOST_EXTENSION_IMPORT_DECL
-#endif
-#endif
+#include <toc/tocstring/TocString.h>
 
 namespace TOC
 {
-    namespace DB
-    {
-        class AbstractQueryBuilder;
-        class DBCol;
-        class DBRow;
-        
-        class DLL_TOC_DB DBTable
-        {
-        public:
-            DBTable(const String);
-            ~DBTable();
-            
-            DBCol operator[](const String& col);
-            DBRow operator[](const uint64_t);
-            
-            DBTable& create();
-            DBTable connectWith(const String&);
-            DBTable& insert(std::map<String, String>&);
-            
-            template <typename T>
-            DBTable& operator>>(std::vector<T>& vec);
-            
-        private:
-            AbstractQueryBuilder* qb;
-        };
-        
-        template <typename T>
-        DBTable&
-        DBTable::
-        operator>>(std::vector<T>& /*ver*/)
-        {
-            return *this;
-        }
-    }
+	namespace DB
+	{
+		class AbstractQueryBuilder;
+		class DBCol;
+		class DBRow;
+		
+		class DBTable
+		{
+		public:
+			DBTable(const std::string);
+			
+			~DBTable();
+			
+			DBCol
+			operator[](const std::string& col);
+			
+			DBRow
+			operator[](const uint64_t);
+			
+			DBTable&
+			create();
+			
+			DBTable
+			connectWith(const std::string&);
+			
+			DBTable&
+			insert(std::map<std::string,
+			                std::string>&);
+			
+			template <typename T>
+			DBTable&
+			operator>>(std::vector<T>& vec);
+			
+		private:
+			AbstractQueryBuilder*
+			qb;
+		};
+		
+		template <typename T>
+		DBTable&
+		DBTable::
+		operator>>(std::vector<T>& /*ver*/)
+		{
+			return *this;
+		}
+	}
 }
 
 #endif //LIB_TOCDB_DB_DBQUERYINFORMATION
+

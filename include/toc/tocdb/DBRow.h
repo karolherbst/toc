@@ -22,26 +22,29 @@
 #define LIB_TOCDB_DB_DBROW 1
 
 #include <stdint.h>
+
 #include <toc/tocstring/TocString.h>
 
 namespace TOC
 {
-    namespace DB
-    {
-        class AbstractQueryBuilder;
-        class DBValue;
-        
-        class DBRow
-        {
-        public:
-            DBRow(uint64_t id,
-                  AbstractQueryBuilder&);
-            DBValue operator[](const String& att);
-            
-        private:
-            AbstractQueryBuilder& qb;
-        };
-    }
+	namespace DB
+	{
+		class AbstractQueryBuilder;
+		class DBValue;
+		
+		class DBRow
+		{
+		public:
+			DBRow(uint64_t id,
+			      AbstractQueryBuilder&);
+			
+			DBValue operator[](const std::string& att);
+			
+		private:
+			AbstractQueryBuilder& qb;
+		};
+	}
 }
 
 #endif //LIB_TOCDB_DB_DBROW
+

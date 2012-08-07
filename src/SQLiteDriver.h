@@ -29,38 +29,80 @@ namespace TOC
 		class SQLiteDriver : public DBDriver
 		{
 		public:
-			virtual void databaseName(String) override;
-            virtual String databaseName() override;
+			virtual
+			void
+			databaseName(std::string) override;
+            
+			virtual
+			std::string
+			databaseName() override;
 
 			SQLiteDriver();
 			virtual ~SQLiteDriver() override;
 
-			virtual void close() override;
-			virtual bool auth() override;
-			virtual void startTransaction() override;
-			virtual void commit() override;
-			virtual void rollback() override;
-			virtual bool exec(const String&) override;
-			virtual void executeSingleValueQuery(const String& query,
-			                                     String& resultHolder) override;
-			virtual void executeSingleColQuery(const String& q,
-			                                   std::vector<String>& result) override;
-			virtual void executeSingleRowQuery(const String& q,
-			                                   std::map<String, String>& result) override;
+			
+			virtual
+			void
+			close() override;
+			
+			virtual
+			bool
+			auth() override;
+			
+			virtual
+			void
+			startTransaction() override;
+			
+			virtual
+			void
+			commit() override;
+			
+			virtual
+			void
+			rollback() override;
+			
+			virtual
+			bool
+			exec(const std::string&) override;
+			
+			virtual
+			void
+			executeSingleValueQuery(const std::string& query,
+			                        std::string& resultHolder) override;
+			
+			virtual
+			void
+			executeSingleColQuery(const std::string& q,
+			                      std::vector<std::string>& result) override;
+			
+			virtual
+			void
+			executeSingleRowQuery(const std::string& q,
+			                      std::map<std::string,
+			                               std::string>& result) override;
+			
 			static DBDriver* newDriver();
 
 		private:
-			struct sqlite3 *driver;
+			struct sqlite3
+			*driver;
 
-			String dbname;
-			String sqliteFileName();
+			std::string
+			dbname;
+			
+			std::string
+			sqliteFileName();
 
-			template <class Exception = DBException>
-	        void handleError(uint16_t,
-                             const String& sql);
-			String convertSQLiteTypeToString(struct sqlite3_stmt *stmt,
-			                                 int index,
-			                                 int type);
+			template <typename Exception = DBException>
+	        void
+	        handleError(uint16_t,
+                        const std::string& sql);
+            
+			std::string
+			convertSQLiteTypeToString(struct sqlite3_stmt *stmt,
+			                          int index,
+			                          int type);
 		};
 	}
 }
+

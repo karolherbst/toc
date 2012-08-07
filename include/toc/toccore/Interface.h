@@ -26,3 +26,4 @@
 #define GENERIC(methoddef) virtual methoddef {}
 
 #endif //LIB_TOCCORE_INTERFACE
+

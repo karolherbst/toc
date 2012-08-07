@@ -21,25 +21,27 @@
 #ifndef LIB_TOCLOGGER_WRITETOCONSOLE
 #define LIB_TOCLOGGER_WRITETOCONSOLE 1
 
-#include <toc/tocstring/TocString.h>
+#include <iostream>
 
 namespace TOC
 {
-    class WriteToConsole
-    {
-    public:
-        template <typename StringType>
-        static void run(StringType str);
-    };
+	class WriteToConsole
+	{
+	public:
+		template <typename StringType>
+		static
+		void
+		run(StringType str);
+	};
 
-    template <typename StringType>
-    void
-    WriteToConsole::
-    run(StringType str)
-    {
-        COUT << str << std::endl;
-    }
+	template <typename StringType>
+	void
+	WriteToConsole::
+	run(StringType str)
+	{
+		std::cout << str << std::endl;
+	}
 }
 
-
 #endif //LIB_TOCLOGGER_WRITETOCONSOLE
+

@@ -24,23 +24,43 @@
 
 namespace TOC
 {
-    namespace DB
-    {
-        class BOOST_EXTENSION_EXPORT_DECL MySQLQueryBuilder : public AbstractSQLQueryBuilder
-        {
-        public:
-            String buildIdInsertQuery(std::map<String, String>&);
-            String buildRelationEntityClassQuery(const String&,
-                                                 const String&);
-            String buildCreateEntityClassQuery();
-            String buildSingleAttributeSelectQuery();
-            
-            // inserts
-            String buildSingleValueInsertQuery(const String&);
+	namespace DB
+	{
+		class MySQLQueryBuilder : public AbstractSQLQueryBuilder
+		{
+		public:
+			virtual
+			std::string
+			buildIdInsertQuery(std::map<std::string,
+			                   std::string>&) override;
+			
+			virtual
+			std::string
+			buildRelationEntityClassQuery(const std::string&,
+			                              const std::string&) override;
+			
+			virtual
+			std::string
+			buildCreateEntityClassQuery() override;
+			
+			virtual
+			std::string
+			buildSingleAttributeSelectQuery() override;
+			
+			// inserts
+			virtual
+			std::string
+			buildSingleValueInsertQuery(const std::string&);
 
-			static AbstractQueryBuilder* newQueryBuilder();
+			static
+			AbstractQueryBuilder*
+			newQueryBuilder();
+			
 		protected:
-			virtual String replaceType(const String& type) override;
-        };
-    }
+			virtual
+			std::string
+			replaceType(const std::string& type) override;
+		};
+	}
 }
+

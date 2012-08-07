@@ -34,16 +34,19 @@
 
 namespace TOC
 {
-    namespace core
-    {
-        struct DLL_TOC_CORE ObjectCore
-        {
-            ObjectCore(uint64_t anId);
-            uint64_t         id() const;
-        private:
-            uint64_t        _id;
-        };
-    }
+	namespace core
+	{
+		class DLL_TOC_CORE ObjectCore
+		{
+			ObjectCore(uint64_t anId);
+
+			uint64_t
+			id() const;
+		private:
+			uint64_t _id;
+		};
+	}
 }
 
 #endif //LIB_TOCCORE_OBJECTCORE
+

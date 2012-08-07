@@ -24,3 +24,4 @@
 #include <toc/toclogger/DefaultLogger.h>
 
 #endif //LIB_TOC_LOGGER_INCLUDE
+

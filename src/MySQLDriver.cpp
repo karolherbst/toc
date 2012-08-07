@@ -57,12 +57,12 @@ namespace TOC
 
 		void
 		MySQLDriver::
-		databaseName(String s)
+		databaseName(std::string s)
 		{
 			this->dbname = s;
 		}
 
-		String
+		std::string
 		MySQLDriver::
 		databaseName()
 		{
@@ -71,12 +71,12 @@ namespace TOC
 
 		void
 		MySQLDriver::
-		userName(String s)
+		userName(std::string s)
 		{
 			this->uname = s;
 		}
 
-		String
+		std::string
 		MySQLDriver::
 		userName()
 		{
@@ -85,12 +85,12 @@ namespace TOC
 
 		void
 		MySQLDriver::
-		userPassword(String s)
+		userPassword(std::string s)
 		{
 			this->pw = s;
 		}
 
-        String
+        std::string
 		MySQLDriver::
 		userPassword()
 		{
@@ -99,12 +99,12 @@ namespace TOC
 
         void
 		MySQLDriver::
-		serverURL(String s)
+		serverURL(std::string s)
 		{
 			this->url = s;
 		}
 
-        String
+        std::string
 		MySQLDriver::
 		serverURL()
 		{
@@ -177,7 +177,7 @@ namespace TOC
 		
 		bool
 		MySQLDriver::
-		exec(const String& q)
+		exec(const std::string& q)
 		{
 			try
 			{
@@ -192,13 +192,13 @@ namespace TOC
 			}
 			catch (mysqlpp::Exception& e)
 			{
-				throw DBException(CSTRING("undefined DB failure!"));
+				throw DBException("undefined DB failure!");
 			}
 		}
 		
 		mysqlpp::SimpleResult
 		MySQLDriver::
-		execute(const String& q)
+		execute(const std::string& q)
 		{
 			try
 			{
@@ -214,13 +214,13 @@ namespace TOC
 			}
 			catch (mysqlpp::Exception& e)
 			{
-				throw DBException(CSTRING("undefined DB failure!"));
+				throw DBException("undefined DB failure!");
 			}
 		}
 		
 		mysqlpp::StoreQueryResult
 		MySQLDriver::
-		store(const String& q)
+		store(const std::string& q)
 		{
 			try
 			{
@@ -239,22 +239,22 @@ namespace TOC
 			}
 			catch (mysqlpp::Exception& e)
 			{
-				throw DBException(CSTRING("undefined DB failure!"));
+				throw DBException("undefined DB failure!");
 			}
 		}
 
 		void
 		MySQLDriver::
-		executeSingleValueQuery(const String& query,
-		                        String& resultHolder)
+		executeSingleValueQuery(const std::string& query,
+		                        std::string& resultHolder)
 		{
 			store(query)[0][0].to_string(resultHolder);
 		}
 
 		void
 		MySQLDriver::
-		executeSingleColQuery(const String& q,
-		                      std::vector<String>& resultHolder)
+		executeSingleColQuery(const std::string& q,
+		                      std::vector<std::string>& resultHolder)
 		{
 			BOOST_FOREACH(const mysqlpp::Row& row,
 			              store(q))
@@ -265,8 +265,9 @@ namespace TOC
 
 		void
 		MySQLDriver::
-		executeSingleRowQuery(const String& q,
-		                      std::map<String, String>& result)
+		executeSingleRowQuery(const std::string& q,
+		                      std::map<std::string,
+		                               std::string>& result)
 		{
 			mysqlpp::Row row = store(q)[0];
 			const mysqlpp::FieldNames& fields = *row.field_list().list;

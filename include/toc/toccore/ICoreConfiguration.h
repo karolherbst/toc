@@ -28,16 +28,27 @@
 
 namespace TOC
 {
-    namespace core
-    {
-        interface ICoreConfiguration
-        {
-            ABSTRACT(void load(const String &filename) );
-            ABSTRACT(void save(const String &filename) );
-            GENERIC(void cliConfiguration() );
-            GENERIC(~ICoreConfiguration() );
-        };
-    }
+	namespace core
+	{
+		class ICoreConfiguration
+		{
+			virtual 
+			void
+			load(const std::string& filename) = 0;
+
+			virtual
+			void
+			save(const std::string& filename) = 0;
+
+			virtual 
+			void
+			cliConfiguration(){};
+
+			virtual 
+			~ICoreConfiguration(){};
+		};
+	}
 }
 
 #endif //LIB_TOCCORE_INTERFACE_CONFIGURATION
+

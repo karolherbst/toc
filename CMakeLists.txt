@@ -79,8 +79,7 @@ macro(add_linker_flags)
   endforeach()
 endmacro()
 
-add_linker_flags(-ldl -lmysqlclient -lmysqlpp -lsqlite3)
-add_compiler_flags(-ferror-limit=0)
+add_linker_flags(-ldl -lsqlite3)
 
 set(TOC_USE_C++X0 TRUE)
 set(NEEDED_BOOST_LIBS thread system)
@@ -88,10 +87,14 @@ set(NEEDED_BOOST_LIBS thread system)
 cmake_minimum_required(VERSION 2.6)
 setup_toc_build_env_lib(toc 0 2 1-SNAPSHOT)
 
+target_link_libraries(
+  toc
+  ${Boost_LIBRARIES}
+)
+
 add_toc_test(ExceptionTest1)
 
 add_toc_test(DBDriverTest1)
-add_toc_test(MySQLTest1)
 add_toc_test(SQLiteTest1)
 
 add_toc_test(LoggerTest1)

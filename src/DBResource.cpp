@@ -27,9 +27,6 @@
 #include <toc/tocdb/DBMS.h>
 #include <toc/tocdb/DBResource.h>
 
-//MySQL Driver
-#include "MySQLDriver.h"
-#include "MySQLQueryBuilder.h"
 //SQLite Driver
 #include "SQLiteDriver.h"
 #include "SQLiteQueryBuilder.h"
@@ -41,9 +38,6 @@ namespace TOC
 		DBResourceImpl::
 		DBResourceImpl()
 		{
-			registerDriver(DBMS::MySQL,
-			               &MySQLDriver::newDriver,
-			               &MySQLQueryBuilder::newQueryBuilder);
 			registerDriver(DBMS::SQLite,
 			               &SQLiteDriver::newDriver,
 			               &SQLiteQueryBuilder::newQueryBuilder);

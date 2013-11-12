@@ -98,6 +98,5 @@ add_toc_test(DBDriverTest1)
 add_toc_test(SQLiteTest1)
 
 add_toc_test(LoggerTest1)
-add_toc_test(MessageTest1)
 add_toc_test(StringTest1)
 add_toc_test(VersionTest1)

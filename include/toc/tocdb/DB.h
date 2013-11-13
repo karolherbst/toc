@@ -27,10 +27,7 @@
 #include <loki/Singleton.h>
 
 #include <toc/tocdb/DBResource.h>
-#include <toc/toclogger.h>
 #include <toc/tocstring/TocString.h>
-
-CREATE_LOGGER_NAME_CLASS_DEF(DBLog);
 
 namespace boost
 {
@@ -145,9 +142,6 @@ namespace TOC
 			
 			uint32_t
 			port;
-			
-			CREATE_LOGGER(logger,
-			              DBLog);
 			
 			boost::thread_specific_ptr<DBDriver>
 			driver;
